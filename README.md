@@ -1,4 +1,4 @@
-﻿# LANCEBALL
+# LANCEBALL
 
 Jogo web de leilão de jogadores e campeonato fut7. Monte uma equipe de sete atletas, escolha a tática e acompanhe partidas simuladas em uma Champions League adaptada para 4, 6 ou 8 equipes.
 
@@ -22,4 +22,11 @@ O catálogo usa uma seleção dos dados de [FC 26 Player Data, de Rovnez](https:
 
 Use a raiz do repositório como Root Directory, a branch de produção main e o preset Other. O arquivo vercel.json roteia a página inicial, os arquivos e a API para uma função Node.js 24. Deixe as configurações de Build Command e Output Directory sem sobrescrita.
 
-O catálogo é incluído no deploy. As salas, os lances e o campeonato ainda usam memória do processo. Uma reinicialização ou outra instância da função pode perder a sessão. Para multiplayer estável, execute node demo.mjs em um servidor Node contínuo com AUCTION_DEMO_HOST=0.0.0.0, ou conecte armazenamento compartilhado às sessões antes de publicar o multiplayer na Vercel.
+## Supabase na Vercel
+
+1. No SQL Editor do projeto Supabase, execute a migração em [supabase/migrations/20261123000000_lanceball.sql](supabase/migrations/20261123000000_lanceball.sql).
+2. Na raiz do projeto, crie um arquivo local `.env.local` com `SUPABASE_URL` (URL do projeto) e `SUPABASE_SECRET_KEY` (chave secreta de servidor).
+3. Importe o catálogo com `node --env-file=.env.local seed-supabase.mjs`. O script confirma os 908 registros.
+4. Adicione as duas variáveis nas configurações de ambiente da Vercel para Production e faça um novo deploy. Guarde a chave apenas no servidor.
+
+Com essas variáveis, a Vercel lê os jogadores no Supabase e compartilha salas, leilões, escalações e campeonatos entre instâncias. As salas expiram depois de 30 minutos sem atividade. Partidas já abertas antes da ativação continuam na versão anterior. O servidor local continua usando SQLite.

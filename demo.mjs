@@ -9,7 +9,7 @@ import { draftCatalog, rosterQuotas } from './fut7.mjs';
 import { previewTournament, restoreSeason } from './tournament.mjs';
 import { postAuction } from './post-auction.mjs';
 import { uclClubs, clubCrests } from './ucl-clubs.mjs';
-import { onlineRooms, publicRooms, lobby, authorize, createRoom, joinRoom, roomIdentities, hostId, leaveRoom } from './rooms.mjs';
+import { onlineRooms, publicRooms, lobby, authorize, createRoom, joinRoom, roomIdentities, hostId, leaveRoom, touchRoom } from './rooms.mjs';
 
 async function pageTemplate(file, active) {
   const template = await readFile(new URL(file, import.meta.url), 'utf8');
@@ -72,8 +72,8 @@ const standalone = process.argv[1] && pathToFileURL(process.argv[1]).href === im
 const databasePath = process.env.AUCTION_CATALOG_DB ?? (!standalone || process.env.AUCTION_CATALOG
   ? ':memory:' : fileURLToPath(new URL('./catalog.sqlite', import.meta.url)));
 catalog = loadCatalogDatabase(databasePath, catalog);
-const catalogInfo = { source: catalog.source, edition: catalog.edition, url: catalog.url, license: catalog.license };
-function createSoloRoom(params) {
+export const catalogInfo = { source: catalog.source, edition: catalog.edition, url: catalog.url, license: catalog.license };
+function createSoloRoom(params, source) {
   const mode = params.get('mode');
   const name = params.get('team')?.trim();
   const size = Number(params.get('size'));
@@ -90,18 +90,18 @@ function createSoloRoom(params) {
       name: entry, identity: entry, crestUrl: choices.get(entry), bot: true,
     })),
   ];
-  return startAuction(mode, identities);
+  return startAuction(mode, identities, source);
 }
 
-function seedAuction(auction, size, identities) {
-  const draft = draftCatalog(catalog, size);
+function seedAuction(auction, size, identities, source) {
+  const draft = draftCatalog(source, size);
   auction.start(draft, undefined, identities, { surpriseAt: randomInt(1, draft.players.length - 1) });
 }
 
-function startAuction(mode, identities) {
+function startAuction(mode, identities, source) {
   const auction = openAuction(':memory:');
   try {
-    seedAuction(auction, identities.length, identities);
+    seedAuction(auction, identities.length, identities, source);
     return { auction, mode, lastSeen: Date.now(), botRound: null, botWindows: new Set() };
   } catch (error) {
     auction.close();
@@ -161,13 +161,20 @@ async function readBody(req, limit = 4096) {
 }
 
 const joinAttempts = new Map();
-export async function handleRequest(req, res) {
-  if (!standalone) maintainRooms();
-  const url = new URL(req.url, 'http://localhost');
+export function requestUrl(request) {
+  const url = new URL(request.url, 'http://localhost');
   if (url.pathname === '/api/lanceball') {
     url.pathname = url.searchParams.get('__arena_path') ?? '/';
     url.searchParams.delete('__arena_path');
   }
+  return url;
+}
+
+const localRuntime = { onlineRooms, soloRooms, sharedAuction, joinAttempts };
+export async function handleRequest(req, res, runtime = localRuntime) {
+  if (!standalone || runtime !== localRuntime) maintainRooms(runtime);
+  const { onlineRooms, soloRooms, sharedAuction, joinAttempts, catalog: source = catalog } = runtime;
+  const url = requestUrl(req);
   if (req.method === 'GET' && url.pathname === '/arena-background.png') {
     res.writeHead(200, { 'Content-Type': 'image/png' }).end(arenaBackground);
     return;
@@ -217,7 +224,7 @@ export async function handleRequest(req, res) {
     const member = authorize(online, req.headers.authorization);
     if (url.pathname === '/rooms') {
       if (req.method === 'GET') return send(200, publicRooms());
-      if (req.method === 'POST') return send(201, createRoom(await readBody(req)));
+      if (req.method === 'POST') return send(201, createRoom(await readBody(req), onlineRooms));
     }
     if (url.pathname === '/room') {
       if (!online) return send(404, { error: 'Sala indisponível.' });
@@ -241,13 +248,13 @@ export async function handleRequest(req, res) {
         }
         if (input.action === 'leave') {
           if (!member) return send(401, { error: 'Você não está nesta sala.' });
-          leaveRoom(online, member);
+          leaveRoom(online, member, onlineRooms);
           return send(200, { left: true });
         }
         if (input.action === 'start') {
           if (!member || member.id !== hostId(online)) return send(403, { error: 'Só o anfitrião pode iniciar.' });
           if (!online.auction) {
-            Object.assign(online, startAuction(online.mode, roomIdentities(online)));
+            Object.assign(online, startAuction(online.mode, roomIdentities(online), source));
             online.auction.tick();
           }
           return send(200, lobby(online, member));
@@ -262,11 +269,11 @@ export async function handleRequest(req, res) {
     let room = online ?? soloRooms.get(roomId);
     if (!room && roomId && req.method === 'POST' && url.pathname === '/start') {
       if (soloRooms.size >= 32) return send(503, { error: 'Limite de leilões locais atingido.' });
-      room = createSoloRoom(url.searchParams);
+      room = createSoloRoom(url.searchParams, source);
       soloRooms.set(roomId, room);
     }
     const previousPort = url.searchParams.get('previous');
-    if (!room && roomId && req.method === 'GET' && url.pathname === '/post-auction' &&
+    if (standalone && !room && roomId && req.method === 'GET' && url.pathname === '/post-auction' &&
         ['4182', '4184'].includes(previousPort)) {
       let mode = url.searchParams.get('mode');
       if (soloRooms.size >= 32) return send(503, { error: 'Limite de leilões locais atingido.' });
@@ -293,7 +300,7 @@ export async function handleRequest(req, res) {
       };
       soloRooms.set(roomId, room);
     }
-    if (room) room.lastSeen = Date.now();
+    if (room) touchRoom(room);
     const auction = roomId || code ? room?.auction : sharedAuction;
     if (url.pathname === '/post-auction' && ['GET', 'POST'].includes(req.method)) {
       if (!room) return send(404, { error: 'Sessão de leilão indisponível.' });
@@ -311,7 +318,7 @@ export async function handleRequest(req, res) {
     }
     if (req.method === 'POST' && url.pathname === '/start') {
       if (code) return send(403, { error: 'Use o lobby para iniciar.' });
-      if (!auction.snapshot()) seedAuction(auction, 8);
+      if (!auction.snapshot()) seedAuction(auction, 8, undefined, source);
       return send(200, { state: publicAuction(auction.tick()), catalogInfo, time: Date.now(), mode: room?.mode });
     }
     if (req.method === 'POST' && ['/bid', '/pass'].includes(url.pathname)) {
@@ -333,9 +340,9 @@ export async function handleRequest(req, res) {
   }
 }
 
-function maintainRooms() {
+function maintainRooms({ sharedAuction, joinAttempts, onlineRooms, soloRooms } = localRuntime) {
   const now = Date.now();
-  const state = sharedAuction.snapshot();
+  const state = sharedAuction?.snapshot();
   if (state?.round && now >= state.round.deadline) sharedAuction.tick();
   for (const [key, attempt] of joinAttempts) {
     if (attempt.expires <= now) joinAttempts.delete(key);

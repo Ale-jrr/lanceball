@@ -40,7 +40,7 @@ export function hostId(room) {
   return room.members.find(member => member.token)?.id;
 }
 
-export function leaveRoom(room, member) {
+export function leaveRoom(room, member, rooms = onlineRooms) {
   if (!room.auction) {
     room.members.splice(room.members.indexOf(member), 1);
     room.members.forEach((entry, id) => { entry.id = id; });
@@ -52,7 +52,7 @@ export function leaveRoom(room, member) {
   member.token = null;
   if (hostId(room) === undefined) {
     room.auction?.close();
-    onlineRooms.delete(room.code);
+    rooms.delete(room.code);
   }
 }
 
@@ -67,23 +67,28 @@ export function lobby(room, member) {
 
 export function authorize(room, header) {
   const member = room?.members.find(entry => entry.token && header === 'Bearer ' + entry.token);
-  if (member) room.lastSeen = Date.now();
+  if (member) touchRoom(room);
   return member;
 }
 
-export function createRoom(input) {
-  if (onlineRooms.size >= 64) throw Error('Limite de salas atingido.');
+export function touchRoom(room) {
+  const now = Date.now();
+  if (now - room.lastSeen >= 15_000) room.lastSeen = now;
+}
+
+export function createRoom(input, rooms = onlineRooms) {
+  if (rooms.size >= 64) throw Error('Limite de salas atingido.');
   const name = text(input.name, 40);
   const { mode, size } = input;
   if (mode !== 'ucl' || ![4, 6, 8].includes(size)) throw Error('Competição ou número de equipes inválido.');
   const password = input.password ?? '';
   if (typeof password !== 'string' || password.length > 64) throw Error('Senha inválida.');
   let code;
-  do { code = randomBytes(4).toString('hex').toUpperCase(); } while (onlineRooms.has(code));
+  do { code = randomBytes(4).toString('hex').toUpperCase(); } while (rooms.has(code));
   const salt = password ? randomBytes(16) : null;
   const room = { code, name, mode, size, salt, secret: salt ? passwordHash(password, salt) : null, members: [] };
   const member = addMember(room, input);
-  onlineRooms.set(code, room);
+  rooms.set(code, room);
   return { ...lobby(room, member), token: member.token };
 }
 

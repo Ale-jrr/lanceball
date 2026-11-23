@@ -145,6 +145,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     post.season = calculate(room.mode, post.model);
     post.stage = 'tournament';
   }
+  if (post.model && !post.season) post.season = calculate(room.mode, post.model);
   if (action === 'tactic' && !post.season) throw Error('Inicie o campeonato antes de alterar a tática.');
   let clock;
   if (post.season) {

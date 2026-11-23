@@ -6,7 +6,7 @@ import { rosterQuotas as quotas, rosterSize } from './fut7.mjs';
 const reserve = 1;
 const bidExtensionMs = 3000;
 
-export function openAuction(path, now = Date.now) {
+export function openAuction(path, now = Date.now, snapshot = null) {
   const db = new DatabaseSync(path);
   db.exec(`
     PRAGMA busy_timeout = 5000;
@@ -14,6 +14,8 @@ export function openAuction(path, now = Date.now) {
       id INTEGER PRIMARY KEY CHECK(id=1), state TEXT NOT NULL
     );
   `);
+
+  if (snapshot) db.prepare('INSERT INTO room VALUES (1, ?)').run(JSON.stringify(snapshot));
 
   // Every mutation loads and saves state inside the same write transaction.
   function mutate(action) {
