@@ -1,0 +1,129 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sala · LANCEBALL</title>
+<link rel="stylesheet" href="/arena.css">
+<body class="room-page">
+<!-- ARENA_HEADER -->
+<main><button type="button" class="exit-room" data-leave-room hidden>Sair da sala</button>
+<div class="page-intro">
+<h1 id="title">Sala de leilão</h1>
+<p id="status" role="status">Carregando a sala…</p></div>
+<form class="panel" id="join" hidden>
+<label>Nome da sua equipe<input name="team" required maxlength="30"></label>
+<label>Clube<select name="identity" required></select></label>
+<label id="password" hidden>Senha da sala<input type="password" name="password" maxlength="64"></label>
+<button class="primary">Entrar na sala</button>
+</form>
+<section class="panel" id="lobby" hidden>
+<h2 id="count">Participantes</h2>
+<ul id="members"></ul>
+<label>Link de convite<input id="invite" readonly></label>
+<button id="copy" type="button">Copiar link</button>
+<button id="start" type="button" hidden>Iniciar leilão</button>
+<p id="waiting"></p>
+</section>
+</main>
+<script type="module">
+const byId = id => document.getElementById(id);
+const code = (new URLSearchParams(location.search).get('room') ?? '').toUpperCase();
+const key = 'arena-member:' + code;
+let token = localStorage.getItem(key);
+const join = byId('join');
+const status = byId('status');
+let busy = false;
+let loaded = false;
+
+async function api(input) {
+  const headers = {};
+  if (token) headers.Authorization = 'Bearer ' + token;
+  const response = await fetch('/room?' + new URLSearchParams({ room: code }), input ? {
+    method: 'POST', headers, body: JSON.stringify(input),
+  } : { headers });
+  const data = await response.json();
+  if (!response.ok) throw Error(data.error);
+  return data;
+}
+
+function render(data) {
+  if (data.started && data.you !== null) {
+    location.replace('/leilao?' + new URLSearchParams({ room: code }));
+    return;
+  }
+  byId('title').textContent = data.name;
+  status.textContent = 'Champions League' +
+    ' · Código ' + data.code + ' · ' + (data.private ? 'Sala privada' : 'Sala pública');
+  join.hidden = data.you !== null || data.started;
+  byId('lobby').hidden = data.you === null;
+  byId('password').hidden = !data.private;
+  if (!loaded) {
+    join.elements.identity.add(new Option('Escolha sua equipe', ''));
+    for (const identity of data.choices) join.elements.identity.add(new Option(identity, identity));
+    loaded = true;
+  }
+  for (const option of join.elements.identity.options) {
+    option.disabled = data.members.some(member => member.identity === option.value);
+  }
+  byId('count').textContent = 'Participantes ' + data.members.length + '/' + data.size;
+  byId('members').replaceChildren(...data.members.map(member => {
+    const row = document.createElement('li');
+    row.textContent = member.name + ' · ' + member.identity + (member.id === data.host ? ' · anfitrião' : '') +
+      (member.id === data.you ? ' · você' : '');
+    return row;
+  }));
+  byId('invite').value = location.origin + '/sala?' + new URLSearchParams({ room: code });
+  byId('start').hidden = data.you !== data.host;
+  byId('waiting').textContent = data.you === data.host
+    ? 'Os bots preenchem as vagas abertas quando você iniciar.'
+    : 'Aguardando o anfitrião iniciar.';
+  if (data.started && data.you === null) status.textContent += ' · Leilão já iniciado.';
+}
+
+async function act(action, data = {}) {
+  if (busy) return;
+  busy = true;
+  try {
+    const result = await api({ action, ...data });
+    if (result.token) {
+      token = result.token;
+      localStorage.setItem(key, token);
+      window.dispatchEvent(new Event('arena-room-joined'));
+    }
+    render(result);
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    busy = false;
+  }
+}
+join.onsubmit = event => {
+  event.preventDefault();
+  act('join', Object.fromEntries(new FormData(join)));
+};
+byId('start').onclick = () => act('start');
+byId('copy').onclick = async () => {
+  byId('invite').select();
+  try {
+    await navigator.clipboard.writeText(byId('invite').value);
+    byId('copy').textContent = 'Link copiado';
+  } catch {
+    byId('copy').textContent = 'Link selecionado';
+  }
+};
+async function poll() {
+  if (!busy) {
+    try {
+      const data = await api();
+      if (!loaded || data.started || data.you !== null) render(data);
+    } catch (error) {
+      status.textContent = error.message;
+    }
+  }
+  setTimeout(poll, 1200);
+}
+poll();
+</script>
+<script type="module" src="/room-exit.js"></script>
+</body>
+</html>

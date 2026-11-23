@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LANCEBALL</title>
+<link rel="stylesheet" href="/arena.css">
+<body class="home-page">
+<!-- ARENA_HEADER -->
+<main>
+<section class="hero"><div class="hero-pitch" aria-hidden="true"></div>
+<h1>Monte seu time e conquiste a <span>Champions</span></h1>
+<p>Sete vagas, $100 de orçamento virtual por equipe e 10 segundos iniciais por rodada de leilão, com mais 3 a cada lance aceito.</p>
+</section>
+<div class="layout">
+<form class="panel" action="/leilao">
+<h2>Configurar partida</h2>
+<label for="name">Nome da equipe</label>
+<input id="name" name="team" type="text" maxlength="30" placeholder="Ex.: Galácticos FC" required>
+<input type="hidden" name="mode" value="ucl">
+<p class="competition-note">Champions League</p>
+<fieldset class="club-picker">
+<legend>Clube que você vai representar</legend>
+<div class="club-grid"><!-- UCL_CLUBS --></div>
+</fieldset>
+<fieldset><legend>Equipes no campeonato</legend><div class="choices">
+<label><input type="radio" name="size" value="4" checked><span class="choice">4</span></label>
+<label><input type="radio" name="size" value="6"><span class="choice">6</span></label>
+<label><input type="radio" name="size" value="8"><span class="choice">8</span></label>
+</div></fieldset>
+<button class="primary">Jogar leilão contra bots</button>
+</form>
+<section class="panel side">
+<h2>Jogar com amigos</h2>
+<p>Crie uma sala com as opções ao lado e compartilhe o código ou link. Use uma senha para manter a sala fora da lista pública.</p>
+<label for="room-name">Nome da sala</label><input type="text" id="room-name" maxlength="40" placeholder="Opcional">
+<label for="room-password">Senha da sala</label><input type="password" id="room-password" maxlength="64" placeholder="Opcional">
+<button id="create-room" class="action secondary" type="button">Criar sala</button>
+<form id="join-room" action="/sala">
+<label for="room-code">Código de convite</label><input type="text" id="room-code" name="room" pattern="[0-9a-fA-F]{8}" maxlength="8" required>
+<button class="action secondary">Entrar com código</button>
+</form>
+<p id="room-status" role="status"></p>
+<div class="rooms-heading"><h3>Salas públicas</h3><button id="refresh-rooms" class="action secondary" type="button">Atualizar</button></div><ul id="rooms"></ul>
+</section>
+</div>
+<div class="rules">
+<section><strong>Leilão</strong><p>O maior lance válido leva o atleta quando o relógio zera.</p></section>
+<section><strong>Elenco</strong><p>Cada equipe monta um time de sete atletas (fut7), com saldo reservado para as vagas abertas.</p></section>
+<section><strong>Campeonato</strong><p>Os quatro primeiros da liga avançam às semifinais de ida e volta. A final é em jogo único.</p></section>
+</div>
+</main>
+<script type="module">
+const form = document.querySelector('form');
+for (const badge of document.querySelectorAll('.club-card img')) {
+  const fallback = () => { badge.hidden = true; };
+  badge.addEventListener('error', fallback, { once: true });
+  if (badge.complete && !badge.naturalWidth) fallback();
+}
+
+const roomStatus = document.querySelector('#room-status');
+const create = document.querySelector('#create-room');
+create.onclick = async () => {
+  if (!form.reportValidity()) return;
+  create.disabled = true;
+  roomStatus.textContent = '';
+  const values = new FormData(form);
+  const mode = values.get('mode');
+  try {
+    const response = await fetch('/rooms', { method: 'POST', body: JSON.stringify({
+      mode, size: Number(values.get('size')), team: values.get('team'),
+      identity: values.get('club'),
+      name: document.querySelector('#room-name').value.trim() || 'Sala de ' + values.get('team').trim(),
+      password: document.querySelector('#room-password').value,
+    }) });
+    const data = await response.json();
+    if (!response.ok) throw Error(data.error);
+    localStorage.setItem('arena-member:' + data.code, data.token);
+    location.href = '/sala?' + new URLSearchParams({ room: data.code });
+  } catch (error) {
+    roomStatus.textContent = error.message;
+    create.disabled = false;
+  }
+};
+async function listRooms() {
+  const list = document.querySelector('#rooms');
+  try {
+    const response = await fetch('/rooms');
+    if (!response.ok) throw Error();
+    const rooms = await response.json();
+    list.replaceChildren(...(rooms.length ? rooms : [null]).map(room => {
+      const row = document.createElement('li');
+      if (!room) row.textContent = 'Nenhuma sala pública aberta.';
+      else {
+        const link = document.createElement('a');
+        link.href = '/sala?' + new URLSearchParams({ room: room.code });
+        link.textContent = room.name + ' · ' + room.count + '/' + room.size;
+        row.append(link);
+      }
+      return row;
+    }));
+  } catch {
+    list.textContent = 'Lista de salas indisponível.';
+  }
+}
+document.querySelector('#refresh-rooms').onclick = listRooms;
+listRooms();
+</script>
+</body>
+</html>

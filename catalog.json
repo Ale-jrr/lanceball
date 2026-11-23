@@ -1,0 +1,8180 @@
+{
+  "edition": "EA Sports FC 26 · atualização 4 · 19/09/2025",
+  "source": "FC 26 Player Data, Rovnez (seleção e posições agrupadas)",
+  "url": "https://www.kaggle.com/datasets/rovnez/fc-26-fifa-26-player-data",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "players": [
+    {
+      "id": "252371",
+      "name": "J. Bellingham",
+      "position": "MID",
+      "overall": 90,
+      "club": "Real Madrid",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "239053",
+      "name": "F. Valverde",
+      "position": "MID",
+      "overall": 89,
+      "club": "Real Madrid",
+      "nationality": "Uruguay",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "212622",
+      "name": "J. Kimmich",
+      "position": "MID",
+      "overall": 89,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "235212",
+      "name": "A. Hakimi",
+      "position": "DEF",
+      "overall": 89,
+      "club": "Paris Saint-Germain",
+      "nationality": "Morocco",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "224232",
+      "name": "N. Barella",
+      "position": "MID",
+      "overall": 87,
+      "club": "Inter",
+      "nationality": "Italy",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "208128",
+      "name": "H. Çalhanoğlu",
+      "position": "MID",
+      "overall": 86,
+      "club": "Inter",
+      "nationality": "Türkiye",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "226268",
+      "name": "F. Dimarco",
+      "position": "DEF",
+      "overall": 85,
+      "club": "Inter",
+      "nationality": "Italy",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "239837",
+      "name": "A. Mac Allister",
+      "position": "MID",
+      "overall": 87,
+      "club": "Liverpool",
+      "nationality": "Argentina",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "231866",
+      "name": "Rodri",
+      "position": "MID",
+      "overall": 90,
+      "club": "Manchester City",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "194765",
+      "name": "A. Griezmann",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Atlético Madrid",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "232656",
+      "name": "T. Hernández",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Al Hilal",
+      "nationality": "France",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "212198",
+      "name": "Bruno Fernandes",
+      "position": "MID",
+      "overall": 87,
+      "club": "Manchester United",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "246191",
+      "name": "J. Alvarez",
+      "position": "FWD",
+      "overall": 87,
+      "club": "Atlético Madrid",
+      "nationality": "Argentina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "231281",
+      "name": "T. Alexander-Arnold",
+      "position": "DEF",
+      "overall": 86,
+      "club": "Real Madrid",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "244675",
+      "name": "Sancet",
+      "position": "MID",
+      "overall": 84,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "210008",
+      "name": "A. Rabiot",
+      "position": "MID",
+      "overall": 83,
+      "club": "AC Milan",
+      "nationality": "France",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "212616",
+      "name": "R. De Paul",
+      "position": "MID",
+      "overall": 84,
+      "club": "Inter Miami",
+      "nationality": "Argentina",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "241096",
+      "name": "S. Tonali",
+      "position": "MID",
+      "overall": 86,
+      "club": "Newcastle United",
+      "nationality": "Italy",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "226161",
+      "name": "Marcos Llorente",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Atlético Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "209658",
+      "name": "L. Goretzka",
+      "position": "MID",
+      "overall": 82,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "255253",
+      "name": "Vitinha",
+      "position": "MID",
+      "overall": 89,
+      "club": "Paris Saint-Germain",
+      "nationality": "Portugal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "209331",
+      "name": "M. Salah",
+      "position": "MID",
+      "overall": 91,
+      "club": "Liverpool",
+      "nationality": "Egypt",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "204923",
+      "name": "M. Sabitzer",
+      "position": "MID",
+      "overall": 80,
+      "club": "Borussia Dortmund",
+      "nationality": "Austria",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "234378",
+      "name": "D. Rice",
+      "position": "MID",
+      "overall": 87,
+      "club": "Arsenal",
+      "nationality": "England",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "210514",
+      "name": "João Cancelo",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Al Hilal",
+      "nationality": "Portugal",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "228702",
+      "name": "F. de Jong",
+      "position": "MID",
+      "overall": 87,
+      "club": "FC Barcelona",
+      "nationality": "Netherlands",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "240638",
+      "name": "T. Reijnders",
+      "position": "MID",
+      "overall": 86,
+      "club": "Manchester City",
+      "nationality": "Netherlands",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "236772",
+      "name": "D. Szoboszlai",
+      "position": "MID",
+      "overall": 83,
+      "club": "Liverpool",
+      "nationality": "Hungary",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "233419",
+      "name": "Raphinha",
+      "position": "MID",
+      "overall": 89,
+      "club": "FC Barcelona",
+      "nationality": "Brazil",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "246669",
+      "name": "B. Saka",
+      "position": "FWD",
+      "overall": 88,
+      "club": "Arsenal",
+      "nationality": "England",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "223848",
+      "name": "S. Milinković-Savić",
+      "position": "MID",
+      "overall": 84,
+      "club": "Al Hilal",
+      "nationality": "Serbia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "251854",
+      "name": "Pedri",
+      "position": "MID",
+      "overall": 89,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "247851",
+      "name": "Bruno Guimarães",
+      "position": "MID",
+      "overall": 86,
+      "club": "Newcastle United",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "231443",
+      "name": "O. Dembélé",
+      "position": "FWD",
+      "overall": 90,
+      "club": "Paris Saint-Germain",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "272834",
+      "name": "João Neves",
+      "position": "MID",
+      "overall": 85,
+      "club": "Paris Saint-Germain",
+      "nationality": "Portugal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "246104",
+      "name": "R. Gravenberch",
+      "position": "MID",
+      "overall": 85,
+      "club": "Liverpool",
+      "nationality": "Netherlands",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "231478",
+      "name": "L. Martínez",
+      "position": "FWD",
+      "overall": 88,
+      "club": "Inter",
+      "nationality": "Argentina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "192883",
+      "name": "H. Mkhitaryan",
+      "position": "MID",
+      "overall": 83,
+      "club": "Inter",
+      "nationality": "Armenia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "192985",
+      "name": "K. De Bruyne",
+      "position": "MID",
+      "overall": 87,
+      "club": "Napoli",
+      "nationality": "Belgium",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "240679",
+      "name": "T. Koopmeiners",
+      "position": "MID",
+      "overall": 81,
+      "club": "Juventus",
+      "nationality": "Netherlands",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "247635",
+      "name": "K. Kvaratskhelia",
+      "position": "FWD",
+      "overall": 87,
+      "club": "Paris Saint-Germain",
+      "nationality": "Georgia",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "210035",
+      "name": "Grimaldo",
+      "position": "MID",
+      "overall": 84,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "238074",
+      "name": "R. James",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "208574",
+      "name": "F. Kostić",
+      "position": "MID",
+      "overall": 81,
+      "club": "Juventus",
+      "nationality": "Serbia",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "238216",
+      "name": "C. Gallagher",
+      "position": "MID",
+      "overall": 81,
+      "club": "Atlético Madrid",
+      "nationality": "England",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "225193",
+      "name": "Mikel Merino",
+      "position": "MID",
+      "overall": 83,
+      "club": "Arsenal",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "247090",
+      "name": "E. Fernández",
+      "position": "MID",
+      "overall": 84,
+      "club": "Chelsea",
+      "nationality": "Argentina",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "209297",
+      "name": "Fred",
+      "position": "MID",
+      "overall": 80,
+      "club": "Fenerbahçe SK",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "197445",
+      "name": "D. Alaba",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Real Madrid",
+      "nationality": "Austria",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "226754",
+      "name": "I. Bennacer",
+      "position": "MID",
+      "overall": 80,
+      "club": "Dinamo Zagreb",
+      "nationality": "Algeria",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "263205",
+      "name": "B. Yılmaz",
+      "position": "MID",
+      "overall": 80,
+      "club": "Galatasaray SK",
+      "nationality": "Türkiye",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "243576",
+      "name": "Pedro Porro",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Tottenham Hotspur",
+      "nationality": "Spain",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "231747",
+      "name": "K. Mbappé",
+      "position": "FWD",
+      "overall": 91,
+      "club": "Real Madrid",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "222665",
+      "name": "M. Ødegaard",
+      "position": "MID",
+      "overall": 87,
+      "club": "Arsenal",
+      "nationality": "Norway",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "210411",
+      "name": "Otávio",
+      "position": "MID",
+      "overall": 82,
+      "club": "Al Qadsiah FC",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "243245",
+      "name": "O. Kökçü",
+      "position": "MID",
+      "overall": 82,
+      "club": "Beşiktaş JK",
+      "nationality": "Türkiye",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "224334",
+      "name": "M. Acuña",
+      "position": "DEF",
+      "overall": 78,
+      "club": "River Plate",
+      "nationality": "Argentina",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "237238",
+      "name": "S. McTominay",
+      "position": "MID",
+      "overall": 85,
+      "club": "Napoli",
+      "nationality": "Scotland",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "202126",
+      "name": "H. Kane",
+      "position": "FWD",
+      "overall": 89,
+      "club": "FC Bayern München",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "248243",
+      "name": "E. Camavinga",
+      "position": "MID",
+      "overall": 83,
+      "club": "Real Madrid",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "224293",
+      "name": "Rúben Neves",
+      "position": "MID",
+      "overall": 84,
+      "club": "Al Hilal",
+      "nationality": "Portugal",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "246863",
+      "name": "F. Nmecha",
+      "position": "MID",
+      "overall": 82,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "258648",
+      "name": "Carlos Augusto",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Inter",
+      "nationality": "Brazil",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "210881",
+      "name": "J. McGinn",
+      "position": "MID",
+      "overall": 81,
+      "club": "Aston Villa",
+      "nationality": "Scotland",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "225201",
+      "name": "Berenguer",
+      "position": "MID",
+      "overall": 82,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "208333",
+      "name": "E. Can",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "228251",
+      "name": "L. Pellegrini",
+      "position": "MID",
+      "overall": 80,
+      "club": "Roma",
+      "nationality": "Italy",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "240950",
+      "name": "Pedro Gonçalves",
+      "position": "MID",
+      "overall": 83,
+      "club": "Sporting CP",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "223334",
+      "name": "Joelinton",
+      "position": "MID",
+      "overall": 82,
+      "club": "Newcastle United",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "252145",
+      "name": "Nuno Mendes",
+      "position": "DEF",
+      "overall": 86,
+      "club": "Paris Saint-Germain",
+      "nationality": "Portugal",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "188545",
+      "name": "R. Lewandowski",
+      "position": "FWD",
+      "overall": 88,
+      "club": "FC Barcelona",
+      "nationality": "Poland",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "247246",
+      "name": "K. Thuram",
+      "position": "MID",
+      "overall": 81,
+      "club": "Juventus",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "181458",
+      "name": "I. Perišić",
+      "position": "FWD",
+      "overall": 81,
+      "club": "PSV",
+      "nationality": "Croatia",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "243014",
+      "name": "B. Mbeumo",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Manchester United",
+      "nationality": "Cameroon",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "216393",
+      "name": "Y. Tielemans",
+      "position": "MID",
+      "overall": 85,
+      "club": "Aston Villa",
+      "nationality": "Belgium",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "256790",
+      "name": "J. Musiala",
+      "position": "MID",
+      "overall": 88,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "239231",
+      "name": "Marc Cucurella",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Chelsea",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "223959",
+      "name": "L. Torreira",
+      "position": "MID",
+      "overall": 83,
+      "club": "Galatasaray SK",
+      "nationality": "Uruguay",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "212811",
+      "name": "M. Lemina",
+      "position": "MID",
+      "overall": 79,
+      "club": "Galatasaray SK",
+      "nationality": "Gabon",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "177003",
+      "name": "L. Modrić",
+      "position": "MID",
+      "overall": 83,
+      "club": "AC Milan",
+      "nationality": "Croatia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "230938",
+      "name": "F. Kessié",
+      "position": "MID",
+      "overall": 80,
+      "club": "Al Ahli SFC",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "226226",
+      "name": "G. Lo Celso",
+      "position": "MID",
+      "overall": 82,
+      "club": "Real Betis Balompié",
+      "nationality": "Argentina",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "231913",
+      "name": "F. Aursnes",
+      "position": "MID",
+      "overall": 80,
+      "club": "SL Benfica",
+      "nationality": "Norway",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "247394",
+      "name": "D. Kulusevski",
+      "position": "MID",
+      "overall": 83,
+      "club": "Tottenham Hotspur",
+      "nationality": "Sweden",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "218667",
+      "name": "Bernardo Silva",
+      "position": "MID",
+      "overall": 84,
+      "club": "Manchester City",
+      "nationality": "Portugal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "256630",
+      "name": "F. Wirtz",
+      "position": "MID",
+      "overall": 89,
+      "club": "Liverpool",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "238744",
+      "name": "W. McKennie",
+      "position": "MID",
+      "overall": 78,
+      "club": "Juventus",
+      "nationality": "United States",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "213666",
+      "name": "R. Loftus-Cheek",
+      "position": "MID",
+      "overall": 80,
+      "club": "AC Milan",
+      "nationality": "England",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "202648",
+      "name": "Sergi Darder",
+      "position": "MID",
+      "overall": 81,
+      "club": "RCD Mallorca",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "219683",
+      "name": "C. Tolisso",
+      "position": "MID",
+      "overall": 81,
+      "club": "Olympique Lyonnais",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "216352",
+      "name": "M. Brozović",
+      "position": "MID",
+      "overall": 81,
+      "club": "Al Nassr",
+      "nationality": "Croatia",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "251479",
+      "name": "M. De Cuyper",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Belgium",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "251806",
+      "name": "Q. Timber",
+      "position": "MID",
+      "overall": 80,
+      "club": "Feyenoord",
+      "nationality": "Netherlands",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "211093",
+      "name": "C. McGregor",
+      "position": "MID",
+      "overall": 79,
+      "club": "Celtic",
+      "nationality": "Scotland",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "236499",
+      "name": "Douglas Luiz",
+      "position": "MID",
+      "overall": 80,
+      "club": "Nottingham Forest",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "215590",
+      "name": "Ayoze",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Villarreal CF",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "234396",
+      "name": "A. Davies",
+      "position": "DEF",
+      "overall": 84,
+      "club": "FC Bayern München",
+      "nationality": "Canada",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "239807",
+      "name": "D. Frattesi",
+      "position": "MID",
+      "overall": 81,
+      "club": "Inter",
+      "nationality": "Italy",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "227890",
+      "name": "Nuno Santos",
+      "position": "MID",
+      "overall": 79,
+      "club": "Sporting CP",
+      "nationality": "Portugal",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "236496",
+      "name": "M. Guendouzi",
+      "position": "MID",
+      "overall": 82,
+      "club": "Lazio",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "256079",
+      "name": "M. Caicedo",
+      "position": "MID",
+      "overall": 87,
+      "club": "Chelsea",
+      "nationality": "Ecuador",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "251517",
+      "name": "J. Gvardiol",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Manchester City",
+      "nationality": "Croatia",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "227236",
+      "name": "A. Zambo Anguissa",
+      "position": "MID",
+      "overall": 82,
+      "club": "Napoli",
+      "nationality": "Cameroon",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "186345",
+      "name": "K. Trippier",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "233927",
+      "name": "Lucas Paquetá",
+      "position": "MID",
+      "overall": 80,
+      "club": "West Ham United",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "270571",
+      "name": "Gabriel Sara",
+      "position": "MID",
+      "overall": 80,
+      "club": "Galatasaray SK",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "244669",
+      "name": "M. Hjulmand",
+      "position": "MID",
+      "overall": 83,
+      "club": "Sporting CP",
+      "nationality": "Denmark",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "232665",
+      "name": "M. Arambarri",
+      "position": "MID",
+      "overall": 80,
+      "club": "Getafe CF",
+      "nationality": "Uruguay",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "246321",
+      "name": "D. Maeda",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Celtic",
+      "nationality": "Japan",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "239085",
+      "name": "E. Haaland",
+      "position": "FWD",
+      "overall": 90,
+      "club": "Manchester City",
+      "nationality": "Norway",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "226851",
+      "name": "B. Pavard",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Olympique de Marseille",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "254243",
+      "name": "E. Anderson",
+      "position": "MID",
+      "overall": 80,
+      "club": "Nottingham Forest",
+      "nationality": "England",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "181291",
+      "name": "G. Wijnaldum",
+      "position": "MID",
+      "overall": 78,
+      "club": "Al Ettifaq",
+      "nationality": "Netherlands",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "192638",
+      "name": "Marcos Alonso",
+      "position": "DEF",
+      "overall": 79,
+      "club": "RC Celta",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "228813",
+      "name": "Aleix García",
+      "position": "MID",
+      "overall": 83,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "257279",
+      "name": "Álex Baena",
+      "position": "MID",
+      "overall": 84,
+      "club": "Atlético Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "256853",
+      "name": "M. Tillman",
+      "position": "MID",
+      "overall": 82,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "United States",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "231521",
+      "name": "E. Palacios",
+      "position": "MID",
+      "overall": 84,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Argentina",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "251377",
+      "name": "R. Zalazar",
+      "position": "MID",
+      "overall": 79,
+      "club": "Sporting Clube de Braga",
+      "nationality": "Uruguay",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "204963",
+      "name": "Carvajal",
+      "position": "DEF",
+      "overall": 85,
+      "club": "Real Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "193747",
+      "name": "Koke",
+      "position": "MID",
+      "overall": 81,
+      "club": "Atlético Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "242280",
+      "name": "L. Ferguson",
+      "position": "MID",
+      "overall": 78,
+      "club": "Bologna",
+      "nationality": "Scotland",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "262881",
+      "name": "R. Ríos",
+      "position": "MID",
+      "overall": 79,
+      "club": "SL Benfica",
+      "nationality": "Colombia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "217870",
+      "name": "G. Di Lorenzo",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Napoli",
+      "nationality": "Italy",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "257534",
+      "name": "C. Palmer",
+      "position": "MID",
+      "overall": 87,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "234060",
+      "name": "Y. Herrera",
+      "position": "MID",
+      "overall": 81,
+      "club": "Real Sociedad",
+      "nationality": "Venezuela",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "261865",
+      "name": "Miguel Gutiérrez",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Napoli",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "220651",
+      "name": "Angeliño",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Roma",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "266866",
+      "name": "Éderson",
+      "position": "MID",
+      "overall": 82,
+      "club": "Atalanta",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "206511",
+      "name": "M. Arnold",
+      "position": "MID",
+      "overall": 79,
+      "club": "VfL Wolfsburg",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "236015",
+      "name": "M. Gibbs-White",
+      "position": "MID",
+      "overall": 82,
+      "club": "Nottingham Forest",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "222077",
+      "name": "M. Locatelli",
+      "position": "MID",
+      "overall": 84,
+      "club": "Juventus",
+      "nationality": "Italy",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "233096",
+      "name": "D. Dumfries",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Inter",
+      "nationality": "Netherlands",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "200458",
+      "name": "L. Digne",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Aston Villa",
+      "nationality": "France",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "212242",
+      "name": "R. Andrich",
+      "position": "MID",
+      "overall": 81,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "241637",
+      "name": "A. Tchouaméni",
+      "position": "MID",
+      "overall": 84,
+      "club": "Real Madrid",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "215441",
+      "name": "S. Guirassy",
+      "position": "FWD",
+      "overall": 87,
+      "club": "Borussia Dortmund",
+      "nationality": "Guinea",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "253727",
+      "name": "L. Provod",
+      "position": "MID",
+      "overall": 78,
+      "club": "SK Slavia Praha",
+      "nationality": "Czechia",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "220502",
+      "name": "M. Zaccagni",
+      "position": "MID",
+      "overall": 84,
+      "club": "Lazio",
+      "nationality": "Italy",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "208461",
+      "name": "M. de Roon",
+      "position": "MID",
+      "overall": 81,
+      "club": "Atalanta",
+      "nationality": "Netherlands",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "235944",
+      "name": "Brais Méndez",
+      "position": "MID",
+      "overall": 81,
+      "club": "Real Sociedad",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "223697",
+      "name": "R. Gosens",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Fiorentina",
+      "nationality": "Germany",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "226271",
+      "name": "Fabián Ruiz",
+      "position": "MID",
+      "overall": 85,
+      "club": "Paris Saint-Germain",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "220697",
+      "name": "J. Maddison",
+      "position": "MID",
+      "overall": 84,
+      "club": "Tottenham Hotspur",
+      "nationality": "England",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "190765",
+      "name": "P. Groß",
+      "position": "MID",
+      "overall": 80,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "183512",
+      "name": "Yuri Berchiche",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "209889",
+      "name": "R. Guerreiro",
+      "position": "DEF",
+      "overall": 80,
+      "club": "FC Bayern München",
+      "nationality": "Portugal",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "225375",
+      "name": "K. Laimer",
+      "position": "DEF",
+      "overall": 82,
+      "club": "FC Bayern München",
+      "nationality": "Austria",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "189332",
+      "name": "Jordi Alba",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Inter Miami",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "260247",
+      "name": "M. Rogers",
+      "position": "MID",
+      "overall": 82,
+      "club": "Aston Villa",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "208418",
+      "name": "Y. Carrasco",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Al Shabab",
+      "nationality": "Belgium",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "271421",
+      "name": "D. Doué",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Paris Saint-Germain",
+      "nationality": "France",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "228093",
+      "name": "M. Thuram",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Inter",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "236703",
+      "name": "D. Raum",
+      "position": "DEF",
+      "overall": 82,
+      "club": "RB Leipzig",
+      "nationality": "Germany",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "241651",
+      "name": "V. Gyökeres",
+      "position": "FWD",
+      "overall": 87,
+      "club": "Arsenal",
+      "nationality": "Sweden",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "259913",
+      "name": "G. Sudakov",
+      "position": "MID",
+      "overall": 80,
+      "club": "SL Benfica",
+      "nationality": "Ukraine",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "212523",
+      "name": "Anderson Talisca",
+      "position": "MID",
+      "overall": 81,
+      "club": "Fenerbahçe SK",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "272500",
+      "name": "C. Baleba",
+      "position": "MID",
+      "overall": 81,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Cameroon",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "245367",
+      "name": "X. Simons",
+      "position": "MID",
+      "overall": 84,
+      "club": "Tottenham Hotspur",
+      "nationality": "Netherlands",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "201389",
+      "name": "C. Biraghi",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Torino",
+      "nationality": "Italy",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "199503",
+      "name": "G. Xhaka",
+      "position": "MID",
+      "overall": 85,
+      "club": "Sunderland",
+      "nationality": "Switzerland",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "211110",
+      "name": "P. Dybala",
+      "position": "MID",
+      "overall": 86,
+      "club": "Roma",
+      "nationality": "Argentina",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "227796",
+      "name": "C. Pulisic",
+      "position": "FWD",
+      "overall": 84,
+      "club": "AC Milan",
+      "nationality": "United States",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "208722",
+      "name": "S. Mané",
+      "position": "MID",
+      "overall": 83,
+      "club": "Al Nassr",
+      "nationality": "Senegal",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "216201",
+      "name": "Iñaki Williams",
+      "position": "MID",
+      "overall": 83,
+      "club": "Athletic Club",
+      "nationality": "Ghana",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "256688",
+      "name": "C. Puertas",
+      "position": "MID",
+      "overall": 78,
+      "club": "SV Werder Bremen",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "239093",
+      "name": "J. Clauss",
+      "position": "DEF",
+      "overall": 80,
+      "club": "OGC Nice",
+      "nationality": "France",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "260908",
+      "name": "M. Kerkez",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Liverpool",
+      "nationality": "Hungary",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "250723",
+      "name": "K. Koné",
+      "position": "MID",
+      "overall": 79,
+      "club": "Roma",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "259694",
+      "name": "Mingueza",
+      "position": "DEF",
+      "overall": 80,
+      "club": "RC Celta",
+      "nationality": "Spain",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "200104",
+      "name": "H. Son",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Los Angeles FC",
+      "nationality": "Korea Republic",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "215914",
+      "name": "N. Kanté",
+      "position": "MID",
+      "overall": 85,
+      "club": "Al Ittihad",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "188377",
+      "name": "K. Walker",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Burnley",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "189513",
+      "name": "Parejo",
+      "position": "MID",
+      "overall": 82,
+      "club": "Villarreal CF",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "240734",
+      "name": "M. O'Riley",
+      "position": "MID",
+      "overall": 78,
+      "club": "Olympique de Marseille",
+      "nationality": "Denmark",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "241084",
+      "name": "L. Díaz",
+      "position": "MID",
+      "overall": 85,
+      "club": "FC Bayern München",
+      "nationality": "Colombia",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "225309",
+      "name": "N. Amiri",
+      "position": "MID",
+      "overall": 81,
+      "club": "1. FSV Mainz 05",
+      "nationality": "Germany",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "207410",
+      "name": "M. Kovačić",
+      "position": "MID",
+      "overall": 83,
+      "club": "Manchester City",
+      "nationality": "Croatia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "207439",
+      "name": "L. Paredes",
+      "position": "MID",
+      "overall": 78,
+      "club": "Boca Juniors",
+      "nationality": "Argentina",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "237692",
+      "name": "P. Foden",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Manchester City",
+      "nationality": "England",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "253124",
+      "name": "Matheus Nunes",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Manchester City",
+      "nationality": "Portugal",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "186942",
+      "name": "İ. Gündoğan",
+      "position": "MID",
+      "overall": 83,
+      "club": "Galatasaray SK",
+      "nationality": "Germany",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "270673",
+      "name": "W. Zaïre-Emery",
+      "position": "MID",
+      "overall": 80,
+      "club": "Paris Saint-Germain",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "242201",
+      "name": "Luis Milla",
+      "position": "MID",
+      "overall": 79,
+      "club": "Getafe CF",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "210602",
+      "name": "S. Al Dawsari",
+      "position": "MID",
+      "overall": 82,
+      "club": "Al Hilal",
+      "nationality": "Saudi Arabia",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "258775",
+      "name": "L. Sučić",
+      "position": "MID",
+      "overall": 78,
+      "club": "Real Sociedad",
+      "nationality": "Croatia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "242516",
+      "name": "C. Gakpo",
+      "position": "MID",
+      "overall": 84,
+      "club": "Liverpool",
+      "nationality": "Netherlands",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "241811",
+      "name": "Sergio Gómez",
+      "position": "MID",
+      "overall": 79,
+      "club": "Real Sociedad",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "244374",
+      "name": "M. Shaparenko",
+      "position": "MID",
+      "overall": 78,
+      "club": "Dynamo Kyiv",
+      "nationality": "Ukraine",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "273018",
+      "name": "Andrey Santos",
+      "position": "MID",
+      "overall": 80,
+      "club": "Chelsea",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "259516",
+      "name": "Johnny Cardoso",
+      "position": "MID",
+      "overall": 81,
+      "club": "Atlético Madrid",
+      "nationality": "United States",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "221697",
+      "name": "O. Watkins",
+      "position": "FWD",
+      "overall": 84,
+      "club": "Aston Villa",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "247827",
+      "name": "M. Olise",
+      "position": "MID",
+      "overall": 86,
+      "club": "FC Bayern München",
+      "nationality": "France",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "216150",
+      "name": "D. Zappacosta",
+      "position": "MID",
+      "overall": 79,
+      "club": "Atalanta",
+      "nationality": "Italy",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "183711",
+      "name": "J. Henderson",
+      "position": "MID",
+      "overall": 79,
+      "club": "Brentford",
+      "nationality": "England",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "248148",
+      "name": "Zubimendi",
+      "position": "MID",
+      "overall": 83,
+      "club": "Arsenal",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "258966",
+      "name": "A. Cambiaso",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Juventus",
+      "nationality": "Italy",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "216267",
+      "name": "A. Robertson",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Liverpool",
+      "nationality": "Scotland",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "228618",
+      "name": "F. Mendy",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Real Madrid",
+      "nationality": "France",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "237646",
+      "name": "D. Muñoz",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Crystal Palace",
+      "nationality": "Colombia",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "224196",
+      "name": "R. Bensebaini",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Borussia Dortmund",
+      "nationality": "Algeria",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "210406",
+      "name": "P. Zieliński",
+      "position": "MID",
+      "overall": 80,
+      "club": "Inter",
+      "nationality": "Poland",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "235794",
+      "name": "E. Eze",
+      "position": "MID",
+      "overall": 83,
+      "club": "Arsenal",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "240243",
+      "name": "Matheus Cunha",
+      "position": "MID",
+      "overall": 83,
+      "club": "Manchester United",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "247103",
+      "name": "D. Hancko",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Atlético Madrid",
+      "nationality": "Slovakia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "197781",
+      "name": "Isco",
+      "position": "MID",
+      "overall": 84,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "191740",
+      "name": "Ander Herrera",
+      "position": "MID",
+      "overall": 78,
+      "club": "Boca Juniors",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "222737",
+      "name": "Malcom",
+      "position": "MID",
+      "overall": 82,
+      "club": "Al Hilal",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "235537",
+      "name": "E. Sánchez",
+      "position": "MID",
+      "overall": 78,
+      "club": "",
+      "nationality": "Mexico",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "255001",
+      "name": "N. Rovella",
+      "position": "MID",
+      "overall": 79,
+      "club": "Lazio",
+      "nationality": "Italy",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "255009",
+      "name": "K. Taylor",
+      "position": "MID",
+      "overall": 78,
+      "club": "Ajax",
+      "nationality": "Netherlands",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "230481",
+      "name": "Ronaldo Cabrais",
+      "position": "MID",
+      "overall": 83,
+      "club": "Botafogo",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "213884",
+      "name": "R. Christie",
+      "position": "MID",
+      "overall": 79,
+      "club": "AFC Bournemouth",
+      "nationality": "Scotland",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "226456",
+      "name": "Fornals",
+      "position": "MID",
+      "overall": 79,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "245235",
+      "name": "A. Bah",
+      "position": "DEF",
+      "overall": 78,
+      "club": "SL Benfica",
+      "nationality": "Denmark",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "225663",
+      "name": "A. Golovin",
+      "position": "MID",
+      "overall": 79,
+      "club": "AS Monaco",
+      "nationality": "Russia",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "230183",
+      "name": "Gerson Armão",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Internacional",
+      "nationality": "Brazil",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "212091",
+      "name": "Rodinei",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Olympiacos FC",
+      "nationality": "Brazil",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "216435",
+      "name": "S. Lobotka",
+      "position": "MID",
+      "overall": 83,
+      "club": "Napoli",
+      "nationality": "Slovakia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "229261",
+      "name": "D. Zakaria",
+      "position": "MID",
+      "overall": 82,
+      "club": "AS Monaco",
+      "nationality": "Switzerland",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "232244",
+      "name": "S. Ascacíbar",
+      "position": "MID",
+      "overall": 78,
+      "club": "Estudiantes de La Plata",
+      "nationality": "Argentina",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "241508",
+      "name": "M. Damsgaard",
+      "position": "MID",
+      "overall": 80,
+      "club": "Brentford",
+      "nationality": "Denmark",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "225126",
+      "name": "E. Skhiri",
+      "position": "MID",
+      "overall": 80,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Tunisia",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "210047",
+      "name": "F. Schär",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Newcastle United",
+      "nationality": "Switzerland",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "247819",
+      "name": "N. Schlotterbeck",
+      "position": "DEF",
+      "overall": 85,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "158023",
+      "name": "L. Messi",
+      "position": "FWD",
+      "overall": 86,
+      "club": "Inter Miami",
+      "nationality": "Argentina",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "176580",
+      "name": "L. Suárez",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Inter Miami",
+      "nationality": "Uruguay",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "242964",
+      "name": "A. Gordon",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "203376",
+      "name": "V. van Dijk",
+      "position": "DEF",
+      "overall": 90,
+      "club": "Liverpool",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "242434",
+      "name": "C. Jones",
+      "position": "MID",
+      "overall": 80,
+      "club": "Liverpool",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "223273",
+      "name": "M. Pašalić",
+      "position": "MID",
+      "overall": 80,
+      "club": "Atalanta",
+      "nationality": "Croatia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "205157",
+      "name": "Ruiz de Galarreta",
+      "position": "MID",
+      "overall": 80,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "259583",
+      "name": "D. Udogie",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Tottenham Hotspur",
+      "nationality": "Italy",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "241509",
+      "name": "Mauro Júnior",
+      "position": "DEF",
+      "overall": 79,
+      "club": "PSV",
+      "nationality": "Brazil",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "235152",
+      "name": "F. Kadıoğlu",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Türkiye",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "243627",
+      "name": "Y. Adli",
+      "position": "MID",
+      "overall": 78,
+      "club": "Al Shabab",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "240709",
+      "name": "R. Baku",
+      "position": "MID",
+      "overall": 78,
+      "club": "RB Leipzig",
+      "nationality": "Germany",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "234505",
+      "name": "Evander",
+      "position": "MID",
+      "overall": 79,
+      "club": "FC Cincinnati",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "244261",
+      "name": "L. Majer",
+      "position": "MID",
+      "overall": 78,
+      "club": "VfL Wolfsburg",
+      "nationality": "Croatia",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "256675",
+      "name": "O. Marmoush",
+      "position": "FWD",
+      "overall": 84,
+      "club": "Manchester City",
+      "nationality": "Egypt",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "227535",
+      "name": "R. Bentancur",
+      "position": "MID",
+      "overall": 80,
+      "club": "Tottenham Hotspur",
+      "nationality": "Uruguay",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "232711",
+      "name": "J. Stage",
+      "position": "MID",
+      "overall": 78,
+      "club": "SV Werder Bremen",
+      "nationality": "Denmark",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "225403",
+      "name": "İ. Kahveci",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Fenerbahçe SK",
+      "nationality": "Türkiye",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "239301",
+      "name": "L. Martínez",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Manchester United",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "195864",
+      "name": "P. Pogba",
+      "position": "MID",
+      "overall": 79,
+      "club": "AS Monaco",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "209989",
+      "name": "T. Partey",
+      "position": "MID",
+      "overall": 83,
+      "club": "Villarreal CF",
+      "nationality": "Ghana",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "251573",
+      "name": "Renan Lodi",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Al Hilal",
+      "nationality": "Brazil",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "227647",
+      "name": "M. Mittelstädt",
+      "position": "DEF",
+      "overall": 82,
+      "club": "VfB Stuttgart",
+      "nationality": "Germany",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "211688",
+      "name": "Gayà",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Valencia CF",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "229188",
+      "name": "V. Pavlidis",
+      "position": "FWD",
+      "overall": 82,
+      "club": "SL Benfica",
+      "nationality": "Greece",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "266127",
+      "name": "L. Hall",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "229659",
+      "name": "B. Heynen",
+      "position": "MID",
+      "overall": 78,
+      "club": "KRC Genk",
+      "nationality": "Belgium",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "20801",
+      "name": "Cristiano Ronaldo",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Al Nassr",
+      "nationality": "Portugal",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "192318",
+      "name": "M. Götze",
+      "position": "MID",
+      "overall": 82,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Germany",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "212228",
+      "name": "I. Toney",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Al Ahli SFC",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "234574",
+      "name": "Diogo Dalot",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Manchester United",
+      "nationality": "Portugal",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "213516",
+      "name": "Ricardo Horta",
+      "position": "MID",
+      "overall": 81,
+      "club": "Sporting Clube de Braga",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "251470",
+      "name": "C. De Ketelaere",
+      "position": "MID",
+      "overall": 82,
+      "club": "Atalanta",
+      "nationality": "Belgium",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "224371",
+      "name": "J. Bowen",
+      "position": "MID",
+      "overall": 83,
+      "club": "West Ham United",
+      "nationality": "England",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "253072",
+      "name": "D. Núñez",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Al Hilal",
+      "nationality": "Uruguay",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "251988",
+      "name": "A. Colpani",
+      "position": "MID",
+      "overall": 78,
+      "club": "Monza",
+      "nationality": "Italy",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "253149",
+      "name": "J. Frimpong",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Liverpool",
+      "nationality": "Netherlands",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "233731",
+      "name": "A. Isak",
+      "position": "FWD",
+      "overall": 88,
+      "club": "Liverpool",
+      "nationality": "Sweden",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "268889",
+      "name": "Álvaro Carreras",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Real Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "216409",
+      "name": "M. Politano",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Napoli",
+      "nationality": "Italy",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "251530",
+      "name": "Nuno Tavares",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Lazio",
+      "nationality": "Portugal",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "165153",
+      "name": "K. Benzema",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Al Ittihad",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "224158",
+      "name": "S. Amrabat",
+      "position": "MID",
+      "overall": 78,
+      "club": "Real Betis Balompié",
+      "nationality": "Morocco",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "235973",
+      "name": "S. Szymański",
+      "position": "MID",
+      "overall": 78,
+      "club": "Fenerbahçe SK",
+      "nationality": "Poland",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "243686",
+      "name": "Chiquinho",
+      "position": "MID",
+      "overall": 78,
+      "club": "Olympiacos FC",
+      "nationality": "Portugal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "264697",
+      "name": "M. Amoura",
+      "position": "FWD",
+      "overall": 80,
+      "club": "VfL Wolfsburg",
+      "nationality": "Algeria",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "230142",
+      "name": "Oyarzabal",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Real Sociedad",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "245630",
+      "name": "Y. Fofana",
+      "position": "MID",
+      "overall": 81,
+      "club": "AC Milan",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "208268",
+      "name": "B. Cristante",
+      "position": "MID",
+      "overall": 80,
+      "club": "Roma",
+      "nationality": "Italy",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "208093",
+      "name": "Gerard Moreno",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Villarreal CF",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "206085",
+      "name": "J. Murphy",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "259868",
+      "name": "P. Sarr",
+      "position": "MID",
+      "overall": 79,
+      "club": "Tottenham Hotspur",
+      "nationality": "Senegal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "231340",
+      "name": "G. Montiel",
+      "position": "DEF",
+      "overall": 78,
+      "club": "River Plate",
+      "nationality": "Argentina",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "209499",
+      "name": "Fabinho",
+      "position": "MID",
+      "overall": 82,
+      "club": "Al Ittihad",
+      "nationality": "Brazil",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "232293",
+      "name": "V. Osimhen",
+      "position": "FWD",
+      "overall": 87,
+      "club": "Galatasaray SK",
+      "nationality": "Nigeria",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "236699",
+      "name": "S. Lukić",
+      "position": "MID",
+      "overall": 78,
+      "club": "Fulham FC",
+      "nationality": "Serbia",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "245155",
+      "name": "M. Kudus",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Tottenham Hotspur",
+      "nationality": "Ghana",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "257191",
+      "name": "A. Stach",
+      "position": "MID",
+      "overall": 79,
+      "club": "Leeds United",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "206591",
+      "name": "M. Weiser",
+      "position": "DEF",
+      "overall": 78,
+      "club": "SV Werder Bremen",
+      "nationality": "Germany",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "233556",
+      "name": "R. Orsolini",
+      "position": "MID",
+      "overall": 82,
+      "club": "Bologna",
+      "nationality": "Italy",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "224294",
+      "name": "L. Cook",
+      "position": "MID",
+      "overall": 79,
+      "club": "AFC Bournemouth",
+      "nationality": "England",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "236401",
+      "name": "N. Mazraoui",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Manchester United",
+      "nationality": "Morocco",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "213648",
+      "name": "P. Højbjerg",
+      "position": "MID",
+      "overall": 82,
+      "club": "Olympique de Marseille",
+      "nationality": "Denmark",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "222509",
+      "name": "Dani Ceballos",
+      "position": "MID",
+      "overall": 81,
+      "club": "Real Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "254909",
+      "name": "O. Dorley",
+      "position": "MID",
+      "overall": 78,
+      "club": "SK Slavia Praha",
+      "nationality": "Liberia",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "230347",
+      "name": "Welington Dano",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Atlético Mineiro",
+      "nationality": "Brazil",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "248465",
+      "name": "I. Maatsen",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Aston Villa",
+      "nationality": "Netherlands",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "222492",
+      "name": "L. Sané",
+      "position": "MID",
+      "overall": 82,
+      "club": "Galatasaray SK",
+      "nationality": "Germany",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "236480",
+      "name": "Y. Bissouma",
+      "position": "MID",
+      "overall": 78,
+      "club": "Tottenham Hotspur",
+      "nationality": "Mali",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "207865",
+      "name": "Marquinhos",
+      "position": "DEF",
+      "overall": 87,
+      "club": "Paris Saint-Germain",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "212814",
+      "name": "João Mário",
+      "position": "MID",
+      "overall": 78,
+      "club": "AEK Athens",
+      "nationality": "Portugal",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "183898",
+      "name": "Á. Di María",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Rosario Central",
+      "nationality": "Argentina",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "255069",
+      "name": "Nico González",
+      "position": "MID",
+      "overall": 79,
+      "club": "Manchester City",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "210324",
+      "name": "J. Hofmann",
+      "position": "MID",
+      "overall": 78,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "251804",
+      "name": "S. Dest",
+      "position": "DEF",
+      "overall": 79,
+      "club": "PSV",
+      "nationality": "United States",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "244260",
+      "name": "Dani Olmo",
+      "position": "MID",
+      "overall": 85,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "264240",
+      "name": "Gavi",
+      "position": "MID",
+      "overall": 83,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "243780",
+      "name": "Lee Kang In",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Paris Saint-Germain",
+      "nationality": "Korea Republic",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "220876",
+      "name": "F. Honorat",
+      "position": "MID",
+      "overall": 80,
+      "club": "Borussia Mönchengladbach",
+      "nationality": "France",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "190674",
+      "name": "B. André",
+      "position": "MID",
+      "overall": 80,
+      "club": "Lille OSC",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "246923",
+      "name": "J. Ramsey",
+      "position": "MID",
+      "overall": 78,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "251566",
+      "name": "Gabriel Martinelli",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Arsenal",
+      "nationality": "Brazil",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "242641",
+      "name": "R. Aït-Nouri",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Manchester City",
+      "nationality": "Algeria",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "233195",
+      "name": "X. Schlager",
+      "position": "MID",
+      "overall": 80,
+      "club": "RB Leipzig",
+      "nationality": "Austria",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "242444",
+      "name": "João Félix",
+      "position": "MID",
+      "overall": 79,
+      "club": "Al Nassr",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "272449",
+      "name": "Pablo Barrios",
+      "position": "MID",
+      "overall": 82,
+      "club": "Atlético Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "231591",
+      "name": "Javi Galán",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Atlético Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "200155",
+      "name": "H. Vanaken",
+      "position": "MID",
+      "overall": 80,
+      "club": "Club Brugge KV",
+      "nationality": "Belgium",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "237942",
+      "name": "P. Estupiñán",
+      "position": "DEF",
+      "overall": 79,
+      "club": "AC Milan",
+      "nationality": "Ecuador",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "202884",
+      "name": "L. Spinazzola",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Napoli",
+      "nationality": "Italy",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "255475",
+      "name": "Antony",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Real Betis Balompié",
+      "nationality": "Brazil",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "233738",
+      "name": "Zubeldia",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Real Sociedad",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "184392",
+      "name": "M. Darmian",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Inter",
+      "nationality": "Italy",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "230258",
+      "name": "Rosival Dourado",
+      "position": "MID",
+      "overall": 81,
+      "club": "Corinthians",
+      "nationality": "Brazil",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "241095",
+      "name": "N. Vlašić",
+      "position": "MID",
+      "overall": 79,
+      "club": "Torino",
+      "nationality": "Croatia",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "278773",
+      "name": "M. Lewis-Skelly",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Arsenal",
+      "nationality": "England",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "242087",
+      "name": "H. Morita",
+      "position": "MID",
+      "overall": 79,
+      "club": "Sporting CP",
+      "nationality": "Japan",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "260599",
+      "name": "A. Varela",
+      "position": "MID",
+      "overall": 79,
+      "club": "FC Porto",
+      "nationality": "Argentina",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "202024",
+      "name": "R. Freuler",
+      "position": "MID",
+      "overall": 81,
+      "club": "Bologna",
+      "nationality": "Switzerland",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "255565",
+      "name": "K. Mitoma",
+      "position": "MID",
+      "overall": 82,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Japan",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "202556",
+      "name": "M. Depay",
+      "position": "FWD",
+      "overall": 81,
+      "club": "",
+      "nationality": "Netherlands",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "192629",
+      "name": "Iago Aspas",
+      "position": "FWD",
+      "overall": 83,
+      "club": "RC Celta",
+      "nationality": "Spain",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "224656",
+      "name": "O. Aina",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Nottingham Forest",
+      "nationality": "Nigeria",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "204485",
+      "name": "R. Mahrez",
+      "position": "MID",
+      "overall": 84,
+      "club": "Al Ahli SFC",
+      "nationality": "Algeria",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "204525",
+      "name": "Iñigo Martínez",
+      "position": "DEF",
+      "overall": 85,
+      "club": "Al Nassr",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "243631",
+      "name": "M. Camara",
+      "position": "MID",
+      "overall": 78,
+      "club": "Stade Rennais FC",
+      "nationality": "France",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "212194",
+      "name": "J. Brandt",
+      "position": "MID",
+      "overall": 83,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "216354",
+      "name": "A. Kramarić",
+      "position": "MID",
+      "overall": 81,
+      "club": "TSG 1899 Hoffenheim",
+      "nationality": "Croatia",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "241486",
+      "name": "J. Koundé",
+      "position": "DEF",
+      "overall": 87,
+      "club": "FC Barcelona",
+      "nationality": "France",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "244728",
+      "name": "S. Steijn",
+      "position": "MID",
+      "overall": 78,
+      "club": "Feyenoord",
+      "nationality": "Netherlands",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "230020",
+      "name": "P. Lees-Melou",
+      "position": "MID",
+      "overall": 78,
+      "club": "Paris FC",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "233084",
+      "name": "N. Molina",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Atlético Madrid",
+      "nationality": "Argentina",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "213655",
+      "name": "A. Iwobi",
+      "position": "MID",
+      "overall": 80,
+      "club": "Fulham FC",
+      "nationality": "Nigeria",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "210935",
+      "name": "D. Berardi",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Sassuolo",
+      "nationality": "Italy",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "231943",
+      "name": "Richarlison",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Tottenham Hotspur",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "205988",
+      "name": "L. Shaw",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Manchester United",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "256516",
+      "name": "Nico Williams",
+      "position": "MID",
+      "overall": 86,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "268896",
+      "name": "H. Larsson",
+      "position": "MID",
+      "overall": 78,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Sweden",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "206517",
+      "name": "J. Grealish",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Everton",
+      "nationality": "England",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "238794",
+      "name": "Vini Jr.",
+      "position": "FWD",
+      "overall": 89,
+      "club": "Real Madrid",
+      "nationality": "Brazil",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "237034",
+      "name": "Cucho",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Real Betis Balompié",
+      "nationality": "Colombia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "248165",
+      "name": "A. Rațiu",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Rayo Vallecano",
+      "nationality": "Romania",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "257711",
+      "name": "R. Calafiori",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Arsenal",
+      "nationality": "Italy",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "235790",
+      "name": "K. Havertz",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Arsenal",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "224031",
+      "name": "A. Marušić",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Lazio",
+      "nationality": "Montenegro",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "223874",
+      "name": "V. Rongier",
+      "position": "MID",
+      "overall": 79,
+      "club": "Stade Rennais FC",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "200145",
+      "name": "Casemiro",
+      "position": "MID",
+      "overall": 80,
+      "club": "Manchester United",
+      "nationality": "Brazil",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "248793",
+      "name": "M. Wieffer",
+      "position": "MID",
+      "overall": 78,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Netherlands",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "279604",
+      "name": "Jauregizar",
+      "position": "MID",
+      "overall": 78,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "250959",
+      "name": "A. Stiller",
+      "position": "MID",
+      "overall": 83,
+      "club": "VfB Stuttgart",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "233301",
+      "name": "R. Kristensen",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Denmark",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "257980",
+      "name": "D. Ndoye",
+      "position": "MID",
+      "overall": 79,
+      "club": "Nottingham Forest",
+      "nationality": "Switzerland",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "229348",
+      "name": "A. Robinson",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Fulham FC",
+      "nationality": "United States",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "189596",
+      "name": "T. Müller",
+      "position": "MID",
+      "overall": 80,
+      "club": "Vancouver Whitecaps FC",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "252064",
+      "name": "L. Krejčí",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Czechia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "188350",
+      "name": "M. Reus",
+      "position": "MID",
+      "overall": 79,
+      "club": "LA Galaxy",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "220746",
+      "name": "A. Živković",
+      "position": "MID",
+      "overall": 78,
+      "club": "PAOK",
+      "nationality": "Serbia",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "228579",
+      "name": "B. Henrichs",
+      "position": "DEF",
+      "overall": 80,
+      "club": "RB Leipzig",
+      "nationality": "Germany",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "205855",
+      "name": "M. Livaja",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Hajduk Split",
+      "nationality": "Croatia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "244778",
+      "name": "Trincão",
+      "position": "MID",
+      "overall": 82,
+      "club": "Sporting CP",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "252143",
+      "name": "Daniel Bragança",
+      "position": "MID",
+      "overall": 78,
+      "club": "Sporting CP",
+      "nationality": "Portugal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "214026",
+      "name": "J. Mojica",
+      "position": "DEF",
+      "overall": 78,
+      "club": "RCD Mallorca",
+      "nationality": "Colombia",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "262925",
+      "name": "A. Zorgane",
+      "position": "MID",
+      "overall": 78,
+      "club": "Union Saint-Gilloise",
+      "nationality": "Algeria",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "235467",
+      "name": "M. Moreno",
+      "position": "MID",
+      "overall": 78,
+      "club": "Lanús",
+      "nationality": "Argentina",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "239380",
+      "name": "N. Lang",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Napoli",
+      "nationality": "Netherlands",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "241707",
+      "name": "P. Gueye",
+      "position": "MID",
+      "overall": 78,
+      "club": "Villarreal CF",
+      "nationality": "Senegal",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "230666",
+      "name": "Gabriel Jesus",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Arsenal",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "231184",
+      "name": "Guruzeta",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "275298",
+      "name": "A. Pavlović",
+      "position": "MID",
+      "overall": 79,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "273463",
+      "name": "João Gomes",
+      "position": "MID",
+      "overall": 78,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Brazil",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "259480",
+      "name": "I. Saibari",
+      "position": "MID",
+      "overall": 79,
+      "club": "PSV",
+      "nationality": "Morocco",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "237819",
+      "name": "N. Domínguez",
+      "position": "MID",
+      "overall": 79,
+      "club": "Nottingham Forest",
+      "nationality": "Argentina",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "203980",
+      "name": "K. Fortounis",
+      "position": "MID",
+      "overall": 80,
+      "club": "Al Khaleej",
+      "nationality": "Greece",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "245371",
+      "name": "T. Almada",
+      "position": "MID",
+      "overall": 79,
+      "club": "Atlético Madrid",
+      "nationality": "Argentina",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "237712",
+      "name": "V. Castellanos",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Lazio",
+      "nationality": "Argentina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "225951",
+      "name": "D. Bouanga",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Los Angeles FC",
+      "nationality": "Gabon",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "201455",
+      "name": "G. Kondogbia",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Olympique de Marseille",
+      "nationality": "Central African Republic",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "241461",
+      "name": "Ferran Torres",
+      "position": "FWD",
+      "overall": 83,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "234112",
+      "name": "Dodô",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Fiorentina",
+      "nationality": "Brazil",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "206467",
+      "name": "A. Pléa",
+      "position": "FWD",
+      "overall": 78,
+      "club": "PSV",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "229391",
+      "name": "Palhinha",
+      "position": "MID",
+      "overall": 83,
+      "club": "Tottenham Hotspur",
+      "nationality": "Portugal",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "235805",
+      "name": "F. Chiesa",
+      "position": "MID",
+      "overall": 81,
+      "club": "Liverpool",
+      "nationality": "Italy",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "193348",
+      "name": "X. Shaqiri",
+      "position": "MID",
+      "overall": 78,
+      "club": "FC Basel 1893",
+      "nationality": "Switzerland",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "230234",
+      "name": "Jorge Andrão",
+      "position": "MID",
+      "overall": 79,
+      "club": "Fluminense",
+      "nationality": "Brazil",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "256107",
+      "name": "A. Johnston",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Celtic",
+      "nationality": "Canada",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "205678",
+      "name": "E. Višća",
+      "position": "MID",
+      "overall": 78,
+      "club": "Trabzonspor",
+      "nationality": "Bosnia and Herzegovina",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "240753",
+      "name": "A. Gouiri",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Olympique de Marseille",
+      "nationality": "Algeria",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "225953",
+      "name": "S. Bergwijn",
+      "position": "MID",
+      "overall": 80,
+      "club": "Al Ittihad",
+      "nationality": "Netherlands",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "206113",
+      "name": "S. Gnabry",
+      "position": "MID",
+      "overall": 82,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "192505",
+      "name": "R. Lukaku",
+      "position": "FWD",
+      "overall": 84,
+      "club": "Napoli",
+      "nationality": "Belgium",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "229891",
+      "name": "J. Ryerson",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Borussia Dortmund",
+      "nationality": "Norway",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "241721",
+      "name": "Rafael Leão",
+      "position": "FWD",
+      "overall": 84,
+      "club": "AC Milan",
+      "nationality": "Portugal",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "227174",
+      "name": "M. Cash",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Aston Villa",
+      "nationality": "Poland",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "243812",
+      "name": "Rodrygo",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Real Madrid",
+      "nationality": "Brazil",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "251615",
+      "name": "Francisco Moura",
+      "position": "DEF",
+      "overall": 78,
+      "club": "FC Porto",
+      "nationality": "Portugal",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "253109",
+      "name": "J. Veerman",
+      "position": "MID",
+      "overall": 79,
+      "club": "PSV",
+      "nationality": "Netherlands",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "230899",
+      "name": "A. Lookman",
+      "position": "FWD",
+      "overall": 84,
+      "club": "Atalanta",
+      "nationality": "Nigeria",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "240130",
+      "name": "Éder Militão",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Real Madrid",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "226376",
+      "name": "Kaku",
+      "position": "MID",
+      "overall": 79,
+      "club": "Al Ain",
+      "nationality": "Paraguay",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "205452",
+      "name": "A. Rüdiger",
+      "position": "DEF",
+      "overall": 86,
+      "club": "Real Madrid",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "253396",
+      "name": "G. Simeone",
+      "position": "MID",
+      "overall": 81,
+      "club": "Atlético Madrid",
+      "nationality": "Argentina",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "253473",
+      "name": "S. Ricci",
+      "position": "MID",
+      "overall": 78,
+      "club": "AC Milan",
+      "nationality": "Italy",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "243282",
+      "name": "D. McNeil",
+      "position": "MID",
+      "overall": 78,
+      "club": "Everton",
+      "nationality": "England",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "219789",
+      "name": "H. Traoré",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Paris FC",
+      "nationality": "Mali",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "244622",
+      "name": "Puado",
+      "position": "FWD",
+      "overall": 78,
+      "club": "RCD Espanyol",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "208670",
+      "name": "H. Ziyech",
+      "position": "MID",
+      "overall": 78,
+      "club": "",
+      "nationality": "Morocco",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "237383",
+      "name": "A. Bastoni",
+      "position": "DEF",
+      "overall": 87,
+      "club": "Inter",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "252802",
+      "name": "W. Singo",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Galatasaray SK",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "262842",
+      "name": "M. Baturina",
+      "position": "MID",
+      "overall": 78,
+      "club": "Como",
+      "nationality": "Croatia",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "237043",
+      "name": "R. Alvarado",
+      "position": "MID",
+      "overall": 78,
+      "club": "",
+      "nationality": "Mexico",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "210697",
+      "name": "C. Nørgaard",
+      "position": "MID",
+      "overall": 80,
+      "club": "Arsenal",
+      "nationality": "Denmark",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "193301",
+      "name": "A. Lacazette",
+      "position": "FWD",
+      "overall": 79,
+      "club": "NEOM SC",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "212096",
+      "name": "V. Grifo",
+      "position": "MID",
+      "overall": 80,
+      "club": "SC Freiburg",
+      "nationality": "Italy",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "259240",
+      "name": "A. Wharton",
+      "position": "MID",
+      "overall": 79,
+      "club": "Crystal Palace",
+      "nationality": "England",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "235997",
+      "name": "Fran Beltrán",
+      "position": "MID",
+      "overall": 78,
+      "club": "RC Celta",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "243580",
+      "name": "L. Openda",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Juventus",
+      "nationality": "Belgium",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "246147",
+      "name": "M. Greenwood",
+      "position": "MID",
+      "overall": 82,
+      "club": "Olympique de Marseille",
+      "nationality": "England",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "256948",
+      "name": "C. Tzolis",
+      "position": "MID",
+      "overall": 80,
+      "club": "Club Brugge KV",
+      "nationality": "Greece",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "251852",
+      "name": "K. Adeyemi",
+      "position": "MID",
+      "overall": 81,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "242664",
+      "name": "A. Saelemaekers",
+      "position": "MID",
+      "overall": 79,
+      "club": "AC Milan",
+      "nationality": "Belgium",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "232999",
+      "name": "T. Adams",
+      "position": "MID",
+      "overall": 79,
+      "club": "AFC Bournemouth",
+      "nationality": "United States",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "208920",
+      "name": "N. Aké",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Manchester City",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "235374",
+      "name": "M. Lazzari",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Lazio",
+      "nationality": "Italy",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "266097",
+      "name": "Geny Catamo",
+      "position": "MID",
+      "overall": 78,
+      "club": "Sporting CP",
+      "nationality": "Mozambique",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "215270",
+      "name": "L. Zelarayán",
+      "position": "MID",
+      "overall": 79,
+      "club": "Belgrano de Córdoba",
+      "nationality": "Armenia",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "263617",
+      "name": "Beñat Prados",
+      "position": "MID",
+      "overall": 78,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "230384",
+      "name": "Nailton Suzuki",
+      "position": "MID",
+      "overall": 81,
+      "club": "Atlético Mineiro",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "232498",
+      "name": "Isi",
+      "position": "MID",
+      "overall": 81,
+      "club": "Rayo Vallecano",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "254796",
+      "name": "N. Madueke",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Arsenal",
+      "nationality": "England",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "277179",
+      "name": "Fermín",
+      "position": "MID",
+      "overall": 80,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "216547",
+      "name": "Rafa",
+      "position": "MID",
+      "overall": 82,
+      "club": "Beşiktaş JK",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "230184",
+      "name": "Diego Essler",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Atlético Mineiro",
+      "nationality": "Brazil",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "211256",
+      "name": "N. Tagliafico",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Olympique Lyonnais",
+      "nationality": "Argentina",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "239977",
+      "name": "N. Kühn",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Como",
+      "nationality": "Germany",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "243586",
+      "name": "A. El Kaabi",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Olympiacos FC",
+      "nationality": "Morocco",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "244257",
+      "name": "J. Burkardt",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "253306",
+      "name": "M. Ugarte",
+      "position": "MID",
+      "overall": 79,
+      "club": "Manchester United",
+      "nationality": "Uruguay",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "241236",
+      "name": "A. Semenyo",
+      "position": "MID",
+      "overall": 80,
+      "club": "AFC Bournemouth",
+      "nationality": "Ghana",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "237681",
+      "name": "T. Kubo",
+      "position": "MID",
+      "overall": 82,
+      "club": "Real Sociedad",
+      "nationality": "Japan",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "264309",
+      "name": "A. Güler",
+      "position": "MID",
+      "overall": 81,
+      "club": "Real Madrid",
+      "nationality": "Türkiye",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "262088",
+      "name": "H. Haraldsson",
+      "position": "MID",
+      "overall": 78,
+      "club": "Lille OSC",
+      "nationality": "Iceland",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "264652",
+      "name": "B. Barcola",
+      "position": "FWD",
+      "overall": 84,
+      "club": "Paris Saint-Germain",
+      "nationality": "France",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "208919",
+      "name": "R. Gauld",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Vancouver Whitecaps FC",
+      "nationality": "Scotland",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "232487",
+      "name": "W. Endo",
+      "position": "MID",
+      "overall": 79,
+      "club": "Liverpool",
+      "nationality": "Japan",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "271400",
+      "name": "Igor Paixão",
+      "position": "MID",
+      "overall": 80,
+      "club": "Olympique de Marseille",
+      "nationality": "Brazil",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "227678",
+      "name": "E. Konsa",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Aston Villa",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "241852",
+      "name": "M. Diaby",
+      "position": "MID",
+      "overall": 84,
+      "club": "Al Ittihad",
+      "nationality": "France",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "231677",
+      "name": "M. Rashford",
+      "position": "MID",
+      "overall": 80,
+      "club": "FC Barcelona",
+      "nationality": "England",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "226110",
+      "name": "N. Pépé",
+      "position": "MID",
+      "overall": 80,
+      "club": "Villarreal CF",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "234236",
+      "name": "P. Schick",
+      "position": "FWD",
+      "overall": 85,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Czechia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "239482",
+      "name": "Galeno",
+      "position": "MID",
+      "overall": 81,
+      "club": "Al Ahli SFC",
+      "nationality": "Brazil",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "234171",
+      "name": "R. Sallai",
+      "position": "MID",
+      "overall": 78,
+      "club": "Galatasaray SK",
+      "nationality": "Hungary",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "259233",
+      "name": "I. Moriba",
+      "position": "MID",
+      "overall": 78,
+      "club": "RC Celta",
+      "nationality": "Guinea",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "252935",
+      "name": "L. Fernández",
+      "position": "MID",
+      "overall": 78,
+      "club": "Peñarol",
+      "nationality": "Uruguay",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "257057",
+      "name": "A. Onana",
+      "position": "MID",
+      "overall": 79,
+      "club": "Aston Villa",
+      "nationality": "Belgium",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "246430",
+      "name": "D. Vlahović",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Juventus",
+      "nationality": "Serbia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "236987",
+      "name": "B. Kamara",
+      "position": "MID",
+      "overall": 83,
+      "club": "Aston Villa",
+      "nationality": "France",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "262118",
+      "name": "T. Livramento",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "259307",
+      "name": "M. Gusto",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Chelsea",
+      "nationality": "France",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "207421",
+      "name": "L. Trossard",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Arsenal",
+      "nationality": "Belgium",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "232411",
+      "name": "C. Nkunku",
+      "position": "MID",
+      "overall": 81,
+      "club": "AC Milan",
+      "nationality": "France",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "238616",
+      "name": "Pedro Neto",
+      "position": "MID",
+      "overall": 80,
+      "club": "Chelsea",
+      "nationality": "Portugal",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "234579",
+      "name": "J. Quiñones",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Al Qadsiah FC",
+      "nationality": "Mexico",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "256632",
+      "name": "Luis Henrique",
+      "position": "MID",
+      "overall": 78,
+      "club": "Inter",
+      "nationality": "Brazil",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "251805",
+      "name": "J. Timber",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Arsenal",
+      "nationality": "Netherlands",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "232639",
+      "name": "R. Doan",
+      "position": "MID",
+      "overall": 82,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Japan",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "236792",
+      "name": "T. Souček",
+      "position": "MID",
+      "overall": 78,
+      "club": "West Ham United",
+      "nationality": "Czechia",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "240740",
+      "name": "C. Hudson-Odoi",
+      "position": "MID",
+      "overall": 78,
+      "club": "Nottingham Forest",
+      "nationality": "England",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "236920",
+      "name": "J. Kluivert",
+      "position": "MID",
+      "overall": 79,
+      "club": "AFC Bournemouth",
+      "nationality": "Netherlands",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "236045",
+      "name": "Reinildo",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Sunderland",
+      "nationality": "Mozambique",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "236632",
+      "name": "David Neres",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Napoli",
+      "nationality": "Brazil",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "244176",
+      "name": "D. Undav",
+      "position": "FWD",
+      "overall": 80,
+      "club": "VfB Stuttgart",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "278349",
+      "name": "D. Huijsen",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Real Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230225",
+      "name": "Heberto Gaúcho",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Atlético Mineiro",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "220793",
+      "name": "D. Sánchez",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Galatasaray SK",
+      "nationality": "Colombia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "220834",
+      "name": "Marco Asensio",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Fenerbahçe SK",
+      "nationality": "Spain",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "278016",
+      "name": "Murillo",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Nottingham Forest",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "268804",
+      "name": "Mario Gila",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Lazio",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "186146",
+      "name": "D. Welbeck",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Brighton & Hove Albion",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "243593",
+      "name": "A. Laurienté",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Sassuolo",
+      "nationality": "France",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "235945",
+      "name": "Marc Roca",
+      "position": "MID",
+      "overall": 78,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "190813",
+      "name": "S. El Shaarawy",
+      "position": "MID",
+      "overall": 79,
+      "club": "Roma",
+      "nationality": "Italy",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "257470",
+      "name": "A. Elanga",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Newcastle United",
+      "nationality": "Sweden",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "216549",
+      "name": "A. Sørloth",
+      "position": "FWD",
+      "overall": 84,
+      "club": "Atlético Madrid",
+      "nationality": "Norway",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "199422",
+      "name": "J. Clasie",
+      "position": "MID",
+      "overall": 79,
+      "club": "AZ Alkmaar",
+      "nationality": "Netherlands",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "256903",
+      "name": "Gonçalo Ramos",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Paris Saint-Germain",
+      "nationality": "Portugal",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "255654",
+      "name": "P. Kalulu",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Juventus",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "234742",
+      "name": "H. Barnes",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "255223",
+      "name": "A. Adli",
+      "position": "FWD",
+      "overall": 78,
+      "club": "AFC Bournemouth",
+      "nationality": "Morocco",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "203574",
+      "name": "J. Stones",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Manchester City",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "222028",
+      "name": "J. Weigl",
+      "position": "MID",
+      "overall": 78,
+      "club": "Al Qadsiah FC",
+      "nationality": "Germany",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "228881",
+      "name": "D. Calabria",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Panathinaikos FC",
+      "nationality": "Italy",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "231447",
+      "name": "D. Malen",
+      "position": "MID",
+      "overall": 79,
+      "club": "Aston Villa",
+      "nationality": "Netherlands",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "200260",
+      "name": "S. Berghuis",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Ajax",
+      "nationality": "Netherlands",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "255971",
+      "name": "S. Hezze",
+      "position": "MID",
+      "overall": 78,
+      "club": "Olympiacos FC",
+      "nationality": "Argentina",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "238900",
+      "name": "E. Demirović",
+      "position": "FWD",
+      "overall": 80,
+      "club": "VfB Stuttgart",
+      "nationality": "Bosnia and Herzegovina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "184432",
+      "name": "Azpilicueta",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Sevilla FC",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "254088",
+      "name": "Amad",
+      "position": "MID",
+      "overall": 79,
+      "club": "Manchester United",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "277954",
+      "name": "K. Yıldız",
+      "position": "MID",
+      "overall": 79,
+      "club": "Juventus",
+      "nationality": "Türkiye",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "246242",
+      "name": "B. Dia",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Lazio",
+      "nationality": "Senegal",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "236461",
+      "name": "J. Mateta",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Crystal Palace",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "243630",
+      "name": "J. David",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Juventus",
+      "nationality": "Canada",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "193474",
+      "name": "I. Gueye",
+      "position": "MID",
+      "overall": 79,
+      "club": "Everton",
+      "nationality": "Senegal",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "260592",
+      "name": "B. Šeško",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Manchester United",
+      "nationality": "Slovenia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "242458",
+      "name": "A. Dovbyk",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Roma",
+      "nationality": "Ukraine",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "272600",
+      "name": "Marc Casadó",
+      "position": "MID",
+      "overall": 79,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "262402",
+      "name": "Sergi Cardona",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Villarreal CF",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "254262",
+      "name": "Z. Debast",
+      "position": "MID",
+      "overall": 78,
+      "club": "Sporting CP",
+      "nationality": "Belgium",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "225863",
+      "name": "O. Boscagli",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Brighton & Hove Albion",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "210021",
+      "name": "H. Mukhtar",
+      "position": "MID",
+      "overall": 79,
+      "club": "Nashville SC",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "264298",
+      "name": "C. Bradley",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Liverpool",
+      "nationality": "Northern Ireland",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "237679",
+      "name": "R. Kolo Muani",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Tottenham Hotspur",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "220814",
+      "name": "L. Hernández",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Paris Saint-Germain",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "245152",
+      "name": "S. Giménez",
+      "position": "FWD",
+      "overall": 79,
+      "club": "AC Milan",
+      "nationality": "Mexico",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "229906",
+      "name": "L. Bailey",
+      "position": "MID",
+      "overall": 79,
+      "club": "Roma",
+      "nationality": "Jamaica",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "244369",
+      "name": "V. Tsygankov",
+      "position": "MID",
+      "overall": 79,
+      "club": "Girona FC",
+      "nationality": "Ukraine",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "188567",
+      "name": "P. Aubameyang",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Olympique de Marseille",
+      "nationality": "Gabon",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "226627",
+      "name": "T. Minamino",
+      "position": "MID",
+      "overall": 78,
+      "club": "AS Monaco",
+      "nationality": "Japan",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "234824",
+      "name": "Y. Wissa",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Newcastle United",
+      "nationality": "Congo DR",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "252259",
+      "name": "E. Millot",
+      "position": "MID",
+      "overall": 78,
+      "club": "Al Ahli SFC",
+      "nationality": "France",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "229668",
+      "name": "Mario Hermoso",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Roma",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "200888",
+      "name": "Danilo Pereira",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Al Ittihad",
+      "nationality": "Portugal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "234200",
+      "name": "A. El Mahdioui",
+      "position": "MID",
+      "overall": 78,
+      "club": "Al Taawoun FC",
+      "nationality": "Netherlands",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "241187",
+      "name": "L. Geertruida",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Sunderland",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "207993",
+      "name": "S. Kolašinac",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Atalanta",
+      "nationality": "Bosnia and Herzegovina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "263620",
+      "name": "R. Lavia",
+      "position": "MID",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "Belgium",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "247495",
+      "name": "Moncayola",
+      "position": "MID",
+      "overall": 78,
+      "club": "CA Osasuna",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "231416",
+      "name": "D. Lukébakio",
+      "position": "MID",
+      "overall": 82,
+      "club": "SL Benfica",
+      "nationality": "Belgium",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "198141",
+      "name": "Bartra",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "236636",
+      "name": "A. Caci",
+      "position": "DEF",
+      "overall": 78,
+      "club": "1. FSV Mainz 05",
+      "nationality": "France",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "233260",
+      "name": "A. Vega",
+      "position": "FWD",
+      "overall": 78,
+      "club": "",
+      "nationality": "Mexico",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "230201",
+      "name": "Maikel Catarino",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Corinthians",
+      "nationality": "Brazil",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "74866",
+      "name": "André",
+      "position": "MID",
+      "overall": 78,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Brazil",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "263578",
+      "name": "Balde",
+      "position": "DEF",
+      "overall": 83,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "234678",
+      "name": "J. Mæhle",
+      "position": "DEF",
+      "overall": 78,
+      "club": "VfL Wolfsburg",
+      "nationality": "Denmark",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "241602",
+      "name": "J. Arias",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Colombia",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "227055",
+      "name": "Gelson Martins",
+      "position": "MID",
+      "overall": 78,
+      "club": "Olympiacos FC",
+      "nationality": "Portugal",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "236786",
+      "name": "M. Terrier",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "252042",
+      "name": "João Pedro",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Chelsea",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "277643",
+      "name": "Lamine Yamal",
+      "position": "MID",
+      "overall": 89,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "235781",
+      "name": "Santi Comesaña",
+      "position": "MID",
+      "overall": 78,
+      "club": "Villarreal CF",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "221992",
+      "name": "H. Lozano",
+      "position": "FWD",
+      "overall": 78,
+      "club": "San Diego FC",
+      "nationality": "Mexico",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "230206",
+      "name": "Wellington Sabrão",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "264388",
+      "name": "Moleiro",
+      "position": "MID",
+      "overall": 79,
+      "club": "Villarreal CF",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "225539",
+      "name": "D. Solanke",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Tottenham Hotspur",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "234205",
+      "name": "H. Ito",
+      "position": "DEF",
+      "overall": 78,
+      "club": "FC Bayern München",
+      "nationality": "Japan",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "229905",
+      "name": "A. Bardakcı",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Galatasaray SK",
+      "nationality": "Türkiye",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "255566",
+      "name": "Samú Costa",
+      "position": "MID",
+      "overall": 78,
+      "club": "RCD Mallorca",
+      "nationality": "Portugal",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "244380",
+      "name": "V. Mykolenko",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Everton",
+      "nationality": "Ukraine",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "238004",
+      "name": "A. Guðmundsson",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Fiorentina",
+      "nationality": "Iceland",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "260815",
+      "name": "Arnau Martínez",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Girona FC",
+      "nationality": "Spain",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "228092",
+      "name": "S. Berge",
+      "position": "MID",
+      "overall": 79,
+      "club": "Fulham FC",
+      "nationality": "Norway",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "259197",
+      "name": "N. Jackson",
+      "position": "FWD",
+      "overall": 80,
+      "club": "FC Bayern München",
+      "nationality": "Senegal",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "224179",
+      "name": "Borja Iglesias",
+      "position": "FWD",
+      "overall": 80,
+      "club": "RC Celta",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "201153",
+      "name": "Morata",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Como",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "224415",
+      "name": "Luis Rioja",
+      "position": "MID",
+      "overall": 78,
+      "club": "Valencia CF",
+      "nationality": "Spain",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "240690",
+      "name": "N. Gonzalez",
+      "position": "MID",
+      "overall": 78,
+      "club": "Atlético Madrid",
+      "nationality": "Argentina",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "229880",
+      "name": "A. Wan-Bissaka",
+      "position": "DEF",
+      "overall": 80,
+      "club": "West Ham United",
+      "nationality": "Congo DR",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "211022",
+      "name": "Rubén García",
+      "position": "MID",
+      "overall": 78,
+      "club": "CA Osasuna",
+      "nationality": "Spain",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "201399",
+      "name": "M. Icardi",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Galatasaray SK",
+      "nationality": "Argentina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "257289",
+      "name": "H. Ekitiké",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Liverpool",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "239892",
+      "name": "Y. Akgün",
+      "position": "MID",
+      "overall": 78,
+      "club": "Galatasaray SK",
+      "nationality": "Türkiye",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "243032",
+      "name": "Hugo Duro",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Valencia CF",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "189805",
+      "name": "L. de Jong",
+      "position": "FWD",
+      "overall": 78,
+      "club": "FC Porto",
+      "nationality": "Netherlands",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "208295",
+      "name": "R. Saïss",
+      "position": "DEF",
+      "overall": 79,
+      "club": "",
+      "nationality": "Morocco",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "247263",
+      "name": "E. Tapsoba",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Burkina Faso",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "258580",
+      "name": "K. Aktürkoğlu",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Fenerbahçe SK",
+      "nationality": "Türkiye",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "238896",
+      "name": "Pepê",
+      "position": "MID",
+      "overall": 78,
+      "club": "FC Porto",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "205431",
+      "name": "N. Füllkrug",
+      "position": "FWD",
+      "overall": 79,
+      "club": "West Ham United",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "235149",
+      "name": "J. Schouten",
+      "position": "MID",
+      "overall": 80,
+      "club": "PSV",
+      "nationality": "Netherlands",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "230216",
+      "name": "Adnan Vidual",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Internacional",
+      "nationality": "Brazil",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "254548",
+      "name": "M. Bard",
+      "position": "DEF",
+      "overall": 78,
+      "club": "OGC Nice",
+      "nationality": "France",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "73078",
+      "name": "K. Sano",
+      "position": "MID",
+      "overall": 79,
+      "club": "1. FSV Mainz 05",
+      "nationality": "Japan",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "235844",
+      "name": "E. Álvarez",
+      "position": "MID",
+      "overall": 78,
+      "club": "Fenerbahçe SK",
+      "nationality": "Mexico",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "246606",
+      "name": "Fran García",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Real Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "239701",
+      "name": "R. Schmid",
+      "position": "MID",
+      "overall": 78,
+      "club": "SV Werder Bremen",
+      "nationality": "Austria",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "235410",
+      "name": "Y. En-Nesyri",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Fenerbahçe SK",
+      "nationality": "Morocco",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "236610",
+      "name": "M. Kean",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Fiorentina",
+      "nationality": "Italy",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "227562",
+      "name": "L. Haraslín",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Sparta Praha",
+      "nationality": "Slovakia",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "254117",
+      "name": "M. Beier",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "264862",
+      "name": "M. Akliouche",
+      "position": "MID",
+      "overall": 80,
+      "club": "AS Monaco",
+      "nationality": "France",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "213345",
+      "name": "K. Coman",
+      "position": "MID",
+      "overall": 83,
+      "club": "Al Nassr",
+      "nationality": "France",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "202652",
+      "name": "R. Sterling",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "243057",
+      "name": "N. Williams",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Nottingham Forest",
+      "nationality": "Wales",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "230440",
+      "name": "Fredditinho",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Palmeiras",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "256958",
+      "name": "Fábio Vieira",
+      "position": "MID",
+      "overall": 78,
+      "club": "Hamburger SV",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "76687",
+      "name": "Estêvão",
+      "position": "MID",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "Brazil",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "265695",
+      "name": "M. Soulé",
+      "position": "MID",
+      "overall": 78,
+      "club": "Roma",
+      "nationality": "Argentina",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "221342",
+      "name": "Maffeo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "RCD Mallorca",
+      "nationality": "Argentina",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "214096",
+      "name": "T. Kleindienst",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Borussia Mönchengladbach",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "240988",
+      "name": "D. Vavro",
+      "position": "DEF",
+      "overall": 78,
+      "club": "VfL Wolfsburg",
+      "nationality": "Slovakia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "205175",
+      "name": "A. Milik",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Juventus",
+      "nationality": "Poland",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "241464",
+      "name": "Pau Torres",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Aston Villa",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "241522",
+      "name": "J. Wind",
+      "position": "FWD",
+      "overall": 78,
+      "club": "VfL Wolfsburg",
+      "nationality": "Denmark",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "229237",
+      "name": "M. Akanji",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Inter",
+      "nationality": "Switzerland",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "261188",
+      "name": "I. Ndiaye",
+      "position": "MID",
+      "overall": 79,
+      "club": "Everton",
+      "nationality": "Senegal",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "257179",
+      "name": "Gonçalo Inácio",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Sporting CP",
+      "nationality": "Portugal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "256197",
+      "name": "P. Hincapié",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Arsenal",
+      "nationality": "Ecuador",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "243559",
+      "name": "De Frutos",
+      "position": "MID",
+      "overall": 78,
+      "club": "Rayo Vallecano",
+      "nationality": "Spain",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "247679",
+      "name": "V. Boniface",
+      "position": "FWD",
+      "overall": 81,
+      "club": "SV Werder Bremen",
+      "nationality": "Nigeria",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "242816",
+      "name": "Riqui Puig",
+      "position": "MID",
+      "overall": 80,
+      "club": "LA Galaxy",
+      "nationality": "Spain",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "226166",
+      "name": "N. Mukiele",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Sunderland",
+      "nationality": "France",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "216447",
+      "name": "Álvaro García",
+      "position": "MID",
+      "overall": 80,
+      "club": "Rayo Vallecano",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "237221",
+      "name": "J. Foyth",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Villarreal CF",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "211368",
+      "name": "Bruma",
+      "position": "FWD",
+      "overall": 78,
+      "club": "SL Benfica",
+      "nationality": "Portugal",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "256612",
+      "name": "Evanilson",
+      "position": "FWD",
+      "overall": 80,
+      "club": "AFC Bournemouth",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "217998",
+      "name": "C. Arango",
+      "position": "FWD",
+      "overall": 78,
+      "club": "San Jose Earthquakes",
+      "nationality": "Colombia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "246174",
+      "name": "H. Elliott",
+      "position": "MID",
+      "overall": 78,
+      "club": "Aston Villa",
+      "nationality": "England",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "236403",
+      "name": "E. Ndicka",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Roma",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "241850",
+      "name": "M. Retegui",
+      "position": "FWD",
+      "overall": 83,
+      "club": "Al Qadsiah FC",
+      "nationality": "Italy",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "233049",
+      "name": "J. Sancho",
+      "position": "MID",
+      "overall": 80,
+      "club": "Aston Villa",
+      "nationality": "England",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "202335",
+      "name": "E. Dier",
+      "position": "DEF",
+      "overall": 79,
+      "club": "AS Monaco",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "264348",
+      "name": "S. Rahimi",
+      "position": "MID",
+      "overall": 78,
+      "club": "Al Ain",
+      "nationality": "Morocco",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "192387",
+      "name": "C. Immobile",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Bologna",
+      "nationality": "Italy",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "235243",
+      "name": "M. de Ligt",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Manchester United",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "260926",
+      "name": "K. Schade",
+      "position": "MID",
+      "overall": 78,
+      "club": "Brentford",
+      "nationality": "Germany",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "178509",
+      "name": "O. Giroud",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Lille OSC",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "235353",
+      "name": "I. Sarr",
+      "position": "MID",
+      "overall": 79,
+      "club": "Crystal Palace",
+      "nationality": "Senegal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "192123",
+      "name": "C. Wood",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Nottingham Forest",
+      "nationality": "New Zealand",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "180930",
+      "name": "E. Džeko",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Fiorentina",
+      "nationality": "Bosnia and Herzegovina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "248550",
+      "name": "Vivian",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "189511",
+      "name": "Sergio Busquets",
+      "position": "MID",
+      "overall": 80,
+      "club": "Inter Miami",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "192366",
+      "name": "N. Otamendi",
+      "position": "DEF",
+      "overall": 82,
+      "club": "SL Benfica",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "240359",
+      "name": "O. Alderete",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Sunderland",
+      "nationality": "Paraguay",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "241788",
+      "name": "M. Taremi",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Olympiacos FC",
+      "nationality": "Iran",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "262859",
+      "name": "L. Colwill",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "252308",
+      "name": "A. Al Musrati",
+      "position": "MID",
+      "overall": 78,
+      "club": "Hellas Verona FC",
+      "nationality": "Libya",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "264453",
+      "name": "M. van de Ven",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Tottenham Hotspur",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "207862",
+      "name": "M. Ginter",
+      "position": "DEF",
+      "overall": 82,
+      "club": "SC Freiburg",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "212218",
+      "name": "A. Laporte",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "258908",
+      "name": "J. van Hecke",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "231652",
+      "name": "S. Banza",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Sporting Clube de Braga",
+      "nationality": "Congo DR",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "256261",
+      "name": "M. Thiaw",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Newcastle United",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "258444",
+      "name": "E. Guessand",
+      "position": "MID",
+      "overall": 79,
+      "club": "Aston Villa",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "251421",
+      "name": "B. Johnson",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Tottenham Hotspur",
+      "nationality": "Wales",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "196978",
+      "name": "C. Wilson",
+      "position": "FWD",
+      "overall": 78,
+      "club": "West Ham United",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "277846",
+      "name": "Nico Paz",
+      "position": "MID",
+      "overall": 79,
+      "club": "Como",
+      "nationality": "Argentina",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "252037",
+      "name": "Fábio Silva",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Borussia Dortmund",
+      "nationality": "Portugal",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "215333",
+      "name": "D. Zapata",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Torino",
+      "nationality": "Colombia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "257075",
+      "name": "P. Nebel",
+      "position": "MID",
+      "overall": 78,
+      "club": "1. FSV Mainz 05",
+      "nationality": "Germany",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "247229",
+      "name": "R. Bellanova",
+      "position": "MID",
+      "overall": 78,
+      "club": "Atalanta",
+      "nationality": "Italy",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "243702",
+      "name": "D. Spence",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Tottenham Hotspur",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "246420",
+      "name": "J. Doku",
+      "position": "FWD",
+      "overall": 80,
+      "club": "Manchester City",
+      "nationality": "Belgium",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "230406",
+      "name": "Guilson Paiva",
+      "position": "MID",
+      "overall": 78,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "223689",
+      "name": "W. Weghorst",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Ajax",
+      "nationality": "Netherlands",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "243715",
+      "name": "W. Saliba",
+      "position": "DEF",
+      "overall": 87,
+      "club": "Arsenal",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "236804",
+      "name": "F. Medina",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Olympique de Marseille",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "237248",
+      "name": "G. Berterame",
+      "position": "FWD",
+      "overall": 78,
+      "club": "",
+      "nationality": "Mexico",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "213761",
+      "name": "A. Hamdallah",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Al Shabab",
+      "nationality": "Morocco",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "229476",
+      "name": "W. Anton",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "210930",
+      "name": "Carles Gil",
+      "position": "MID",
+      "overall": 79,
+      "club": "New England Revolution",
+      "nationality": "Spain",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "230918",
+      "name": "T. Chalobah",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230426",
+      "name": "Arturo Inálcio",
+      "position": "MID",
+      "overall": 78,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "CM"
+    },
+    {
+      "id": "208448",
+      "name": "E. Forsberg",
+      "position": "MID",
+      "overall": 79,
+      "club": "New York Red Bulls",
+      "nationality": "Sweden",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "238050",
+      "name": "C. Ejuke",
+      "position": "MID",
+      "overall": 78,
+      "club": "Sevilla FC",
+      "nationality": "Nigeria",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "253163",
+      "name": "R. Araujo",
+      "position": "DEF",
+      "overall": 83,
+      "club": "FC Barcelona",
+      "nationality": "Uruguay",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "243241",
+      "name": "A. Buongiorno",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Napoli",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "240716",
+      "name": "M. Olivera",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Napoli",
+      "nationality": "Uruguay",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "241436",
+      "name": "C. Bassey",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Fulham FC",
+      "nationality": "Nigeria",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "253444",
+      "name": "A. Kalimuendo",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Nottingham Forest",
+      "nationality": "France",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "237328",
+      "name": "N. Tella",
+      "position": "MID",
+      "overall": 78,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Nigeria",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "223671",
+      "name": "S. Posch",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Como",
+      "nationality": "Austria",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "197948",
+      "name": "F. Lejeune",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Rayo Vallecano",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "253002",
+      "name": "G. Raspadori",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Atlético Madrid",
+      "nationality": "Italy",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "244749",
+      "name": "N. Aguerd",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Olympique de Marseille",
+      "nationality": "Morocco",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "246565",
+      "name": "B. Diakité",
+      "position": "DEF",
+      "overall": 79,
+      "club": "AFC Bournemouth",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "229558",
+      "name": "D. Upamecano",
+      "position": "DEF",
+      "overall": 85,
+      "club": "FC Bayern München",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230498",
+      "name": "Luimo Boas Santos",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Bahia",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "239580",
+      "name": "Bremer",
+      "position": "DEF",
+      "overall": 85,
+      "club": "Juventus",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "214092",
+      "name": "A. Miranchuk",
+      "position": "MID",
+      "overall": 78,
+      "club": "Atlanta United",
+      "nationality": "Russia",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "261050",
+      "name": "Francisco Conceição",
+      "position": "MID",
+      "overall": 79,
+      "club": "Juventus",
+      "nationality": "Portugal",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "231410",
+      "name": "Brahim",
+      "position": "MID",
+      "overall": 82,
+      "club": "Real Madrid",
+      "nationality": "Morocco",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "264238",
+      "name": "Diego López",
+      "position": "MID",
+      "overall": 78,
+      "club": "Valencia CF",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "246172",
+      "name": "S. Chukwueze",
+      "position": "MID",
+      "overall": 80,
+      "club": "Fulham FC",
+      "nationality": "Nigeria",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "262138",
+      "name": "C. Lukeba",
+      "position": "DEF",
+      "overall": 80,
+      "club": "RB Leipzig",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "272978",
+      "name": "J. Hato",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "Netherlands",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "242835",
+      "name": "L. Balerdi",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Olympique de Marseille",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "243854",
+      "name": "M. Simakan",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Al Nassr",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "259031",
+      "name": "L. Delap",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "270409",
+      "name": "Savinho",
+      "position": "FWD",
+      "overall": 82,
+      "club": "Manchester City",
+      "nationality": "Brazil",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "208137",
+      "name": "Lucas Torró",
+      "position": "MID",
+      "overall": 78,
+      "club": "CA Osasuna",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "259377",
+      "name": "Yeremy Pino",
+      "position": "MID",
+      "overall": 80,
+      "club": "Crystal Palace",
+      "nationality": "Spain",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "234569",
+      "name": "Florentino",
+      "position": "MID",
+      "overall": 80,
+      "club": "Burnley",
+      "nationality": "Portugal",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "251570",
+      "name": "R. Cherki",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Manchester City",
+      "nationality": "France",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "242374",
+      "name": "M. Barrow",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Al Taawoun FC",
+      "nationality": "Gambia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "240947",
+      "name": "T. Mitchell",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Crystal Palace",
+      "nationality": "England",
+      "primaryPosition": "LB"
+    },
+    {
+      "id": "231936",
+      "name": "B. White",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Arsenal",
+      "nationality": "England",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "203263",
+      "name": "H. Maguire",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Manchester United",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "237055",
+      "name": "O. Zubkov",
+      "position": "MID",
+      "overall": 78,
+      "club": "Trabzonspor",
+      "nationality": "Ukraine",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "250789",
+      "name": "D. Bakwa",
+      "position": "MID",
+      "overall": 78,
+      "club": "Nottingham Forest",
+      "nationality": "France",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "239818",
+      "name": "Rúben Dias",
+      "position": "DEF",
+      "overall": 86,
+      "club": "Manchester City",
+      "nationality": "Portugal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "200724",
+      "name": "Nacho Fernández",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Al Qadsiah FC",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230430",
+      "name": "Oswaldinato",
+      "position": "FWD",
+      "overall": 81,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "232580",
+      "name": "Gabriel",
+      "position": "DEF",
+      "overall": 88,
+      "club": "Arsenal",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "199845",
+      "name": "F. Acerbi",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Inter",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "224221",
+      "name": "J. Andersen",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Fulham FC",
+      "nationality": "Denmark",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "243558",
+      "name": "Óscar Valentín",
+      "position": "MID",
+      "overall": 78,
+      "club": "Rayo Vallecano",
+      "nationality": "Spain",
+      "primaryPosition": "CDM"
+    },
+    {
+      "id": "247172",
+      "name": "J. Durán",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Fenerbahçe SK",
+      "nationality": "Colombia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "232488",
+      "name": "C. Romero",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Tottenham Hotspur",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "188335",
+      "name": "A. Budimir",
+      "position": "FWD",
+      "overall": 82,
+      "club": "CA Osasuna",
+      "nationality": "Croatia",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "253242",
+      "name": "A. Martínez",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Racing Club",
+      "nationality": "Argentina",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "278046",
+      "name": "Pau Cubarsí",
+      "position": "DEF",
+      "overall": 82,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "208004",
+      "name": "J. Veltman",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Netherlands",
+      "primaryPosition": "RB"
+    },
+    {
+      "id": "241159",
+      "name": "M. Guéhi",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Crystal Palace",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230460",
+      "name": "Jonatão Praz",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "222331",
+      "name": "L. Klostermann",
+      "position": "DEF",
+      "overall": 78,
+      "club": "RB Leipzig",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "254022",
+      "name": "N. Woltemade",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Newcastle United",
+      "nationality": "Germany",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "239763",
+      "name": "E. Zhegrova",
+      "position": "MID",
+      "overall": 79,
+      "club": "Juventus",
+      "nationality": "Kosovo",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "258575",
+      "name": "E. Agbadou",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "226710",
+      "name": "G. Scamacca",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Atalanta",
+      "nationality": "Italy",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "270050",
+      "name": "M. Biereth",
+      "position": "FWD",
+      "overall": 78,
+      "club": "AS Monaco",
+      "nationality": "Denmark",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "234051",
+      "name": "A. Afif",
+      "position": "MID",
+      "overall": 78,
+      "club": "",
+      "nationality": "Qatar",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "257278",
+      "name": "A. Theate",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Belgium",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "238756",
+      "name": "J. Larsen",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Norway",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "245037",
+      "name": "Eric García",
+      "position": "DEF",
+      "overall": 79,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "265450",
+      "name": "J. Bakayoko",
+      "position": "FWD",
+      "overall": 78,
+      "club": "RB Leipzig",
+      "nationality": "Belgium",
+      "primaryPosition": "RW"
+    },
+    {
+      "id": "226229",
+      "name": "T. Kehrer",
+      "position": "DEF",
+      "overall": 79,
+      "club": "AS Monaco",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "201024",
+      "name": "K. Koulibaly",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Al Hilal",
+      "nationality": "Senegal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "198176",
+      "name": "S. de Vrij",
+      "position": "DEF",
+      "overall": 84,
+      "club": "Inter",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "223113",
+      "name": "K. Piątek",
+      "position": "FWD",
+      "overall": 78,
+      "club": "",
+      "nationality": "Poland",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "242238",
+      "name": "O. Solet",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Udinese",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "258437",
+      "name": "E. Emegha",
+      "position": "FWD",
+      "overall": 78,
+      "club": "RC Strasbourg Alsace",
+      "nationality": "Netherlands",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "220440",
+      "name": "C. Lenglet",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Atlético Madrid",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "212190",
+      "name": "N. Süle",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Borussia Dortmund",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "256196",
+      "name": "W. Pacho",
+      "position": "DEF",
+      "overall": 86,
+      "club": "Paris Saint-Germain",
+      "nationality": "Ecuador",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "216460",
+      "name": "J. Giménez",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Atlético Madrid",
+      "nationality": "Uruguay",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "232756",
+      "name": "F. Tomori",
+      "position": "DEF",
+      "overall": 81,
+      "club": "AC Milan",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230271",
+      "name": "Laure Santeiro",
+      "position": "MID",
+      "overall": 80,
+      "club": "Fluminense",
+      "nationality": "Brazil",
+      "primaryPosition": "CAM"
+    },
+    {
+      "id": "277581",
+      "name": "Samu",
+      "position": "FWD",
+      "overall": 79,
+      "club": "FC Porto",
+      "nationality": "Spain",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "250955",
+      "name": "J. Stanišić",
+      "position": "DEF",
+      "overall": 78,
+      "club": "FC Bayern München",
+      "nationality": "Croatia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "248695",
+      "name": "W. Fofana",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Chelsea",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "236506",
+      "name": "M. Senesi",
+      "position": "DEF",
+      "overall": 78,
+      "club": "AFC Bournemouth",
+      "nationality": "Argentina",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "266096",
+      "name": "Tomás Araújo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "SL Benfica",
+      "nationality": "Portugal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "232363",
+      "name": "M. Škriniar",
+      "position": "DEF",
+      "overall": 81,
+      "club": "Fenerbahçe SK",
+      "nationality": "Slovakia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "244263",
+      "name": "A. Rrahmani",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Napoli",
+      "nationality": "Kosovo",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "237678",
+      "name": "I. Konaté",
+      "position": "DEF",
+      "overall": 86,
+      "club": "Liverpool",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "244767",
+      "name": "Carlos Vicente",
+      "position": "MID",
+      "overall": 78,
+      "club": "Deportivo Alavés",
+      "nationality": "Spain",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "219693",
+      "name": "Diego Carlos",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Como",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "245388",
+      "name": "J. Todibo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "West Ham United",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230442",
+      "name": "Jason Bardeira",
+      "position": "FWD",
+      "overall": 78,
+      "club": "Corinthians",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "229582",
+      "name": "G. Mancini",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Roma",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "277797",
+      "name": "Marcos Leonardo",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Al Hilal",
+      "nationality": "Brazil",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "256420",
+      "name": "M. Fofana",
+      "position": "MID",
+      "overall": 78,
+      "club": "Olympique Lyonnais",
+      "nationality": "Belgium",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "244067",
+      "name": "M. Lacroix",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Crystal Palace",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "246785",
+      "name": "Bryan Gil",
+      "position": "MID",
+      "overall": 78,
+      "club": "Girona FC",
+      "nationality": "Spain",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "202695",
+      "name": "J. Tarkowski",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Everton",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "266032",
+      "name": "J. Gittens",
+      "position": "MID",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "LM"
+    },
+    {
+      "id": "262394",
+      "name": "S. Beukema",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Napoli",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "238095",
+      "name": "N. Milenković",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Nottingham Forest",
+      "nationality": "Serbia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230385",
+      "name": "Albertinho Dutra",
+      "position": "FWD",
+      "overall": 78,
+      "club": "São Paulo",
+      "nationality": "Brazil",
+      "primaryPosition": "LW"
+    },
+    {
+      "id": "212602",
+      "name": "Diego Llorente",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "225100",
+      "name": "J. Gomez",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Liverpool",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "258781",
+      "name": "I. Zabarnyi",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Paris Saint-Germain",
+      "nationality": "Ukraine",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "236532",
+      "name": "R. Koch",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Eintracht Frankfurt",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "266872",
+      "name": "F. Gatti",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Juventus",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "279709",
+      "name": "Lucas Beraldo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Paris Saint-Germain",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "270086",
+      "name": "António Silva",
+      "position": "DEF",
+      "overall": 78,
+      "club": "SL Benfica",
+      "nationality": "Portugal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "228174",
+      "name": "C. Carter-Vickers",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Celtic",
+      "nationality": "United States",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "158625",
+      "name": "Dante",
+      "position": "DEF",
+      "overall": 78,
+      "club": "OGC Nice",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "235949",
+      "name": "Gabriel Strefezza",
+      "position": "MID",
+      "overall": 78,
+      "club": "Olympiacos FC",
+      "nationality": "Brazil",
+      "primaryPosition": "RM"
+    },
+    {
+      "id": "230212",
+      "name": "Zervandro",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Internacional",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "213331",
+      "name": "J. Tah",
+      "position": "DEF",
+      "overall": 87,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230313",
+      "name": "Tony Abranjes",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Internacional",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "232658",
+      "name": "D. Doekhi",
+      "position": "DEF",
+      "overall": 78,
+      "club": "1. FC Union Berlin",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "237086",
+      "name": "Kim Min Jae",
+      "position": "DEF",
+      "overall": 82,
+      "club": "FC Bayern München",
+      "nationality": "Korea Republic",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "212419",
+      "name": "T. Mings",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Aston Villa",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "223710",
+      "name": "V. Muriqi",
+      "position": "FWD",
+      "overall": 79,
+      "club": "RCD Mallorca",
+      "nationality": "Kosovo",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "222104",
+      "name": "T. Adarabioyo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "258911",
+      "name": "T. Arokodare",
+      "position": "FWD",
+      "overall": 79,
+      "club": "Wolverhampton Wanderers",
+      "nationality": "Nigeria",
+      "primaryPosition": "ST"
+    },
+    {
+      "id": "210413",
+      "name": "A. Romagnoli",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Lazio",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "197655",
+      "name": "S. Coates",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Club Nacional de Football",
+      "nationality": "Uruguay",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "246875",
+      "name": "O. Kossounou",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Atalanta",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "247257",
+      "name": "Ibañez",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Al Ahli SFC",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "256325",
+      "name": "J. Šutalo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Ajax",
+      "nationality": "Croatia",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "269087",
+      "name": "L. Yoro",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Manchester United",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "251809",
+      "name": "S. Botman",
+      "position": "DEF",
+      "overall": 82,
+      "club": "Newcastle United",
+      "nationality": "Netherlands",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "213661",
+      "name": "A. Christensen",
+      "position": "DEF",
+      "overall": 80,
+      "club": "FC Barcelona",
+      "nationality": "Denmark",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "228805",
+      "name": "Raíllo",
+      "position": "DEF",
+      "overall": 81,
+      "club": "RCD Mallorca",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "269493",
+      "name": "Alexsandro",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Lille OSC",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "198032",
+      "name": "D. Burn",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "237985",
+      "name": "K. Danso",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Tottenham Hotspur",
+      "nationality": "Austria",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "204638",
+      "name": "W. Orban",
+      "position": "DEF",
+      "overall": 84,
+      "club": "RB Leipzig",
+      "nationality": "Hungary",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "243976",
+      "name": "Catena",
+      "position": "DEF",
+      "overall": 79,
+      "club": "CA Osasuna",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "208165",
+      "name": "B. Djimsiti",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Atalanta",
+      "nationality": "Albania",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "189881",
+      "name": "C. Smalling",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Al Fayha",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "233486",
+      "name": "R. Le Normand",
+      "position": "DEF",
+      "overall": 83,
+      "club": "Atlético Madrid",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "231366",
+      "name": "P. Lienhart",
+      "position": "DEF",
+      "overall": 79,
+      "club": "SC Freiburg",
+      "nationality": "Austria",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "238160",
+      "name": "M. Demiral",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Al Ahli SFC",
+      "nationality": "Türkiye",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "220821",
+      "name": "C. Starfelt",
+      "position": "DEF",
+      "overall": 78,
+      "club": "RC Celta",
+      "nationality": "Sweden",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "270531",
+      "name": "O. Diomande",
+      "position": "DEF",
+      "overall": 80,
+      "club": "Sporting CP",
+      "nationality": "Côte d'Ivoire",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "259066",
+      "name": "F. Boyomo",
+      "position": "DEF",
+      "overall": 78,
+      "club": "CA Osasuna",
+      "nationality": "Cameroon",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "247649",
+      "name": "J. Branthwaite",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Everton",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "259524",
+      "name": "Aitor Paredes",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "234575",
+      "name": "Diogo Leite",
+      "position": "DEF",
+      "overall": 78,
+      "club": "1. FC Union Berlin",
+      "nationality": "Portugal",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230379",
+      "name": "Vieirundinho",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Botafogo",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "277537",
+      "name": "Natan",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Real Betis Balompié",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "230285",
+      "name": "Pedrão Tofico",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "240277",
+      "name": "M. Gabbia",
+      "position": "DEF",
+      "overall": 78,
+      "club": "AC Milan",
+      "nationality": "Italy",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "255106",
+      "name": "L. Badé",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "France",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "204639",
+      "name": "S. Savić",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Trabzonspor",
+      "nationality": "Montenegro",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "248484",
+      "name": "N. Collins",
+      "position": "DEF",
+      "overall": 79,
+      "club": "Brentford",
+      "nationality": "Republic of Ireland",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "260697",
+      "name": "I. Hien",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Atalanta",
+      "nationality": "Sweden",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "210257",
+      "name": "Ederson",
+      "position": "GK",
+      "overall": 85,
+      "club": "Fenerbahçe SK",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "215698",
+      "name": "M. Maignan",
+      "position": "GK",
+      "overall": 87,
+      "club": "AC Milan",
+      "nationality": "France",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "210044",
+      "name": "C. Burgess",
+      "position": "DEF",
+      "overall": 78,
+      "club": "Union Saint-Gilloise",
+      "nationality": "England",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "239340",
+      "name": "J. Chabot",
+      "position": "DEF",
+      "overall": 78,
+      "club": "VfB Stuttgart",
+      "nationality": "Germany",
+      "primaryPosition": "CB"
+    },
+    {
+      "id": "202811",
+      "name": "E. Martínez",
+      "position": "GK",
+      "overall": 85,
+      "club": "Aston Villa",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "204935",
+      "name": "J. Pickford",
+      "position": "GK",
+      "overall": 84,
+      "club": "Everton",
+      "nationality": "England",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "226753",
+      "name": "A. Onana",
+      "position": "GK",
+      "overall": 80,
+      "club": "Trabzonspor",
+      "nationality": "Cameroon",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "212831",
+      "name": "Alisson",
+      "position": "GK",
+      "overall": 89,
+      "club": "Liverpool",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "220901",
+      "name": "David Raya",
+      "position": "GK",
+      "overall": 87,
+      "club": "Arsenal",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "205186",
+      "name": "P. Gazzaniga",
+      "position": "GK",
+      "overall": 79,
+      "club": "Girona FC",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "167495",
+      "name": "M. Neuer",
+      "position": "GK",
+      "overall": 84,
+      "club": "FC Bayern München",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "192448",
+      "name": "M. ter Stegen",
+      "position": "GK",
+      "overall": 86,
+      "club": "FC Barcelona",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "200159",
+      "name": "S. Ortega",
+      "position": "GK",
+      "overall": 79,
+      "club": "Manchester City",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "221087",
+      "name": "Pau López",
+      "position": "GK",
+      "overall": 79,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230872",
+      "name": "M. Svilar",
+      "position": "GK",
+      "overall": 82,
+      "club": "Roma",
+      "nationality": "Serbia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "199005",
+      "name": "M. Ryan",
+      "position": "GK",
+      "overall": 78,
+      "club": "Levante UD",
+      "nationality": "Australia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "177683",
+      "name": "Y. Sommer",
+      "position": "GK",
+      "overall": 87,
+      "club": "Inter",
+      "nationality": "Switzerland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "200389",
+      "name": "J. Oblak",
+      "position": "GK",
+      "overall": 88,
+      "club": "Atlético Madrid",
+      "nationality": "Slovenia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "205211",
+      "name": "M. Borjan",
+      "position": "GK",
+      "overall": 78,
+      "club": "Al Riyadh",
+      "nationality": "Canada",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "223885",
+      "name": "A. Nübel",
+      "position": "GK",
+      "overall": 81,
+      "club": "VfB Stuttgart",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "163587",
+      "name": "K. Schmeichel",
+      "position": "GK",
+      "overall": 79,
+      "club": "Celtic",
+      "nationality": "Denmark",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "228383",
+      "name": "K. Grabara",
+      "position": "GK",
+      "overall": 79,
+      "club": "VfL Wolfsburg",
+      "nationality": "Poland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230621",
+      "name": "G. Donnarumma",
+      "position": "GK",
+      "overall": 89,
+      "club": "Manchester City",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "235840",
+      "name": "M. Di Gregorio",
+      "position": "GK",
+      "overall": 81,
+      "club": "Juventus",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "215316",
+      "name": "G. Rulli",
+      "position": "GK",
+      "overall": 82,
+      "club": "Olympique de Marseille",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "252552",
+      "name": "K. Tzolakis",
+      "position": "GK",
+      "overall": 79,
+      "club": "Olympiacos FC",
+      "nationality": "Greece",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "226300",
+      "name": "U. Çakır",
+      "position": "GK",
+      "overall": 80,
+      "club": "Galatasaray SK",
+      "nationality": "Türkiye",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "186153",
+      "name": "W. Szczęsny",
+      "position": "GK",
+      "overall": 84,
+      "club": "FC Barcelona",
+      "nationality": "Poland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "228789",
+      "name": "Robert Sánchez",
+      "position": "GK",
+      "overall": 78,
+      "club": "Chelsea",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "224987",
+      "name": "I. Provedel",
+      "position": "GK",
+      "overall": 82,
+      "club": "Lazio",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "219522",
+      "name": "C. Ledesma",
+      "position": "GK",
+      "overall": 78,
+      "club": "River Plate",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "241671",
+      "name": "D. Livaković",
+      "position": "GK",
+      "overall": 80,
+      "club": "Girona FC",
+      "nationality": "Croatia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "192119",
+      "name": "T. Courtois",
+      "position": "GK",
+      "overall": 89,
+      "club": "Real Madrid",
+      "nationality": "Belgium",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "190113",
+      "name": "M. Günok",
+      "position": "GK",
+      "overall": 78,
+      "club": "Beşiktaş JK",
+      "nationality": "Türkiye",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "192563",
+      "name": "B. Leno",
+      "position": "GK",
+      "overall": 80,
+      "club": "Fulham FC",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "240091",
+      "name": "G. Vicario",
+      "position": "GK",
+      "overall": 82,
+      "club": "Tottenham Hotspur",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "224836",
+      "name": "V. Milinković-Savić",
+      "position": "GK",
+      "overall": 79,
+      "club": "Napoli",
+      "nationality": "Serbia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "182494",
+      "name": "F. Muslera",
+      "position": "GK",
+      "overall": 79,
+      "club": "Estudiantes de La Plata",
+      "nationality": "Uruguay",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "227127",
+      "name": "Álex Remiro",
+      "position": "GK",
+      "overall": 83,
+      "club": "Real Sociedad",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230869",
+      "name": "Unai Simón",
+      "position": "GK",
+      "overall": 85,
+      "club": "Athletic Club",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "227290",
+      "name": "M. Dmitrović",
+      "position": "GK",
+      "overall": 79,
+      "club": "RCD Espanyol",
+      "nationality": "Serbia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "214584",
+      "name": "F. Armani",
+      "position": "GK",
+      "overall": 78,
+      "club": "River Plate",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "233306",
+      "name": "D. Henderson",
+      "position": "GK",
+      "overall": 81,
+      "club": "Crystal Palace",
+      "nationality": "England",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "204883",
+      "name": "B. Samba",
+      "position": "GK",
+      "overall": 80,
+      "club": "Stade Rennais FC",
+      "nationality": "France",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "185122",
+      "name": "P. Gulácsi",
+      "position": "GK",
+      "overall": 85,
+      "club": "RB Leipzig",
+      "nationality": "Hungary",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "199641",
+      "name": "M. Sels",
+      "position": "GK",
+      "overall": 83,
+      "club": "Nottingham Forest",
+      "nationality": "Belgium",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "206585",
+      "name": "Kepa",
+      "position": "GK",
+      "overall": 79,
+      "club": "Arsenal",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "223952",
+      "name": "David Soria",
+      "position": "GK",
+      "overall": 81,
+      "club": "Getafe CF",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230182",
+      "name": "Lucas Mantela",
+      "position": "GK",
+      "overall": 82,
+      "club": "Palmeiras",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230670",
+      "name": "Lucas Perri",
+      "position": "GK",
+      "overall": 81,
+      "club": "Leeds United",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "192984",
+      "name": "K. Casteels",
+      "position": "GK",
+      "overall": 82,
+      "club": "Al Qadsiah FC",
+      "nationality": "Belgium",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "199987",
+      "name": "J. Cillessen",
+      "position": "GK",
+      "overall": 79,
+      "club": "NEC Nijmegen",
+      "nationality": "Netherlands",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "203841",
+      "name": "N. Pope",
+      "position": "GK",
+      "overall": 81,
+      "club": "Newcastle United",
+      "nationality": "England",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "225116",
+      "name": "A. Meret",
+      "position": "GK",
+      "overall": 82,
+      "club": "Napoli",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "269626",
+      "name": "Đ. Petrović",
+      "position": "GK",
+      "overall": 80,
+      "club": "AFC Bournemouth",
+      "nationality": "Serbia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "227186",
+      "name": "A. Batalla",
+      "position": "GK",
+      "overall": 79,
+      "club": "Rayo Vallecano",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "209981",
+      "name": "Y. Bounou",
+      "position": "GK",
+      "overall": 82,
+      "club": "Al Hilal",
+      "nationality": "Morocco",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "193080",
+      "name": "De Gea",
+      "position": "GK",
+      "overall": 85,
+      "club": "Fiorentina",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "200110",
+      "name": "M. Bizot",
+      "position": "GK",
+      "overall": 78,
+      "club": "Aston Villa",
+      "nationality": "Netherlands",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "259532",
+      "name": "Joan García",
+      "position": "GK",
+      "overall": 83,
+      "club": "FC Barcelona",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "234577",
+      "name": "Diogo Costa",
+      "position": "GK",
+      "overall": 84,
+      "club": "FC Porto",
+      "nationality": "Portugal",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "224003",
+      "name": "Sergio Herrera",
+      "position": "GK",
+      "overall": 79,
+      "club": "CA Osasuna",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "215069",
+      "name": "R. Rey",
+      "position": "GK",
+      "overall": 78,
+      "club": "Independiente",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "211738",
+      "name": "M. Flekken",
+      "position": "GK",
+      "overall": 78,
+      "club": "Bayer 04 Leverkusen",
+      "nationality": "Netherlands",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230204",
+      "name": "Héniton Pires",
+      "position": "GK",
+      "overall": 80,
+      "club": "Flamengo",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "240913",
+      "name": "C. Kelleher",
+      "position": "GK",
+      "overall": 79,
+      "club": "Brentford",
+      "nationality": "Republic of Ireland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "215223",
+      "name": "W. Benítez",
+      "position": "GK",
+      "overall": 79,
+      "club": "Crystal Palace",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "235073",
+      "name": "G. Kobel",
+      "position": "GK",
+      "overall": 86,
+      "club": "Borussia Dortmund",
+      "nationality": "Switzerland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "193698",
+      "name": "O. Baumann",
+      "position": "GK",
+      "overall": 83,
+      "club": "TSG 1899 Hoffenheim",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "210385",
+      "name": "Rui Silva",
+      "position": "GK",
+      "overall": 81,
+      "club": "Sporting CP",
+      "nationality": "Portugal",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "258498",
+      "name": "B. Verbruggen",
+      "position": "GK",
+      "overall": 78,
+      "club": "Brighton & Hove Albion",
+      "nationality": "Netherlands",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "211348",
+      "name": "S. Dimitrievski",
+      "position": "GK",
+      "overall": 79,
+      "club": "Valencia CF",
+      "nationality": "North Macedonia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "224251",
+      "name": "R. Zentner",
+      "position": "GK",
+      "overall": 78,
+      "club": "1. FSV Mainz 05",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "198009",
+      "name": "M. Perin",
+      "position": "GK",
+      "overall": 78,
+      "club": "Juventus",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "214979",
+      "name": "J. Musso",
+      "position": "GK",
+      "overall": 79,
+      "club": "Atlético Madrid",
+      "nationality": "Argentina",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "189908",
+      "name": "Ł. Skorupski",
+      "position": "GK",
+      "overall": 79,
+      "club": "Bologna",
+      "nationality": "Poland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "188943",
+      "name": "K. Trapp",
+      "position": "GK",
+      "overall": 81,
+      "club": "Paris FC",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "234642",
+      "name": "É. Mendy",
+      "position": "GK",
+      "overall": 80,
+      "club": "Al Ahli SFC",
+      "nationality": "Senegal",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "265526",
+      "name": "G. Restes",
+      "position": "GK",
+      "overall": 78,
+      "club": "Toulouse FC",
+      "nationality": "France",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "246657",
+      "name": "Álvaro Valles",
+      "position": "GK",
+      "overall": 79,
+      "club": "Real Betis Balompié",
+      "nationality": "Spain",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "240225",
+      "name": "M. Safonov",
+      "position": "GK",
+      "overall": 78,
+      "club": "Paris Saint-Germain",
+      "nationality": "Russia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "250753",
+      "name": "A. Trubin",
+      "position": "GK",
+      "overall": 80,
+      "club": "SL Benfica",
+      "nationality": "Ukraine",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "230312",
+      "name": "Gabri Prestão",
+      "position": "GK",
+      "overall": 79,
+      "club": "Internacional",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "228413",
+      "name": "E. Audero",
+      "position": "GK",
+      "overall": 78,
+      "club": "Cremonese",
+      "nationality": "Indonesia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "235633",
+      "name": "Y. Diouf",
+      "position": "GK",
+      "overall": 78,
+      "club": "OGC Nice",
+      "nationality": "Senegal",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "251752",
+      "name": "L. Chevalier",
+      "position": "GK",
+      "overall": 83,
+      "club": "Paris Saint-Germain",
+      "nationality": "France",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "205812",
+      "name": "P. Terracciano",
+      "position": "GK",
+      "overall": 78,
+      "club": "AC Milan",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "190941",
+      "name": "L. Hrádecký",
+      "position": "GK",
+      "overall": 81,
+      "club": "AS Monaco",
+      "nationality": "Finland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "243952",
+      "name": "A. Lunin",
+      "position": "GK",
+      "overall": 81,
+      "club": "Real Madrid",
+      "nationality": "Ukraine",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "252154",
+      "name": "M. Carnesecchi",
+      "position": "GK",
+      "overall": 84,
+      "club": "Atalanta",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "201269",
+      "name": "F. Rønnow",
+      "position": "GK",
+      "overall": 80,
+      "club": "1. FC Union Berlin",
+      "nationality": "Denmark",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "262621",
+      "name": "G. Mamardashvili",
+      "position": "GK",
+      "overall": 84,
+      "club": "Liverpool",
+      "nationality": "Georgia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "238186",
+      "name": "M. Bułka",
+      "position": "GK",
+      "overall": 79,
+      "club": "NEOM SC",
+      "nationality": "Poland",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "210676",
+      "name": "W. Falcone",
+      "position": "GK",
+      "overall": 81,
+      "club": "Lecce",
+      "nationality": "Italy",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "199833",
+      "name": "L. Unnerstall",
+      "position": "GK",
+      "overall": 78,
+      "club": "FC Twente",
+      "nationality": "Germany",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "254803",
+      "name": "S. Lammens",
+      "position": "GK",
+      "overall": 78,
+      "club": "Manchester United",
+      "nationality": "Belgium",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "241727",
+      "name": "P. Rajković",
+      "position": "GK",
+      "overall": 80,
+      "club": "Al Ittihad",
+      "nationality": "Serbia",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "73562",
+      "name": "Bento",
+      "position": "GK",
+      "overall": 80,
+      "club": "Al Nassr",
+      "nationality": "Brazil",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "221610",
+      "name": "D. Dibusz",
+      "position": "GK",
+      "overall": 78,
+      "club": "Ferencvárosi Torna Club",
+      "nationality": "Hungary",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "232654",
+      "name": "L. Malagón",
+      "position": "GK",
+      "overall": 79,
+      "club": "",
+      "nationality": "Mexico",
+      "primaryPosition": "GK"
+    },
+    {
+      "id": "263139",
+      "name": "D. Greif",
+      "position": "GK",
+      "overall": 78,
+      "club": "Olympique Lyonnais",
+      "nationality": "Slovakia",
+      "primaryPosition": "GK"
+    }
+  ]
+}

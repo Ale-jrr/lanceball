@@ -1,0 +1,7 @@
+.fc26-reference/
+catalog.sqlite*
+node_modules/
+.env
+.env.*
+*.log
+.arena-browser-qa/

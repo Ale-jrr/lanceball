@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LANCEBALL</title>
+<link rel="stylesheet" href="/arena.css">
+<body class="auction-page">
+<!-- ARENA_HEADER -->
+<main>
+<section class="auction-heading" aria-labelledby="auctionTitle">
+  <div class="auction-heading-content">
+    <div>
+      <p class="auction-kicker">Mesa de leilão</p>
+      <h1 id="auctionTitle">Leilão local</h1>
+      <p id="auctionContext" class="auction-context">Teste em duas abas com equipes diferentes</p>
+    </div>
+    <button type="button" class="auction-exit" data-leave-room hidden>Sair da sala</button>
+  </div>
+  <div class="auction-strip">
+    <div class="auction-identity" id="auctionIdentity" hidden>
+      <img id="auctionCrest" width="32" height="32" alt="" hidden>
+      <div><span>Sua equipe</span><strong id="auctionTeam"></strong></div>
+    </div>
+    <div class="progress" id="progressRow" hidden>
+      <div><span id="roundName">Atleta em disputa</span><strong id="roundLabel"></strong></div>
+      <progress id="progress" aria-label="Progresso do leilão"></progress>
+    </div>
+    <p class="auction-timing">10 s iniciais <span aria-hidden="true">·</span> +3 s por lance aceito</p>
+  </div>
+</section>
+<div class="grid">
+<section class="panel auction">
+<h2>Leilão</h2><button id="start">Iniciar leilão</button>
+<div id="active" hidden>
+<div class="card" id="player-card">
+  <figure class="player-portrait" id="player-portrait" hidden></figure>
+  <div class="player-card-details"><div class="ovr" id="overall"></div><h2 id="player"></h2><div id="position"></div></div>
+  <div class="clock"><span id="timer"></span><small>restantes</small></div></div>
+<div class="stats"><div><span>Maior lance</span><strong id="highest"></strong><span id="leader"></span></div></div>
+</div>
+<label id="teamLabel" for="team">Sua equipe nesta aba</label><select id="team"></select>
+<p id="balance"></p>
+<div class="last-purchase"><figure class="player-portrait player-portrait-small" id="revealed-portrait" hidden></figure><p id="lastPurchase"></p></div>
+<div class="quick" id="quick" hidden><button data-step="1">+1</button><button data-step="2">+2</button><button data-step="5">+5</button><button data-step="10">+10</button><button class="max" id="maxBid">Máximo</button><button class="pass" id="pass">Passar</button></div>
+<p id="status" role="status"></p><a id="continue" href="/pos-leilao" hidden style="color:var(--gold)">Continuar para trocas</a>
+</section>
+<section class="panel"><h2>Seu elenco</h2><ul id="squad"></ul></section><section class="panel"><h2>Equipes da sala</h2><ul id="teams"></ul>
+<div class="purchase-history"><h3>Quem levou</h3><ol id="purchases"></ol></div>
+<details><summary>Últimos lances</summary><ol id="history"></ol></details></section>
+</div>
+<footer class="auction-credit"><p id="catalogInfo"></p></footer>
+</main>
+<script type="module">
+import { playerPositionName, positionName } from '/positions.mjs';
+const byId = id => document.getElementById(id);
+const setup = new URLSearchParams(location.search);
+const roomCode = setup.get('room');
+const solo = setup.has('mode') && !roomCode;
+const memberToken = roomCode ? localStorage.getItem('arena-member:' + roomCode) : null;
+if (solo && !setup.has('solo')) {
+  setup.set('solo', crypto.randomUUID());
+  history.replaceState(null, '', location.pathname + '?' + setup);
+}
+if (solo || roomCode) {
+  byId('teamLabel').hidden = true;
+  byId('team').hidden = true;
+}
+let mode = solo ? setup.get('mode') : null;
+let roomName;
+const auctionCrest = byId('auctionCrest');
+auctionCrest.onerror = () => { auctionCrest.hidden = true; };
+const money = amount => '$' + amount;
+const team = byId('team');
+const status = byId('status');
+let state;
+let clockOffset = 0;
+let busy = false;
+
+for (let id = 0; id < 8; id++) team.add(new Option(`Equipe ${id + 1}`, id));
+team.value = solo || roomCode ? '0' : sessionStorage.getItem('auction-team') || '0';
+
+function list(id, rows, empty) {
+  const items = (rows.length ? rows : [empty]).map(text => {
+    const item = document.createElement('li');
+    item.textContent = text;
+    return item;
+  });
+  byId(id).replaceChildren(...items);
+}
+
+function updateTimer() {
+  const deadline = state?.round?.deadline;
+  if (!deadline) return;
+  const seconds = Math.max(0, Math.ceil((deadline - Date.now() - clockOffset) / 1000));
+  byId('timer').textContent = String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');
+  const round = state.round;
+  const selected = state.teams[Number(team.value)];
+  const positionQuota = state.quotas[round.player.position];
+  const roleFull = positionQuota !== undefined && selected.players.filter(player => player.position === round.player.position).length >= positionQuota;
+  const minimum = (round.highest?.amount ?? 0) + 1;
+  const maximum = roleFull ? 0 : selected.balance - Math.max(0, state.rosterSize - 1 - selected.players.length);
+  const passed = round.passed?.includes(selected.id);
+  const disabled = busy || seconds === 0 || passed || maximum < minimum;
+  byId('maxBid').disabled = disabled;
+  byId('pass').disabled = busy || passed || seconds === 0;
+  for (const button of byId('quick').querySelectorAll('[data-step]')) {
+    const step = Number(button.dataset.step);
+    const total = minimum + step - 1;
+    if (button.dataset.total !== String(total)) {
+      const price = document.createElement('small');
+      price.textContent = money(total);
+      button.replaceChildren('+' + step, price);
+      button.dataset.total = total;
+    }
+    button.disabled = disabled || total > maximum;
+  }
+  byId('maxBid').dataset.total = maximum;
+  byId('balance').textContent = 'Saldo ' + money(selected.balance) + ' · Lance máximo ' + money(maximum);
+}
+
+function updateHeading(team) {
+  const heading = byId('auctionTitle');
+  heading.textContent = mode === 'ucl' ? 'Champions League' : (roomCode ? 'Leilão da sala' : 'Leilão local');
+  byId('auctionContext').textContent = roomCode
+    ? [roomName, 'Sala ' + roomCode].filter(Boolean).join(' · ')
+    : solo ? (state?.teams.length ?? setup.get('size')) + ' equipes · Contra bots'
+      : 'Teste em duas abas com equipes diferentes';
+  const teamName = team?.name ?? (solo ? setup.get('team') : '');
+  byId('auctionIdentity').hidden = !teamName;
+  byId('auctionTeam').textContent = teamName ?? '';
+  if (team?.crestUrl && auctionCrest.getAttribute('src') !== team.crestUrl) {
+    auctionCrest.src = team.crestUrl;
+    auctionCrest.hidden = false;
+  } else if (!team?.crestUrl) {
+    auctionCrest.hidden = true;
+    auctionCrest.removeAttribute('src');
+  }
+}
+
+function showPortrait(id, player, portrait) {
+  const figure = byId(id);
+  const source = portrait?.src ?? '';
+  if (figure.dataset.source === source) return;
+  figure.dataset.source = source;
+  figure.hidden = true;
+  figure.replaceChildren();
+  if (!portrait) return;
+  const image = document.createElement('img');
+  image.alt = 'Foto de ' + player.name;
+  image.referrerPolicy = 'no-referrer';
+  image.addEventListener('error', () => { if (image.isConnected) image.src = portrait.original; }, { once: true });
+  image.addEventListener('load', () => { if (image.isConnected) figure.hidden = false; });
+  const credit = document.createElement('figcaption');
+  const author = document.createElement('a');
+  author.href = portrait.source;
+  author.textContent = portrait.author;
+  const license = document.createElement('a');
+  license.href = portrait.license;
+  license.textContent = portrait.label;
+  for (const link of [author, license]) {
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  }
+  credit.append(author, ' · ', license);
+  figure.append(image, credit);
+  image.src = source;
+}
+
+function render() {
+  const round = state?.round;
+  const selected = state?.teams[Number(team.value)];
+  updateHeading(selected);
+  byId('start').hidden = Boolean(state) || Boolean(roomCode);
+  byId('active').hidden = !round;
+  byId('quick').hidden = !round;
+  byId('progressRow').hidden = !state;
+  if (state) {
+    const total = state.totalPlayers;
+    const current = state.roundNumber;
+    byId('roundName').textContent = state.complete ? 'Leilão encerrado' : 'Atleta em disputa';
+    byId('roundLabel').textContent = current + ' de ' + total;
+    byId('progress').max = total;
+    byId('progress').value = current;
+  }
+  const teams = (state?.teams ?? []).map(entry => {
+    const item = document.createElement('li');
+    item.className = entry.id === round?.highest?.teamId ? 'row leading' : 'row';
+    if (entry.id === selected.id) item.setAttribute('aria-current', 'true');
+    const name = document.createElement('span');
+    if (entry.crestUrl) {
+      const crest = document.createElement('img');
+      crest.src = entry.crestUrl;
+      crest.alt = '';
+      crest.width = 24;
+      crest.height = 24;
+      crest.style.cssText = 'object-fit:contain;vertical-align:middle;margin-right:.4rem';
+      crest.addEventListener('error', () => crest.remove());
+      name.append(crest);
+    }
+    name.append(entry.name + (entry.bot ? ' (bot)' : '') + ' · ' + entry.players.length + '/' + state.rosterSize);
+    if (round?.passed?.includes(entry.id)) {
+      const badge = document.createElement('span');
+      badge.className = 'passed-badge';
+      badge.textContent = 'Passou';
+      name.append(badge);
+    }
+    const balance = document.createElement('strong');
+    balance.textContent = money(entry.balance);
+    item.append(name, balance);
+    return item;
+  });
+  byId('teams').replaceChildren(...teams);
+  byId('balance').textContent = selected ? `Saldo: ${money(selected.balance)} · ${selected.players.length}/${state.rosterSize} atletas` : '';
+  showPortrait('player-portrait', round?.player, round?.clue ? null : round?.portrait);
+  if (round) {
+    if (status.textContent === 'Você passou esta rodada.' && !round.passed?.includes(Number(team.value))) status.textContent = '';
+    byId('player').textContent = round.clue ? 'Carta surpresa' : round.player.name;
+    byId('overall').textContent = round.clue ? 'Identidade oculta' : `${round.player.overall} OVR`;
+    byId('active').classList.toggle('surprise', Boolean(round.clue));
+    byId('position').textContent = round.clue
+      ? round.clue.label + ' · ' + (positionName(round.clue.detail) ?? positionName(round.clue.position) ?? round.clue.value)
+      : [playerPositionName(round.player), round.player.club].filter(Boolean).join(' · ');
+    byId('highest').textContent = round.highest ? money(round.highest.amount) : 'Sem lance';
+    byId('leader').textContent = round.highest ? state.teams[round.highest.teamId].name : '';
+  }
+  const purchase = state?.purchases.at(-1);
+  const reveal = state?.lastClosed;
+  showPortrait('revealed-portrait', reveal?.player, reveal?.portrait);
+  byId('lastPurchase').textContent = reveal ? 'Carta revelada: ' + reveal.player.name + ' · ' +
+    reveal.player.overall + ' OVR' + (reveal.highest
+      ? ' · ' + state.teams[reveal.highest.teamId].name + ' levou por ' + money(reveal.highest.amount)
+      : ' · Sem lances') : purchase?.method === 'bid'
+    ? state.teams[purchase.teamId].name + ' levou ' +
+      state.catalog.players.find(player => player.id === purchase.playerId).name +
+      ' por ' + money(purchase.amount) + '.' : '';
+  byId('continue').hidden = (!solo && !roomCode) || !state?.complete;
+  if (roomCode) byId('continue').href = '/pos-leilao?room=' + encodeURIComponent(roomCode);
+  else if (solo) byId('continue').href = '/pos-leilao?solo=' + setup.get('solo');
+  if (state?.complete) status.textContent = 'Leilão encerrado. Confira o elenco de cada equipe.';
+  const awards = (state?.purchases ?? []).slice().reverse();
+  const awardList = byId('purchases');
+  const signature = JSON.stringify(awards);
+  if (awardList.dataset.signature !== signature) {
+    awardList.dataset.signature = signature;
+    const rows = awards.map(purchase => {
+      const item = document.createElement('li');
+      const name = document.createElement('strong');
+      const detail = document.createElement('span');
+      name.textContent = state.catalog.players.find(player => player.id === purchase.playerId).name;
+      detail.textContent = state.teams[purchase.teamId].name + ' · ' + money(purchase.amount) +
+        (purchase.method === 'allocation' ? ' · Completar elenco' : '');
+      item.append(name, detail);
+      return item;
+    });
+    if (!rows.length) {
+      const empty = document.createElement('li');
+      empty.textContent = 'Nenhum atleta contratado ainda.';
+      rows.push(empty);
+    }
+    awardList.replaceChildren(...rows);
+  }
+  list('history', (state?.bids ?? []).slice(-6).reverse().map(
+    bid => `${state.teams[bid.teamId].name} · ${(state.catalog.players.find(player => player.id === bid.playerId)?.name ?? 'Carta surpresa')} · ${money(bid.amount)}`), 'Nenhum lance registrado.');
+  const slots = Object.entries(state?.quotas ?? {}).flatMap(([role, count]) => {
+    const players = selected?.players.filter(player => player.position === role) ?? [];
+    return Array.from({ length: count }, (_, index) => {
+      const item = document.createElement('li');
+      const position = document.createElement('span');
+      position.className = 'slot-position';
+      const player = players[index];
+      position.textContent = player ? playerPositionName(player) : positionName(role);
+      item.append(position, player ? player.name + ' · ' + player.overall + ' OVR' : 'Vaga aberta');
+      return item;
+    });
+  });
+  byId('squad').replaceChildren(...slots);
+  updateTimer();
+}
+
+async function request(url, options) {
+  const headers = new Headers(options?.headers);
+  if (memberToken) headers.set('Authorization', 'Bearer ' + memberToken);
+  const response = await fetch(solo || roomCode ? url + '?' + setup : url, { ...options, headers });
+  const result = await response.json();
+  if (!response.ok) throw Error(result.error);
+  state = result.state;
+  mode = result.mode ?? mode;
+  roomName = result.roomName ?? roomName;
+  if (roomCode && Number.isInteger(result.yourTeamId)) team.value = String(result.yourTeamId);
+  if (result.catalogInfo) {
+    const credit = byId('catalogInfo');
+    const { source, edition, url, license } = result.catalogInfo;
+    credit.textContent = edition + ' · ';
+    if (url && /^https?:\/\//i.test(url)) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.textContent = source;
+      link.style.color = 'inherit';
+      credit.append(link);
+    } else {
+      credit.append(source);
+    }
+    if (license === 'https://creativecommons.org/licenses/by/4.0/') {
+      const link = document.createElement('a');
+      link.href = license;
+      link.textContent = 'CC BY 4.0';
+      link.style.color = 'inherit';
+      credit.append(' · ', link);
+    }
+  }
+  clockOffset = result.time - Date.now();
+  render();
+}
+
+async function act(action, success) {
+  if (busy) return;
+  busy = true;
+  byId('start').disabled = true;
+  updateTimer();
+  try {
+    await action();
+    if (success) status.textContent = success;
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    busy = false;
+    byId('start').disabled = false;
+    updateTimer();
+  }
+}
+
+byId('start').onclick = () => act(() => request('/start', { method: 'POST' }));
+team.onchange = () => {
+  sessionStorage.setItem('auction-team', team.value);
+  render();
+};
+function placeBid(amount) {
+  if (!state?.round) return;
+  const body = JSON.stringify({
+    teamId: Number(team.value), playerId: state.round.player.id, amount,
+  });
+  act(() => request('/bid', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }),
+    'Lance registrado.');
+}
+
+byId('quick').onclick = event => {
+  const button = event.target.closest('button[data-total]');
+  if (button && !button.disabled) placeBid(Number(button.dataset.total));
+};
+
+byId('pass').onclick = () => {
+  if (!state?.round) return;
+  const body = JSON.stringify({ teamId: Number(team.value), playerId: state.round.player.id });
+  act(() => request('/pass', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }),
+    'Você passou esta rodada.');
+};
+
+async function poll() {
+  if (!busy) {
+    try { await request('/state'); }
+    catch { status.textContent = 'Conexão com o servidor local indisponível.'; }
+  }
+  setTimeout(poll, 500);
+}
+updateHeading();
+setInterval(updateTimer, 150);
+poll();
+</script>
+<script type="module" src="/room-exit.js"></script>
+</body>
+</html>

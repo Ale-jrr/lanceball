@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pós-leilão · LANCEBALL</title>
+<link rel="stylesheet" href="/arena.css">
+<body class="post-page">
+<!-- ARENA_HEADER -->
+<main><button type="button" class="exit-room" data-leave-room hidden>Sair da sala</button>
+
+<div class="page-intro"><h1 id="title">Pós-leilão</h1>
+<p id="status" role="status">Carregando seus elencos…</p></div>
+<nav class="stage-nav" aria-label="Etapas"><span data-stage="trades">Trocas</span><span data-stage="lineup">Escalação</span><span data-stage="tournament">Campeonato</span></nav>
+<div id="content"></div><form class="panel" id="restore" hidden><label>Link da partida na versão anterior<input type="url" id="old-link" required></label><button class="primary">Recuperar partida</button></form>
+</main>
+<dialog id="phase-transition" class="phase-transition" aria-labelledby="phase-title" aria-describedby="phase-subtitle">
+  <div class="phase-content">
+    <p class="phase-brand">Champions League</p>
+    <h2 id="phase-title"></h2>
+    <p id="phase-subtitle"></p>
+    <ul id="phase-teams"></ul>
+    <form method="dialog"><button autofocus>Continuar</button></form>
+  </div>
+</dialog>
+<script type="module">
+import { playerPositionName, positionName } from '/positions.mjs';
+const byId = id => document.getElementById(id);
+const content = byId('content');
+const status = byId('status');
+const setup = new URLSearchParams(location.search);
+const solo = setup.get('solo');
+const roomCode = setup.get('room');
+const memberToken = roomCode ? localStorage.getItem('arena-member:' + roomCode) : null;
+const restore = byId('restore');
+restore.onsubmit = event => {
+  event.preventDefault();
+  const old = new URL(byId('old-link').value);
+  const mode = old.searchParams.get('mode') || 'ucl';
+  const room = old.searchParams.get('solo');
+  if ((old.hostname !== '127.0.0.1' || old.protocol !== 'http:' || !['4182', '4184'].includes(old.port)) || !room || mode !== 'ucl') {
+    status.textContent = 'Cole o link completo da partida da porta 4182 ou 4184.';
+    return;
+  }
+  location.search = new URLSearchParams({ solo: room, mode, previous: old.port });
+};
+let state;
+let lineupIds;
+let roundIndex = 0;
+let minute = 0;
+let actionVersion = 0;
+let busy = false;
+
+function el(tag, text, cls) {
+  const item = document.createElement(tag);
+  if (text) item.textContent = text;
+  if (cls) item.className = cls;
+  return item;
+}
+
+function panel(title) {
+  const item = el('section', '', 'panel');
+  item.append(el('h2', title));
+  return item;
+}
+
+function button(text, action, primary = false) {
+  const item = el('button', text, primary ? 'primary' : '');
+  item.type = 'button';
+  item.onclick = action;
+  return item;
+}
+
+function select(label, options, value) {
+  const field = el('label', label);
+  const input = el('select');
+  for (const [id, name] of options) input.add(new Option(name, id));
+  if (value) input.value = value;
+  field.append(input);
+  return [field, input];
+}
+
+function crest(team) {
+  const image = el('img', '', 'crest');
+  image.alt = '';
+  image.hidden = !team.crestUrl;
+  if (team.crestUrl) image.src = team.crestUrl;
+  image.onerror = () => { image.hidden = true; };
+  return image;
+}
+
+function roster(team, ratings) {
+  const item = el('section', '', 'panel');
+  const heading = el('h3');
+  heading.append(crest(team), team.name);
+  if (ratings) heading.append(' · ' + average(team.players));
+  const players = el('div', '', 'players');
+  for (const player of team.players) {
+    const row = el('div', player.name, 'player');
+    row.append(el('small', playerPositionName(player) + (ratings ? ' · ' + player.overall + ' OVR' : '')));
+    players.append(row);
+  }
+  item.append(heading, players);
+  return item;
+}
+
+function average(players) {
+  return (players.reduce((sum, player) => sum + (player.rating ?? player.overall), 0) / players.length)
+    .toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+}
+
+async function api(action, input) {
+  const url = '/post-auction?' + setup;
+  const headers = {};
+  if (memberToken) headers.Authorization = 'Bearer ' + memberToken;
+  const response = await fetch(url, action ? {
+    method: 'POST', headers, body: JSON.stringify({ action, ...input }),
+  } : { headers });
+  const data = await response.json();
+  if (!response.ok) throw Error(data.error);
+  return data;
+}
+
+async function send(action, input = {}) {
+  if (busy) return;
+  busy = true;
+  actionVersion++;
+  try {
+    state = await api(action, input);
+    status.textContent = '';
+    render();
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    busy = false;
+  }
+}
+
+function trades() {
+  const own = state.teams.find(team => team.id === state.you);
+  const opponents = state.teams.filter(team => team.id !== state.you);
+  const columns = el('div', '', 'grid');
+  const proposals = panel('Propostas');
+  const [mineField, mine] = select('Oferecer atleta', own.players.map(player => [player.id, player.name + ' · ' + playerPositionName(player)]));
+  const [targetField, target] = select('Pedir atleta', opponents.filter(team => team.bot).flatMap(team => team.players.map(
+    player => [player.id, team.name + ' · ' + player.name + ' · ' + playerPositionName(player)])));
+  if (state.tradeReady) proposals.append(el('p', 'Aguardando os demais jogadores concluírem as trocas.'));
+  else if (target.options.length) proposals.append(mineField, targetField, button('Propor troca', () =>
+    send('trade', { offer: mine.value, target: target.value })));
+  else proposals.append(el('p', 'As trocas estão disponíveis quando há bots na sala.'));
+  if (state.offers.length) {
+    const history = el('ul');
+    for (const offer of state.offers.slice(0, 12)) history.append(el('li',
+      offer.mine + ' por ' + offer.target + ' · ' + offer.team + (offer.accepted ? ' aceitou' : ' recusou')));
+    proposals.append(history);
+  }
+  columns.append(roster(own, false), proposals);
+  const others = el('div', '', 'rosters');
+  opponents.forEach(team => others.append(roster(team, false)));
+  if (!state.tradeReady) content.append(button('Ir para a escalação', () => send('lineup'), true));
+  content.append(columns,
+    el('h2', 'Outras equipes'), others);
+}
+
+function lineup() {
+  const own = state.teams.find(team => team.id === state.you);
+  const opponents = state.teams.filter(team => team.id !== state.you);
+  const columns = el('div', '', 'grid');
+  if (state.online && state.lineup) {
+    content.append(panel('Escalação enviada'), el('p', state.lineupsReady + '/' + state.humans +
+      ' escalações prontas. Aguardando os demais jogadores.'));
+    return;
+  }
+  const selection = panel('Titulares');
+  const tactics = panel('Formação e tática');
+  const [formationField, formation] = select('Formação', Object.keys(state.formations).map(name => [name, name]), state.formation);
+  const [tacticField, tactic] = select('Tática', state.tactics.map(name => [name, name]), state.tactic);
+  lineupIds = [...state.auto[formation.value]];
+  const slots = el('div');
+  const pitch = el('div', '', 'pitch');
+  const rating = el('h3');
+  function refresh() {
+    const layout = state.formations[formation.value];
+    const players = lineupIds.map((id, index) => {
+      const player = own.players.find(entry => entry.id === id);
+      return { ...player, rating: player.overall - (player.position === layout[index] ? 0 : 8) };
+    });
+    rating.textContent = 'Overall do time ' + average(players);
+    slots.replaceChildren(...layout.map((role, index) => {
+      const [field, input] = select(positionName(role), own.players.map(player =>
+        [player.id, player.name + ' · ' + playerPositionName(player) + ' · ' + player.overall + ' OVR']), lineupIds[index]);
+      field.className = 'slot';
+      const player = players[index];
+      field.append(el('strong', player.position === role ? player.rating + ' OVR' : player.rating + ' OVR · Fora de posição'));
+      input.onchange = () => {
+        const previous = lineupIds.indexOf(input.value);
+        [lineupIds[index], lineupIds[previous]] = [lineupIds[previous], lineupIds[index]];
+        refresh();
+        slots.querySelectorAll('select')[index].focus();
+      };
+      return field;
+    }));
+    pitch.replaceChildren(...['FWD', 'MID', 'DEF', 'GK'].map(role => {
+      const row = el('div', '', 'pitch-row');
+      players.forEach((player, index) => {
+        if (layout[index] === role) row.append(el('small', player.name));
+      });
+      return row;
+    }));
+  }
+  function auto() {
+    lineupIds = [...state.auto[formation.value]];
+    refresh();
+  }
+  formation.onchange = auto;
+  selection.append(slots, button('Escalação automática', auto));
+  tactics.append(formationField, tacticField, rating, pitch, el('p', 'Fora de posição, o atleta perde 8 pontos na nota usada na simulação.'),
+    button(state.online ? 'Confirmar escalação' : 'Simular campeonato', () => send('simulate', {
+      formation: formation.value, tactic: tactic.value, ids: lineupIds,
+    }), true));
+  columns.append(selection, tactics);
+  const others = el('div', '', 'rosters');
+  opponents.forEach(team => others.append(roster(team, true)));
+  content.append(columns, el('h2', 'Outras equipes'), others);
+}
+
+function standings(season, played) {
+  const item = panel('Classificação');
+  for (const group of season.tables) {
+    item.append(el('h3', group.name));
+    const rows = group.table.map(team => ({ ...team, pts: 0, gf: 0, ga: 0 }));
+    for (const game of played.filter(game => game.stage === group.name)) {
+      for (const [side, team] of [game.home, game.away].entries()) {
+        const row = rows.find(entry => entry.id === team.id);
+        row.gf += game.score[side];
+        row.ga += game.score[1 - side];
+        row.pts += game.winner ? (game.winner.id === team.id ? 3 : 0) : 1;
+      }
+    }
+    rows.sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf || a.id - b.id);
+    const table = el('table');
+    const headings = el('tr');
+    ['Equipe', 'Pts', 'SG'].forEach(text => headings.append(el('th', text)));
+    table.append(headings);
+    rows.forEach(row => {
+      const tr = el('tr');
+      [row.name, row.pts, row.gf - row.ga].forEach(text => tr.append(el('td', String(text))));
+      table.append(tr);
+    });
+    item.append(table);
+  }
+  return item;
+}
+
+function tournament() {
+  const { season, teams } = state;
+  const own = teams.find(team => team.id === state.you);
+  if (state.clock) {
+    roundIndex = state.clock.round;
+    minute = state.clock.minute;
+  }
+  const round = season.rounds[roundIndex];
+  const ownMatch = round.games.find(game => game.home.id === own.id || game.away.id === own.id);
+  const otherGames = round.games.filter(game => game !== ownMatch);
+  const finalRound = roundIndex === season.rounds.length - 1;
+  const endMinute = Math.max(...round.games.map(game => game.extraTime ? 120 : 90));
+  const finished = minute >= endMinute;
+  const columns = el('div', '', 'grid');
+  const match = panel(round.name + ' · Rodada ' + (roundIndex + 1) + ' de ' + season.rounds.length);
+
+  function gameState(game) {
+    const end = game.extraTime ? 120 : 90;
+    const clock = Math.min(minute, end);
+    const events = game.events.filter(event => event.minute <= clock);
+    const latest = events.filter(event => event.score).at(-1);
+    return {
+      events, latest, score: latest?.score ?? [0, 0],
+      status: minute >= end ? 'Encerrado' : minute === 0 ? 'Aguardando início' : clock + "'",
+    };
+  }
+
+  const controls = el('div', '', 'controls');
+  function control(title, command, primary = false) {
+    const item = button(title, () => send('clock', { command }), primary);
+    item.dataset.focus = 'clock-' + command;
+    return item;
+  }
+  if (state.isHost && !finished) {
+    controls.append(control(state.clock.playing ? 'Pausar rodada' : 'Simular rodada ao vivo', 'toggle', true));
+    if (!state.online) controls.append(control('Próximo lance', 'event'));
+    controls.append(control('Ver resultados', 'skip'));
+  } else if (state.isHost && !finalRound) {
+    controls.append(control('Próxima rodada', 'next', true));
+  } else if (!finalRound || !finished) {
+    controls.append(el('p', state.clock.playing ? 'Rodada ao vivo' : 'Aguardando o anfitrião.'));
+  }
+
+  if (ownMatch) {
+    const current = gameState(ownMatch);
+    match.append(el('h3', 'Seu jogo'));
+    const score = el('div', '', 'score');
+    const home = el('span', '', 'score-team');
+    const away = el('span', '', 'score-team');
+    home.append(crest(ownMatch.home), ownMatch.home.name);
+    away.append(crest(ownMatch.away), ownMatch.away.name);
+    score.append(home, ' ', el('span', current.score.join(' × ')), ' ', away);
+    const feed = el('ol', '', 'events');
+    for (const event of [...current.events].reverse()) feed.append(el('li', event.minute + "' · " + event.text));
+    if (ownMatch.carry) {
+      const aggregate = ownMatch.carry.map((goals, side) => goals + current.score[side]);
+      score.append(el('div', 'Agregado ' + aggregate.join(' × '), 'slot-position'));
+    }
+    match.append(score, el('p', current.status), controls,
+      el('p', 'Finalizações ' + (current.latest?.shots ?? [0, 0]).join(' × ') +
+        ' · No alvo ' + (current.latest?.onTarget ?? [0, 0]).join(' × ')), feed);
+    if (state.clock.canChangeTactic) {
+      const tactics = el('section');
+      tactics.append(el('h3', 'Alterar tática manualmente'),
+        el('p', 'Tática atual: ' + state.clock.currentTactic +
+          (state.clock.pendingTactic ? ' · Próximo minuto: ' + state.clock.pendingTactic : '')));
+      const options = el('div', '', 'controls');
+      for (const tactic of state.tactics) {
+        const choice = button(tactic, () => send('tactic', { matchId: ownMatch.id, tactic }),
+          tactic === (state.clock.pendingTactic ?? state.clock.currentTactic));
+        choice.dataset.focus = 'tactic-' + tactic;
+        choice.setAttribute('aria-pressed', String(tactic === (state.clock.pendingTactic ?? state.clock.currentTactic)));
+        options.append(choice);
+      }
+      tactics.append(options);
+      match.insertBefore(tactics, feed);
+    }
+    if (current.status === 'Encerrado') {
+      if (ownMatch.carry || ownMatch.extraTime || ownMatch.stage === 'Disputa de terceiro lugar') {
+        match.append(el('p', 'Vencedor do confronto: ' + ownMatch.winner.name));
+      }
+      match.append(el('p', 'Posse de bola ' + ownMatch.possession + '% × ' + (100 - ownMatch.possession) + '%'));
+    }
+  } else {
+    match.append(el('h3', own.name), el('p', round.name.startsWith('Semifinais') || round.name === 'Disputa de terceiro lugar' || finalRound
+      ? 'Seu time está fora desta fase.' : 'Seu time está de folga nesta rodada.'), controls);
+  }
+  if (finished && finalRound) {
+    match.append(el('h2', 'Campeão: ' + season.champion));
+    if (season.thirdPlace) match.append(el('p', 'Terceiro lugar: ' + season.thirdPlace));
+  }
+
+  const side = el('aside', '', 'round-side');
+  const fixtures = panel('Outros jogos da rodada');
+  for (const game of otherGames) {
+    const current = gameState(game);
+    const card = el('div', '', 'fixture');
+    const home = el('span');
+    const away = el('span');
+    home.append(crest(game.home), game.home.name);
+    away.append(crest(game.away), game.away.name);
+    card.append(home, el('strong', String(current.score[0])), away,
+      el('strong', String(current.score[1])), el('small', current.status));
+    if (game.carry) card.append(el('small', 'Agregado ' +
+      game.carry.map((goals, side) => goals + current.score[side]).join(' × ')));
+    fixtures.append(card);
+  }
+  if (!otherGames.length) fixtures.append(el('p', 'Nenhum outro jogo nesta rodada.', 'fixtures-empty'));
+  const settled = season.rounds.slice(0, roundIndex).flatMap(entry => entry.games);
+  settled.push(...round.games.filter(game => minute >= (game.extraTime ? 120 : 90)));
+  side.append(fixtures, standings(season, settled));
+  columns.append(match, side);
+  content.append(columns);
+}
+
+const phaseDialog = byId('phase-transition');
+const phaseSession = 'lanceball-phases:' + (roomCode ?? solo);
+const phaseSeen = new Set((sessionStorage.getItem(phaseSession) ?? '').split(','));
+let phaseTimer;
+phaseDialog.addEventListener('close', () => clearTimeout(phaseTimer));
+
+function showPhaseHighlight() {
+  const highlights = state.highlights ?? [];
+  const highlight = highlights.filter(entry => !phaseSeen.has(entry.id)).at(-1);
+  if (!highlight) return;
+  for (const entry of highlights) phaseSeen.add(entry.id);
+  sessionStorage.setItem(phaseSession, [...phaseSeen].join(','));
+  byId('phase-title').textContent = highlight.title;
+  byId('phase-subtitle').textContent = highlight.subtitle;
+  byId('phase-teams').replaceChildren(...highlight.teams.map(team => {
+    const item = el('li', '', team.id === state.you ? 'phase-team is-yours' : 'phase-team');
+    item.append(crest(team), el('strong', team.name));
+    if (team.id === state.you) item.append(el('small', 'Seu time'));
+    return item;
+  }));
+  phaseDialog.dataset.phase = highlight.id;
+  if (!phaseDialog.open) phaseDialog.showModal();
+  clearTimeout(phaseTimer);
+  phaseTimer = setTimeout(() => { if (phaseDialog.open) phaseDialog.close(); }, 6500);
+}
+
+function render() {
+  const focus = document.activeElement?.dataset.focus;
+  content.replaceChildren();
+  const titles = { trades: 'Trocas', lineup: 'Escalação e tática', tournament: 'Campeonato' };
+  byId('title').textContent = titles[state.stage];
+  for (const item of document.querySelectorAll('[data-stage]')) {
+    if (item.dataset.stage === state.stage) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
+  }
+  ({ trades, lineup, tournament })[state.stage]();
+  if (state.stage === 'tournament') showPhaseHighlight();
+  if (focus && !phaseDialog.open) [...content.querySelectorAll('[data-focus]')]
+    .find(item => item.dataset.focus === focus)?.focus({ preventScroll: true });
+}
+
+try {
+  if (!solo && !roomCode) throw Error('Abra o pós-leilão pelo leilão encerrado ou recupere um elenco anterior.');
+  state = await api();
+  status.textContent = '';
+  render();
+} catch (error) {
+  status.textContent = error.message;
+  restore.hidden = Boolean(roomCode);
+}
+async function syncRoom() {
+  if (!busy && state && (state.stage === 'tournament' || state.tradeReady ||
+      (state.stage === 'lineup' && state.lineup))) {
+    try {
+      const version = actionVersion;
+      const current = await api();
+      if (!busy && version === actionVersion && (current.stage !== state.stage || current.isHost !== state.isHost ||
+          current.lineupsReady !== state.lineupsReady ||
+          JSON.stringify(current.clock) !== JSON.stringify(state.clock))) {
+        state = current;
+        render();
+      }
+    } catch (error) {
+      status.textContent = error.message;
+    }
+  }
+  setTimeout(syncRoom, 600);
+}
+if (roomCode || solo) syncRoom();
+</script>
+<script type="module" src="/room-exit.js"></script>
+</body>
+</html>
