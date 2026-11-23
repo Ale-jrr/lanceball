@@ -121,16 +121,31 @@ class CatalogError extends Error {
   }
 }
 
-export function persistentHandler(store, defer = promise => { void promise; }) {
+export function persistentHandler(store, defer = promise => { void promise; }, bundled = null) {
   let catalogPromise;
   let catalogExpiry = 0;
   function catalog() {
     if (!catalogPromise || Date.now() >= catalogExpiry) {
       catalogExpiry = Date.now() + 60_000;
       catalogPromise = store.players().catch(error => {
+        if (bundled) {
+          console.error('LANCEBALL catálogo de reserva:', error.message);
+          return null;
+        }
         throw new CatalogError('O Supabase não conseguiu ler os jogadores. Confira o diagnóstico em /health.',
           'catalog_read', { cause: error });
       }).then(players => {
+        if (players === null) return bundled;
+        if (bundled) {
+          const registered = new Map(players.map(player => [player.id, player]));
+          const missing = bundled.players.filter(player => !registered.has(player.id));
+          if (missing.length) {
+            if (store.seed) defer(store.seed(missing, { preserveExisting: true }).catch(error => {
+              console.error('LANCEBALL importação do catálogo:', error.message);
+            }));
+            return { ...catalogInfo, players: [...players, ...missing] };
+          }
+        }
         if (players.length < 200) {
           throw new CatalogError(`O Supabase tem ${players.length} jogadores cadastrados. Importe o catálogo antes de iniciar.`,
             'catalog_missing');

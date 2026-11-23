@@ -38,7 +38,7 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
         if (state) throw Error('Sala já iniciou');
         return { state: {
           catalog, quotas, rosterSize,
-          queue: catalog.players,
+          queue: [...catalog.players],
           passed: [],
           round: null, surpriseAt, lastClosed: null,
           bids: [],

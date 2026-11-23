@@ -1,3 +1,4 @@
+import bundled from "../_shared/catalog-bundled.json" with { type: "json" };
 import { edgeHandler } from "../_shared/edge-handler.mjs";
 import { supabaseStore } from "../_shared/supabase-store.mjs";
 
@@ -7,4 +8,4 @@ if (!url || !secret) throw new Error("Credenciais do Supabase indisponíveis.");
 
 Deno.serve(edgeHandler(supabaseStore(url, secret), (task: Promise<unknown>) => {
   EdgeRuntime.waitUntil(task);
-}));
+}, bundled));

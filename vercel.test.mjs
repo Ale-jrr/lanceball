@@ -88,4 +88,23 @@ test('a Edge Function autoriza o jogador por sala e emite apenas um aviso sem o 
   assert.equal(blocked.status, 503);
   assert.equal((await blocked.json()).code, 'catalog_missing');
   assert.equal((await ask(withEmptyCatalog, '/room', { room: another.code })).status, 200);
+
+  const bundled = JSON.parse(await readFile(
+    new URL('./supabase/functions/_shared/catalog-bundled.json', import.meta.url), 'utf8',
+  ));
+  assert.deepEqual(bundled.players, catalog.players);
+  const imports = [];
+  const fallback = edgeHandler({
+    ...store, players: async () => [],
+    seed: async (players, options) => { imports.push({ players, options }); },
+  }, () => {}, bundled);
+  const started = await ask(fallback, '/room', {
+    room: another.code, token: another.token, body: { action: 'start' },
+  });
+  assert.equal(started.status, 200);
+  assert.equal((await started.json()).started, true);
+  assert.equal(imports[0].players.length, 908);
+  assert.equal(imports[0].options.preserveExisting, true);
+  const stateWithFallback = await ask(fallback, '/state', { room: another.code, token: another.token });
+  assert.equal((await stateWithFallback.json()).state.totalPlayers, 28);
 });

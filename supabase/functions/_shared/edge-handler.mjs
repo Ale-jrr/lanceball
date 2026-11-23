@@ -8,8 +8,8 @@ const cors = {
   'Cache-Control': 'no-store',
 };
 
-export function edgeHandler(store, defer) {
-  const game = persistentHandler(store, defer);
+export function edgeHandler(store, defer, bundled = null) {
+  const game = persistentHandler(store, defer, bundled);
   return async request => {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     const incoming = new URL(request.url);
@@ -17,16 +17,31 @@ export function edgeHandler(store, defer) {
     incoming.searchParams.delete('route');
     if (!/^\/[a-z-]+$/.test(path)) return Response.json({ error: 'Rota inválida.' }, { status: 404, headers: cors });
     if (path === '/health') {
+      let players;
       try {
-        const [players] = await Promise.all([store.players(), store.load('health-check')]);
-        return Response.json({
-          armazenamento: 'Supabase', servidor: 'Edge Function', jogadores: players.length,
-          status: players.length >= 200 ? 'OK' : 'Catálogo ainda não importado',
-        }, { status: players.length >= 200 ? 200 : 503, headers: cors });
+        await store.load('health-check');
       } catch {
-        return Response.json({ armazenamento: 'Supabase', status: 'Banco indisponível' }, { status: 503, headers: cors });
+        return Response.json({ armazenamento: 'Supabase', status: 'Banco de salas indisponível' }, { status: 503, headers: cors });
       }
+      try {
+        players = await store.players();
+      } catch {
+        if (!bundled) {
+          return Response.json({ armazenamento: 'Supabase', status: 'Catálogo indisponível' }, { status: 503, headers: cors });
+        }
+        return Response.json({
+          armazenamento: 'Supabase', servidor: 'Edge Function', status: 'Catálogo de reserva disponível',
+          jogadoresReserva: bundled.players.length,
+        }, { headers: cors });
+      }
+      const ready = bundled ? players.length >= bundled.players.length : players.length >= 200;
+      return Response.json({
+        armazenamento: 'Supabase', servidor: 'Edge Function', jogadores: players.length,
+        status: ready ? 'OK' : bundled ? 'Catálogo de reserva disponível' : 'Catálogo ainda não importado',
+        ...(!ready && bundled ? { jogadoresReserva: bundled.players.length } : {}),
+      }, { status: ready || bundled ? 200 : 503, headers: cors });
     }
+
     const token = request.headers.get('x-lanceball-token');
     const req = {
       method: request.method, url: path + incoming.search, headers: {

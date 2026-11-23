@@ -67,10 +67,11 @@ export function supabaseStore(url, key, fetcher = fetch) {
         if (batch.length < limit) return result;
       }
     },
-    async seed(players) {
+    async seed(players, { preserveExisting = false } = {}) {
       for (let position = 0; position < players.length; position += 200) {
         const response = await request(playerTable, { on_conflict: 'id' }, 'POST',
-          players.slice(position, position + 200), 'resolution=merge-duplicates,return=minimal');
+          players.slice(position, position + 200),
+          'resolution=' + (preserveExisting ? 'ignore-duplicates' : 'merge-duplicates') + ',return=minimal');
         if (!response.ok) throw Error('Importação do catálogo Supabase HTTP ' + response.status);
       }
     },
