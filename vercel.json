@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "functions": {
+    "api/lanceball.mjs": {
+      "includeFiles": "{*.html,arena.css,arena-background.png,catalog.json,positions.mjs,room-exit.js}"
+    }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/api/lanceball?__arena_path=/" },
+    {
+      "source": "/:path(sala|leilao|pos-leilao|campeonato|arena\\.css|arena-background\\.png|positions\\.mjs|room-exit\\.js|rooms|room|state|start|bid|pass|post-auction|tournament-preview)",
+      "destination": "/api/lanceball?__arena_path=/:path"
+    }
+  ]
+}

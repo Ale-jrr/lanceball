@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { randomInt } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { loadCatalogDatabase } from './catalog-db.mjs';
 import { openAuction } from './auction.mjs';
 import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
@@ -68,7 +68,8 @@ try {
 } catch (error) {
   if (process.env.AUCTION_CATALOG || error.code !== 'ENOENT') throw error;
 }
-const databasePath = process.env.AUCTION_CATALOG_DB ?? (process.env.AUCTION_CATALOG
+const standalone = process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+const databasePath = process.env.AUCTION_CATALOG_DB ?? (!standalone || process.env.AUCTION_CATALOG
   ? ':memory:' : fileURLToPath(new URL('./catalog.sqlite', import.meta.url)));
 catalog = loadCatalogDatabase(databasePath, catalog);
 const catalogInfo = { source: catalog.source, edition: catalog.edition, url: catalog.url, license: catalog.license };
@@ -143,6 +144,12 @@ function advanceSolo(room, now) {
 }
 
 async function readBody(req, limit = 4096) {
+  if (req.body !== undefined && req.body !== null) {
+    const body = typeof req.body === 'string' || Buffer.isBuffer(req.body)
+      ? req.body : JSON.stringify(req.body);
+    if (Buffer.byteLength(body) > limit) throw Error('Dados acima do limite.');
+    return JSON.parse(body.toString());
+  }
   let size = 0;
   const chunks = [];
   for await (const chunk of req) {
@@ -154,8 +161,13 @@ async function readBody(req, limit = 4096) {
 }
 
 const joinAttempts = new Map();
-const server = createServer(async (req, res) => {
+export async function handleRequest(req, res) {
+  if (!standalone) maintainRooms();
   const url = new URL(req.url, 'http://localhost');
+  if (url.pathname === '/api/lanceball') {
+    url.pathname = url.searchParams.get('__arena_path') ?? '/';
+    url.searchParams.delete('__arena_path');
+  }
   if (req.method === 'GET' && url.pathname === '/arena-background.png') {
     res.writeHead(200, { 'Content-Type': 'image/png' }).end(arenaBackground);
     return;
@@ -286,13 +298,8 @@ const server = createServer(async (req, res) => {
     if (url.pathname === '/post-auction' && ['GET', 'POST'].includes(req.method)) {
       if (!room) return send(404, { error: 'Sessão de leilão indisponível.' });
       if (req.method === 'GET') return send(200, postAuction(room, 'read', {}, member?.id ?? 0));
-      let payload = '';
-      for await (const chunk of req) {
-        payload += chunk;
-        if (payload.length > 4096) return send(413, { error: 'Dados acima do limite.' });
-      }
+      const { action, ...input } = await readBody(req);
       if (member && !member.token) return send(401, { error: 'Você não está nesta sala.' });
-      const { action, ...input } = JSON.parse(payload);
       if (!['trade', 'lineup', 'simulate', 'clock', 'tactic'].includes(action)) throw Error('Ação inválida.');
       return send(200, postAuction(room, action, input, member?.id ?? 0));
     }
@@ -308,13 +315,8 @@ const server = createServer(async (req, res) => {
       return send(200, { state: publicAuction(auction.tick()), catalogInfo, time: Date.now(), mode: room?.mode });
     }
     if (req.method === 'POST' && ['/bid', '/pass'].includes(url.pathname)) {
-      let body = '';
-      for await (const chunk of req) {
-        body += chunk;
-        if (body.length > 1024) return send(413, { error: 'Lance muito grande.' });
-      }
+      const { teamId, playerId, amount } = await readBody(req, 1024);
       if (member && !member.token) return send(401, { error: 'Você não está nesta sala.' });
-      const { teamId, playerId, amount } = JSON.parse(body);
       if (!Number.isInteger(teamId) || teamId < 0 || teamId > 7 || typeof playerId !== 'string') {
         return send(400, { error: 'Equipe ou atleta inválido.' });
       }
@@ -329,8 +331,9 @@ const server = createServer(async (req, res) => {
   } catch (error) {
     return send(400, { error: error.message });
   }
-});
-setInterval(() => {
+}
+
+function maintainRooms() {
   const now = Date.now();
   const state = sharedAuction.snapshot();
   if (state?.round && now >= state.round.deadline) sharedAuction.tick();
@@ -355,9 +358,13 @@ setInterval(() => {
       catch (error) { console.error(error); }
     }
   }
-}, 200).unref();
+}
 
-const port = Number(process.env.AUCTION_DEMO_PORT ?? 4173);
-server.listen(port, process.env.AUCTION_DEMO_HOST ?? '127.0.0.1', () => {
-  console.log(`LANCEBALL: http://127.0.0.1:${server.address().port}`);
-});
+if (standalone) {
+  const server = createServer(handleRequest);
+  setInterval(maintainRooms, 200).unref();
+  const port = Number(process.env.PORT ?? process.env.AUCTION_DEMO_PORT ?? 4173);
+  server.listen(port, process.env.AUCTION_DEMO_HOST ?? '127.0.0.1', () => {
+    console.log(`LANCEBALL: http://127.0.0.1:${server.address().port}`);
+  });
+}
