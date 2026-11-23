@@ -1,7 +1,10 @@
+import { Buffer } from 'node:buffer';
 import { isDeepStrictEqual } from 'node:util';
 import { setTimeout } from 'node:timers/promises';
-import { openAuction } from './auction.mjs';
-import { catalogInfo, handleRequest, requestUrl } from './demo.mjs';
+import { openMemoryAuction as openAuction } from './memory-auction.mjs';
+import { catalogInfo } from './catalog-info.mjs';
+import { handleGameRequest, requestUrl } from './game-api.mjs';
+import { previewTournament } from './tournament.mjs';
 
 const sessionDuration = 30 * 60_000;
 const gameRoutes = new Set(['/rooms', '/room', '/state', '/start', '/bid', '/pass', '/post-auction']);
@@ -69,7 +72,7 @@ function responseBuffer() {
   };
 }
 
-function sendJson(res, status, data) {
+export function sendJson(res, status, data) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' })
     .end(JSON.stringify(data));
 }
@@ -77,7 +80,7 @@ function sendJson(res, status, data) {
 function newRuntime(type, code, data, catalog) {
   const runtime = {
     onlineRooms: new Map(), soloRooms: new Map(), sharedAuction: null,
-    joinAttempts: new Map(data?.joinAttempts), catalog,
+    joinAttempts: new Map(data?.joinAttempts), catalog, openAuction, catalogInfo,
   };
   if (type === 'shared') runtime.sharedAuction = openAuction(':memory:', Date.now, data?.auction);
   if (data?.room) {
@@ -111,7 +114,7 @@ function sameValue(row, next) {
     isDeepStrictEqual(row.public_info, next.public_info);
 }
 
-export function persistentHandler(store) {
+export function persistentHandler(store, defer = promise => { void promise; }) {
   let catalogPromise;
   let catalogExpiry = 0;
   function catalog() {
@@ -130,7 +133,18 @@ export function persistentHandler(store) {
 
   return async function handlePersistent(req, res) {
     const url = requestUrl(req);
-    if (!gameRoutes.has(url.pathname)) return handleRequest(req, res);
+    if (url.pathname === '/tournament-preview' && req.method === 'GET') {
+      try {
+        if (url.searchParams.get('mode') !== 'ucl') throw Error('Selecione a Champions League.');
+        const query = url.searchParams;
+        return sendJson(res, 200, previewTournament('ucl', Number(query.get('humans')), undefined, {
+          size: Number(query.get('size')) || 4, team: query.get('team'), club: query.get('club'),
+        }));
+      } catch (error) {
+        return sendJson(res, 400, { error: error.message });
+      }
+    }
+    if (!gameRoutes.has(url.pathname)) return sendJson(res, 404, { error: 'Rota indisponível.' });
     try {
       if (url.pathname === '/rooms' && req.method === 'GET') return sendJson(res, 200, await store.list());
       const target = scope(url);
@@ -148,10 +162,17 @@ export function persistentHandler(store) {
         const runtime = newRuntime(target.type, target.code, active ? structuredClone(active.payload) : null, source);
         try {
           const output = responseBuffer();
-          await handleRequest(request, output, runtime);
+          await handleGameRequest(request, output, runtime);
           const next = capture(runtime, target, active);
           const id = target.id ?? (next && 'room:' + next.payload.room.code);
-          if (sameValue(previous, next) || await store.save(id, previous, next)) {
+          const unchanged = sameValue(previous, next);
+          if (unchanged || await store.save(id, previous, next)) {
+            const meaningful = !unchanged && id?.startsWith('room:') &&
+              (req.method === 'POST' && output.status < 400 ||
+                !isDeepStrictEqual(previous?.payload.room?.auction, next?.payload.room?.auction));
+            if (meaningful && store.signal) {
+              defer(store.signal(id.slice(5)).catch(() => {}));
+            }
             res.writeHead(output.status, output.headers).end(output.body);
             return;
           }

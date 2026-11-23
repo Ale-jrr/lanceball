@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { postAuction } from './post-auction.mjs';
-import { playSeason } from './tournament.mjs';
+import { postAuction } from './supabase/functions/_shared/post-auction.mjs';
+import { playSeason } from './supabase/functions/_shared/tournament.mjs';
 
 const teams = Array.from({ length: 4 }, (_, id) => ({
   id, name: 'Equipe ' + id, bot: id > 1, tactic: 'Equilibrada',

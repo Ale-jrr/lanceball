@@ -18,15 +18,13 @@ Abra http://127.0.0.1:4173. O servidor cria o banco local do catálogo na primei
 
 O catálogo usa uma seleção dos dados de [FC 26 Player Data, de Rovnez](https://www.kaggle.com/datasets/rovnez/fc-26-fifa-26-player-data), publicado sob [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). As posições foram agrupadas para o fut7 e as notas foram preservadas. Cada fotografia de atleta exibe autoria, origem e licença na carta correspondente.
 
-## Vercel
+## Publicar na Vercel e no Supabase
 
-Use a raiz do repositório como Root Directory, a branch de produção main e o preset Other. O arquivo vercel.json roteia a página inicial, os arquivos e a API para uma função Node.js 24. Deixe as configurações de Build Command e Output Directory sem sobrescrita.
+O site fica estático na Vercel. A Edge Function **lanceball** valida as ações, guarda as salas no Supabase e envia avisos de mudança pelo Realtime. O navegador busca a versão autorizada do estado. Se o canal cair, a consulta periódica continua automaticamente.
 
-## Supabase na Vercel
+1. No projeto Supabase dedicado ao LANCEBALL, execute [a migração](supabase/migrations/20261123000000_lanceball.sql) e importe os 908 jogadores em `lanceball_players`. Se a tabela já tem os jogadores, pule a importação. O script opcional `node --env-file=.env.local seed-supabase.mjs` importa a partir do catálogo usando as variáveis locais `SUPABASE_URL` e `SUPABASE_SECRET_KEY`.
+2. No PowerShell, na raiz deste repositório, execute `npx supabase login` e `npx supabase functions deploy lanceball --project-ref SEU_PROJECT_ID`. A configuração da função está em [supabase/config.toml](supabase/config.toml). O servidor usa a chave de serviço que o Supabase fornece à função, e o acesso à sala é validado pelo token individual do participante.
+3. Na Vercel, configure `LANCEBALL_SUPABASE_URL` e `LANCEBALL_SUPABASE_PUBLISHABLE_KEY` para Production. Use a chave pública que começa com `sb_publishable_`. O build só inclui essas credenciais públicas. A chave secreta pode ficar somente no Supabase quando o site estiver nesse modelo.
+4. Envie a branch `main`. A Vercel usa `npm run build` e a pasta `dist`. Desative sobrescritas antigas de Build Command e Output Directory. Confira `/health` no site e teste uma sala nova em dois navegadores.
 
-1. No SQL Editor do projeto Supabase, execute a migração em [supabase/migrations/20261123000000_lanceball.sql](supabase/migrations/20261123000000_lanceball.sql).
-2. Na raiz do projeto, crie um arquivo local `.env.local` com `SUPABASE_URL` (URL do projeto) e `SUPABASE_SECRET_KEY` (chave secreta de servidor).
-3. Importe o catálogo com `node --env-file=.env.local seed-supabase.mjs`. O script confirma os 908 registros.
-4. Adicione as duas variáveis nas configurações de ambiente da Vercel para Production e faça um novo deploy. Guarde a chave apenas no servidor.
-
-Com essas variáveis, a Vercel lê os jogadores no Supabase e compartilha salas, leilões, escalações e campeonatos entre instâncias. As salas expiram depois de 30 minutos sem atividade. Partidas já abertas antes da ativação continuam na versão anterior. O servidor local continua usando SQLite.
+O servidor local continua usando SQLite. O deploy estático precisa de uma Edge Function publicada e de um projeto Supabase com as duas tabelas criadas.

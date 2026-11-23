@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,6 +19,7 @@
 <div id="results"></div>
 </main>
 <script type="module">
+import { arenaFetch } from '/client-api.mjs';
 const form = document.querySelector('form');
 const setup = new URLSearchParams(location.search);
 if (['4', '6', '8'].includes(setup.get('size'))) form.elements.size.value = setup.get('size');
@@ -66,7 +67,7 @@ form.onsubmit = async event => {
     for (const key of ['team', 'club']) {
       if (setup.has(key)) settings.set(key, setup.get(key));
     }
-    const response = await fetch('/tournament-preview?' + settings);
+    const response = await arenaFetch('/tournament-preview?' + settings);
     const data = await response.json();
     if (!response.ok) throw Error(data.error);
     results.replaceChildren(

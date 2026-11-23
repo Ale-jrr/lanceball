@@ -1,63 +1,79 @@
-import { createServer } from 'node:http';
-import { once } from 'node:events';
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import lanceball from './api/lanceball.mjs';
+import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { buildSite } from './build-site.mjs';
+import { edgeHandler } from './supabase/functions/_shared/edge-handler.mjs';
 
-test('a entrada da Vercel atende a página, os recursos e o leilão', async () => {
-  const server = createServer(lanceball);
-  server.listen(0, '127.0.0.1');
-  await once(server, 'listening');
-  const root = 'http://127.0.0.1:' + server.address().port;
-  function request(path, params = {}, options) {
-    return fetch(root + '/api/lanceball?' + new URLSearchParams({ __arena_path: path, ...params }), options);
-  }
+test('a hospedagem estática leva apenas a conexão pública ao navegador', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'lanceball-build-'));
   try {
-    const home = await request('/');
-    assert.equal(home.status, 200);
-    assert.match(await home.text(), /LANCEBALL/);
-    const health = await request('/health');
-    assert.equal(health.status, 200);
-    assert.match((await health.json()).status, /Supabase/);
-    const css = await request('/arena.css');
-    assert.match(css.headers.get('content-type'), /text\/css/);
-    const image = await request('/arena-background.png');
-    assert.match(image.headers.get('content-type'), /image\/png/);
-    await image.arrayBuffer();
-    const solo = { solo: '0d8d8f77-e870-4cff-8e3c-96b7ccc18a17', mode: 'ucl', size: 4, club: 'Porto', team: 'Arena' };
-    const start = await request('/start', solo, { method: 'POST' });
-    assert.equal(start.status, 200);
-    const { state } = await start.json();
-    assert.equal(state.roundNumber, 1);
-    assert.equal(state.teams[0].balance, 100);
-    const bid = await request('/bid', solo, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teamId: 0, playerId: state.round.player.id, amount: 5 }),
-    });
-    assert.equal(bid.status, 200);
-    assert.equal((await bid.json()).state.round.highest.amount, 5);
-    const missing = await request('/state', { room: '00000000' });
-    assert.equal(missing.status, 404);
-    const created = await request('/rooms', {}, {
-      method: 'POST', body: JSON.stringify({ name: 'Arena', team: 'Teste', identity: 'Porto', mode: 'ucl', size: 4 }),
-    });
-    assert.equal(created.status, 201);
-    const { code } = await created.json();
-    assert.equal((await request('/state', { room: code })).status, 401);
-
-    const environment = process.env.VERCEL;
-    try {
-      process.env.VERCEL = '1';
-      const disabled = await request('/rooms');
-      assert.equal(disabled.status, 503);
-      assert.match((await disabled.json()).error, /Supabase/);
-      assert.equal((await request('/')).status, 200);
-    } finally {
-      if (environment === undefined) delete process.env.VERCEL;
-      else process.env.VERCEL = environment;
+    const env = {
+      VERCEL: '1', LANCEBALL_SUPABASE_URL: 'https://example.supabase.co',
+      LANCEBALL_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test', SUPABASE_SECRET_KEY: 'sb_secret_never_export',
+    };
+    await buildSite(dir, env);
+    const config = await readFile(join(dir, 'edge-config.mjs'), 'utf8');
+    assert.match(config, /sb_publishable_test/);
+    assert.doesNotMatch(config, /sb_secret_/);
+    for (const file of ['index.html', 'sala/index.html', 'leilao/index.html', 'pos-leilao/index.html',
+      'campeonato/index.html', 'health/index.html']) {
+      const page = await readFile(join(dir, file), 'utf8');
+      assert.match(page, /client-api.mjs/);
     }
+    await assert.rejects(buildSite(dir, { ...env, LANCEBALL_SUPABASE_PUBLISHABLE_KEY: 'sb_secret_test' }), /chave pública/);
   } finally {
-    await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
+    await rm(dir, { recursive: true, force: true });
   }
+});
+
+test('a Edge Function autoriza o jogador por sala e emite apenas um aviso sem o estado privado', async () => {
+  const catalog = JSON.parse(await readFile(new URL('./catalog.json', import.meta.url), 'utf8'));
+  const sessions = new Map();
+  const signals = [];
+  const store = {
+    players: async () => catalog.players,
+    list: async () => [],
+    load: async id => structuredClone(sessions.get(id) ?? null),
+    signal: async code => { signals.push(code); },
+    async save(id, previous, data) {
+      if (previous?.revision !== sessions.get(id)?.revision) return false;
+      if (data) sessions.set(id, { ...structuredClone(data), revision: crypto.randomUUID() });
+      else sessions.delete(id);
+      return true;
+    },
+  };
+  const hostInstance = edgeHandler(store);
+  const guestInstance = edgeHandler(store);
+  async function ask(handler, route, { token, room, method, body } = {}) {
+    const url = new URL('https://example.supabase.co/functions/v1/lanceball');
+    url.searchParams.set('route', route);
+    if (room) url.searchParams.set('room', room);
+    return handler(new Request(url, {
+      method: method ?? (body ? 'POST' : 'GET'),
+      headers: token ? { 'x-lanceball-token': token } : {},
+      body: body ? JSON.stringify(body) : undefined,
+    }));
+  }
+  const preflight = await ask(hostInstance, '/room', { method: 'OPTIONS' });
+  assert.equal(preflight.status, 204);
+  assert.match(preflight.headers.get('access-control-allow-headers'), /x-lanceball-token/);
+  const health = await ask(hostInstance, '/health');
+  assert.equal((await health.json()).servidor, 'Edge Function');
+  const created = await ask(hostInstance, '/rooms', { body: {
+    name: 'Arena', team: 'Anfitrião', identity: 'Porto', mode: 'ucl', size: 4,
+  } });
+  const { code: room, token } = await created.json();
+  const joined = await ask(guestInstance, '/room', { room, body: { action: 'join', team: 'Amigo', identity: 'PSG' } });
+  assert.equal(joined.status, 200);
+  const guest = (await joined.json()).token;
+  assert.equal((await ask(hostInstance, '/room', { room, token, body: { action: 'start' } })).status, 200);
+  assert.equal((await ask(guestInstance, '/state', { room })).status, 401);
+  const state = await (await ask(guestInstance, '/state', { room, token: guest })).json();
+  assert.equal(state.yourTeamId, 1);
+  assert.ok(!JSON.stringify(state).includes(token));
+  assert.equal(state.state.queue, undefined);
+  assert.equal(state.state.catalog.players.length, 1);
+  assert.ok(signals.length >= 2 && signals.every(code => code === room));
 });

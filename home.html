@@ -50,6 +50,7 @@
 </div>
 </main>
 <script type="module">
+import { arenaFetch } from '/client-api.mjs';
 const form = document.querySelector('form');
 for (const badge of document.querySelectorAll('.club-card img')) {
   const fallback = () => { badge.hidden = true; };
@@ -66,7 +67,7 @@ create.onclick = async () => {
   const values = new FormData(form);
   const mode = values.get('mode');
   try {
-    const response = await fetch('/rooms', { method: 'POST', body: JSON.stringify({
+    const response = await arenaFetch('/rooms', { method: 'POST', body: JSON.stringify({
       mode, size: Number(values.get('size')), team: values.get('team'),
       identity: values.get('club'),
       name: document.querySelector('#room-name').value.trim() || 'Sala de ' + values.get('team').trim(),
@@ -84,7 +85,7 @@ create.onclick = async () => {
 async function listRooms() {
   const list = document.querySelector('#rooms');
   try {
-    const response = await fetch('/rooms');
+    const response = await arenaFetch('/rooms');
     if (!response.ok) throw Error();
     const rooms = await response.json();
     list.replaceChildren(...(rooms.length ? rooms : [null]).map(room => {

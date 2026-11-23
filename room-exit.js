@@ -1,4 +1,5 @@
-﻿const button = document.querySelector('[data-leave-room]');
+import { arenaFetch } from '/client-api.mjs';
+const button = document.querySelector('[data-leave-room]');
 const params = new URLSearchParams(location.search);
 const code = params.get('room')?.toUpperCase();
 const key = 'arena-member:' + code;
@@ -22,7 +23,7 @@ button.addEventListener('click', async () => {
   button.disabled = true;
   try {
     if (token) {
-      const response = await fetch('/room?' + new URLSearchParams({ room: code }), {
+      const response = await arenaFetch('/room?' + new URLSearchParams({ room: code }), {
         method: 'POST', headers: { Authorization: 'Bearer ' + token },
         body: JSON.stringify({ action: 'leave' }),
       });

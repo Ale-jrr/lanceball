@@ -1,4 +1,4 @@
-﻿import { randomInt } from 'node:crypto';
+import { randomInt } from 'node:crypto';
 
 export const rosterQuotas = Object.freeze({ GK: 1, DEF: 2, MID: 2, FWD: 2 });
 export const rosterSize = Object.values(rosterQuotas).reduce((total, count) => total + count, 0);

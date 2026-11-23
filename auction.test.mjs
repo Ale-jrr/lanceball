@@ -1,11 +1,11 @@
-﻿import assert from 'node:assert/strict';
+import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import test from 'node:test';
 import { openAuction } from './auction.mjs';
-import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
+import { publicAuction, resolveAuctionPlayer } from './supabase/functions/_shared/auction-view.mjs';
 
 const catalog = {
   edition: 'synthetic-test-v1',
@@ -21,7 +21,7 @@ function contender(path, teamId, deadline) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, ['--input-type=module', '-e', `
       import { openAuction } from './auction.mjs';
-import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
+import { publicAuction, resolveAuctionPlayer } from './supabase/functions/_shared/auction-view.mjs';
       const [path, teamId, deadline] = process.argv.slice(1);
       const auction = openAuction(path, () => Number(deadline) - 1);
       try { auction.bid(Number(teamId), 'GK-0', 93); }

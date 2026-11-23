@@ -1,4 +1,4 @@
-﻿import { randomInt } from 'node:crypto';
+import { randomInt } from 'node:crypto';
 import { uclClubs, clubCrests } from './ucl-clubs.mjs';
 import { worldFlags } from './world-teams.mjs';
 

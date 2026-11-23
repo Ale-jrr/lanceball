@@ -23,6 +23,7 @@
   </div>
 </dialog>
 <script type="module">
+import { arenaFetch, liveUpdates } from '/client-api.mjs';
 import { playerPositionName, positionName } from '/positions.mjs';
 const byId = id => document.getElementById(id);
 const content = byId('content');
@@ -112,7 +113,7 @@ async function api(action, input) {
   const url = '/post-auction?' + setup;
   const headers = {};
   if (memberToken) headers.Authorization = 'Bearer ' + memberToken;
-  const response = await fetch(url, action ? {
+  const response = await arenaFetch(url, action ? {
     method: 'POST', headers, body: JSON.stringify({ action, ...input }),
   } : { headers });
   const data = await response.json();
@@ -432,9 +433,9 @@ async function syncRoom() {
       status.textContent = error.message;
     }
   }
-  setTimeout(syncRoom, 600);
 }
-if (roomCode || solo) syncRoom();
+if (roomCode || solo) liveUpdates(roomCode, syncRoom, connected =>
+  state?.clock?.playing ? 550 : connected ? 6500 : 1800);
 </script>
 <script type="module" src="/room-exit.js"></script>
 </body>

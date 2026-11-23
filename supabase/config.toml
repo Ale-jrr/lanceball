@@ -1,0 +1,4 @@
+project_id = "lanceball"
+
+[functions.lanceball]
+verify_jwt = false

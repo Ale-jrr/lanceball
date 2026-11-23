@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -26,6 +26,7 @@
 </section>
 </main>
 <script type="module">
+import { arenaFetch, liveUpdates } from '/client-api.mjs';
 const byId = id => document.getElementById(id);
 const code = (new URLSearchParams(location.search).get('room') ?? '').toUpperCase();
 const key = 'arena-member:' + code;
@@ -38,7 +39,7 @@ let loaded = false;
 async function api(input) {
   const headers = {};
   if (token) headers.Authorization = 'Bearer ' + token;
-  const response = await fetch('/room?' + new URLSearchParams({ room: code }), input ? {
+  const response = await arenaFetch('/room?' + new URLSearchParams({ room: code }), input ? {
     method: 'POST', headers, body: JSON.stringify(input),
   } : { headers });
   const data = await response.json();
@@ -120,9 +121,8 @@ async function poll() {
       status.textContent = error.message;
     }
   }
-  setTimeout(poll, 1200);
 }
-poll();
+liveUpdates(code, poll, connected => connected ? 9000 : 1800);
 </script>
 <script type="module" src="/room-exit.js"></script>
 </body>

@@ -1,4 +1,4 @@
-﻿export const uclClubs = Object.freeze([
+export const uclClubs = Object.freeze([
   'PSG', 'Real Madrid', 'Arsenal', 'Como', 'Barcelona', 'Aston Villa',
   'Manchester City', 'Liverpool', 'Borussia Dortmund', 'Bayern de Munique',
   'Inter de Milão', 'Manchester United', 'Atlético de Madrid', 'PSV',

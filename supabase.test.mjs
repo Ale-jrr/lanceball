@@ -1,11 +1,11 @@
-﻿import { createServer } from 'node:http';
+import { createServer } from 'node:http';
 import { once } from 'node:events';
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { openAuction } from './auction.mjs';
-import { persistentHandler } from './persistent-handler.mjs';
-import { supabaseStore } from './supabase-store.mjs';
+import { persistentHandler } from './supabase/functions/_shared/persistent-handler.mjs';
+import { supabaseStore } from './supabase/functions/_shared/supabase-store.mjs';
 
 test('clientes em instâncias separadas compartilham lances no Supabase', async () => {
   const catalog = JSON.parse(readFileSync(new URL('./catalog.json', import.meta.url), 'utf8'));
@@ -14,6 +14,12 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     assert.equal(options.headers.apikey, 'sb_secret_test');
     assert.equal(options.headers.Authorization, undefined);
     const query = url.searchParams;
+    if (url.pathname === '/realtime/v1/api/broadcast') {
+      const [message] = JSON.parse(options.body).messages;
+      assert.match(message.topic, /^lanceball-[A-F0-9]{8}$/);
+      assert.deepEqual(message, { topic: message.topic, event: 'changed', payload: {} });
+      return Response.json({});
+    }
     if (url.pathname.endsWith('/lanceball_players')) {
       const offset = Number(query.get('offset'));
       assert.equal(options.method, 'GET');

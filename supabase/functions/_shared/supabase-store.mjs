@@ -27,6 +27,14 @@ export function supabaseStore(url, key, fetcher = fetch) {
   }
 
   return {
+    async signal(code) {
+      const response = await fetcher(new URL('/realtime/v1/api/broadcast', url), {
+        method: 'POST', signal: AbortSignal.timeout(1500),
+        headers: { apikey: key, ...authorization, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ topic: 'lanceball-' + code, event: 'changed', payload: {} }] }),
+      });
+      if (!response.ok) throw Error('Não foi possível avisar a sala.');
+    },
     async load(id) {
       const response = await request(sessionTable, { id: 'eq.' + id, select: 'revision,payload,public_info,expires_at' });
       return (await rows(response, 'Leitura da sessão'))[0] ?? null;

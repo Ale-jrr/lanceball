@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagnóstico · LANCEBALL</title>
+<main>
+<h1>Conexão do LANCEBALL</h1>
+<pre id="result" role="status">Consultando o servidor…</pre>
+<a href="/">Voltar ao início</a>
+</main>
+<script type="module">
+import { arenaFetch } from '/client-api.mjs';
+import { connection } from '/edge-config.mjs';
+const result = document.querySelector('#result');
+if (!connection) result.textContent = 'Servidor local. O modo online usa a Edge Function do Supabase.';
+else try {
+  const response = await arenaFetch('/health');
+  const info = await response.json();
+  result.textContent = JSON.stringify(info, null, 2);
+} catch {
+  result.textContent = 'A Edge Function não respondeu. Confira o deploy da função lanceball no Supabase.';
+}
+</script>
+</html>

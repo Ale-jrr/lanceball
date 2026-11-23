@@ -51,6 +51,7 @@
 <footer class="auction-credit"><p id="catalogInfo"></p></footer>
 </main>
 <script type="module">
+import { arenaFetch, liveUpdates } from '/client-api.mjs';
 import { playerPositionName, positionName } from '/positions.mjs';
 const byId = id => document.getElementById(id);
 const setup = new URLSearchParams(location.search);
@@ -283,7 +284,7 @@ function render() {
 async function request(url, options) {
   const headers = new Headers(options?.headers);
   if (memberToken) headers.set('Authorization', 'Bearer ' + memberToken);
-  const response = await fetch(solo || roomCode ? url + '?' + setup : url, { ...options, headers });
+  const response = await arenaFetch(solo || roomCode ? url + '?' + setup : url, { ...options, headers });
   const result = await response.json().catch(() => null);
   if (!response.ok || !result) {
     const error = Error(result?.error ?? ('Servidor do leilão retornou HTTP ' + response.status + '.'));
@@ -385,11 +386,19 @@ async function poll() {
         ? 'Sem conexão com o leilão. Tentando reconectar…' : error.message;
     }
   }
-  setTimeout(poll, 500);
 }
 updateHeading();
 setInterval(updateTimer, 150);
-poll();
+liveUpdates(roomCode ?? null, poll, connected => {
+  if (!roomCode) return 850;
+  const round = state?.round;
+  if (!round) return connected ? 6500 : 2500;
+  const remaining = round.deadline - Date.now() - clockOffset;
+  const stagger = Number(team.value) * 110;
+  const checkpoints = [6000, 2000, 0].map(boundary => remaining - boundary + 100 + stagger);
+  const next = checkpoints.find(delay => delay > 0);
+  return Math.max(180, Math.min(next ?? 450, connected ? 4500 : 1500));
+});
 </script>
 <script type="module" src="/room-exit.js"></script>
 </body>

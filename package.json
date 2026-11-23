@@ -6,6 +6,7 @@
     "node": "24.x"
   },
   "scripts": {
+    "build": "node build-site.mjs",
     "start": "node demo.mjs",
     "test": "node --test"
   }
