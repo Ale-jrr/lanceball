@@ -114,14 +114,27 @@ function sameValue(row, next) {
     isDeepStrictEqual(row.public_info, next.public_info);
 }
 
+class CatalogError extends Error {
+  constructor(message, code, options) {
+    super(message, options);
+    this.code = code;
+  }
+}
+
 export function persistentHandler(store, defer = promise => { void promise; }) {
   let catalogPromise;
   let catalogExpiry = 0;
   function catalog() {
     if (!catalogPromise || Date.now() >= catalogExpiry) {
       catalogExpiry = Date.now() + 60_000;
-      catalogPromise = store.players().then(players => {
-        if (players.length < 200) throw Error('Catálogo do Supabase precisa ser importado.');
+      catalogPromise = store.players().catch(error => {
+        throw new CatalogError('O Supabase não conseguiu ler os jogadores. Confira o diagnóstico em /health.',
+          'catalog_read', { cause: error });
+      }).then(players => {
+        if (players.length < 200) {
+          throw new CatalogError(`O Supabase tem ${players.length} jogadores cadastrados. Importe o catálogo antes de iniciar.`,
+            'catalog_missing');
+        }
         return { ...catalogInfo, players };
       }).catch(error => {
         catalogPromise = undefined;
@@ -145,6 +158,7 @@ export function persistentHandler(store, defer = promise => { void promise; }) {
       }
     }
     if (!gameRoutes.has(url.pathname)) return sendJson(res, 404, { error: 'Rota indisponível.' });
+    let operation = 'leitura';
     try {
       if (url.pathname === '/rooms' && req.method === 'GET') return sendJson(res, 200, await store.list());
       const target = scope(url);
@@ -154,6 +168,7 @@ export function persistentHandler(store, defer = promise => { void promise; }) {
         Buffer.byteLength(request.body ?? '') > 0 && JSON.parse(request.body.toString()).action === 'start';
       let source;
       for (let attempt = 0; attempt < 8; attempt++) {
+        operation = 'leitura';
         const previous = target.id ? await store.load(target.id) : null;
         const active = previous && Date.parse(previous.expires_at) > Date.now() ? previous : null;
         const needsCatalog = req.method === 'POST' && ((startRoom && active?.payload.room && !active.payload.room.auction) ||
@@ -166,6 +181,7 @@ export function persistentHandler(store, defer = promise => { void promise; }) {
           const next = capture(runtime, target, active);
           const id = target.id ?? (next && 'room:' + next.payload.room.code);
           const unchanged = sameValue(previous, next);
+          operation = 'gravação';
           if (unchanged || await store.save(id, previous, next)) {
             const meaningful = !unchanged && id?.startsWith('room:') &&
               (req.method === 'POST' && output.status < 400 ||
@@ -187,8 +203,12 @@ export function persistentHandler(store, defer = promise => { void promise; }) {
       if (error instanceof SyntaxError || error.message === 'Dados acima do limite.') {
         return sendJson(res, 400, { error: 'Formato ou tamanho dos dados inválido.' });
       }
-      console.error('LANCEBALL:', error.message);
-      return sendJson(res, 503, { error: 'O armazenamento do jogo está indisponível.' });
+      if (error instanceof CatalogError) {
+        console.error('LANCEBALL catálogo:', error.cause?.message ?? error.message);
+        return sendJson(res, 503, { error: error.message, code: error.code });
+      }
+      console.error('LANCEBALL sala:', operation, error.message);
+      return sendJson(res, 503, { error: 'Falha na ' + operation + ' da sala no Supabase.', code: 'room_storage' });
     }
   };
 }

@@ -76,4 +76,16 @@ test('a Edge Function autoriza o jogador por sala e emite apenas um aviso sem o 
   assert.equal(state.state.queue, undefined);
   assert.equal(state.state.catalog.players.length, 1);
   assert.ok(signals.length >= 2 && signals.every(code => code === room));
+
+  const withEmptyCatalog = edgeHandler({ ...store, players: async () => [] });
+  const second = await ask(withEmptyCatalog, '/rooms', { body: {
+    name: 'Arena 2', team: 'Outro anfitrião', identity: 'Porto', mode: 'ucl', size: 4,
+  } });
+  const another = await second.json();
+  const blocked = await ask(withEmptyCatalog, '/room', {
+    room: another.code, token: another.token, body: { action: 'start' },
+  });
+  assert.equal(blocked.status, 503);
+  assert.equal((await blocked.json()).code, 'catalog_missing');
+  assert.equal((await ask(withEmptyCatalog, '/room', { room: another.code })).status, 200);
 });
