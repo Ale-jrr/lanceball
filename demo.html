@@ -75,6 +75,7 @@ const status = byId('status');
 let state;
 let clockOffset = 0;
 let busy = false;
+let pollError = false;
 
 for (let id = 0; id < 8; id++) team.add(new Option(`Equipe ${id + 1}`, id));
 team.value = solo || roomCode ? '0' : sessionStorage.getItem('auction-team') || '0';
@@ -281,8 +282,8 @@ async function request(url, options) {
   const headers = new Headers(options?.headers);
   if (memberToken) headers.set('Authorization', 'Bearer ' + memberToken);
   const response = await fetch(solo || roomCode ? url + '?' + setup : url, { ...options, headers });
-  const result = await response.json();
-  if (!response.ok) throw Error(result.error);
+  const result = await response.json().catch(() => null);
+  if (!response.ok || !result) throw Error(result?.error ?? ('Servidor do leilão retornou HTTP ' + response.status + '.'));
   state = result.state;
   mode = result.mode ?? mode;
   roomName = result.roomName ?? roomName;
@@ -357,8 +358,15 @@ byId('pass').onclick = () => {
 
 async function poll() {
   if (!busy) {
-    try { await request('/state'); }
-    catch { status.textContent = 'Conexão com o servidor local indisponível.'; }
+    try {
+      await request('/state');
+      if (pollError && !state?.complete) status.textContent = '';
+      pollError = false;
+    } catch (error) {
+      pollError = true;
+      status.textContent = error instanceof TypeError
+        ? 'Sem conexão com o leilão. Tentando reconectar…' : error.message;
+    }
   }
   setTimeout(poll, 500);
 }

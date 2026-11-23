@@ -1,4 +1,4 @@
-﻿import { createServer } from 'node:http';
+import { createServer } from 'node:http';
 import { once } from 'node:events';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -16,6 +16,9 @@ test('a entrada da Vercel atende a página, os recursos e o leilão', async () =
     const home = await request('/');
     assert.equal(home.status, 200);
     assert.match(await home.text(), /LANCEBALL/);
+    const health = await request('/health');
+    assert.equal(health.status, 200);
+    assert.match((await health.json()).status, /Supabase/);
     const css = await request('/arena.css');
     assert.match(css.headers.get('content-type'), /text\/css/);
     const image = await request('/arena-background.png');
