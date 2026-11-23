@@ -42,7 +42,7 @@
 <p id="balance"></p>
 <div class="last-purchase"><figure class="player-portrait player-portrait-small" id="revealed-portrait" hidden></figure><p id="lastPurchase"></p></div>
 <div class="quick" id="quick" hidden><button data-step="1">+1</button><button data-step="2">+2</button><button data-step="5">+5</button><button data-step="10">+10</button><button class="max" id="maxBid">Máximo</button><button class="pass" id="pass">Passar</button></div>
-<p id="status" role="status"></p><a id="continue" href="/pos-leilao" hidden style="color:var(--gold)">Continuar para trocas</a>
+<p id="status" role="status"></p><a id="return-lobby" hidden>Voltar ao lobby</a><a id="continue" href="/pos-leilao" hidden style="color:var(--gold)">Continuar para trocas</a>
 </section>
 <section class="panel"><h2>Seu elenco</h2><ul id="squad"></ul></section><section class="panel"><h2>Equipes da sala</h2><ul id="teams"></ul>
 <div class="purchase-history"><h3>Quem levou</h3><ol id="purchases"></ol></div>
@@ -54,9 +54,11 @@
 import { playerPositionName, positionName } from '/positions.mjs';
 const byId = id => document.getElementById(id);
 const setup = new URLSearchParams(location.search);
-const roomCode = setup.get('room');
+const roomCode = setup.get('room')?.toUpperCase();
 const solo = setup.has('mode') && !roomCode;
 const memberToken = roomCode ? localStorage.getItem('arena-member:' + roomCode) : null;
+const lobbyLink = byId('return-lobby');
+if (roomCode) lobbyLink.href = '/sala?' + new URLSearchParams({ room: roomCode });
 if (solo && !setup.has('solo')) {
   setup.set('solo', crypto.randomUUID());
   history.replaceState(null, '', location.pathname + '?' + setup);
@@ -101,9 +103,9 @@ function updateTimer() {
   const minimum = (round.highest?.amount ?? 0) + 1;
   const maximum = roleFull ? 0 : selected.balance - Math.max(0, state.rosterSize - 1 - selected.players.length);
   const passed = round.passed?.includes(selected.id);
-  const disabled = busy || seconds === 0 || passed || maximum < minimum;
+  const disabled = busy || pollError || seconds === 0 || passed || maximum < minimum;
   byId('maxBid').disabled = disabled;
-  byId('pass').disabled = busy || passed || seconds === 0;
+  byId('pass').disabled = busy || pollError || passed || seconds === 0;
   for (const button of byId('quick').querySelectorAll('[data-step]')) {
     const step = Number(button.dataset.step);
     const total = minimum + step - 1;
@@ -283,7 +285,11 @@ async function request(url, options) {
   if (memberToken) headers.set('Authorization', 'Bearer ' + memberToken);
   const response = await fetch(solo || roomCode ? url + '?' + setup : url, { ...options, headers });
   const result = await response.json().catch(() => null);
-  if (!response.ok || !result) throw Error(result?.error ?? ('Servidor do leilão retornou HTTP ' + response.status + '.'));
+  if (!response.ok || !result) {
+    const error = Error(result?.error ?? ('Servidor do leilão retornou HTTP ' + response.status + '.'));
+    error.status = response.status;
+    throw error;
+  }
   state = result.state;
   mode = result.mode ?? mode;
   roomName = result.roomName ?? roomName;
@@ -360,10 +366,21 @@ async function poll() {
   if (!busy) {
     try {
       await request('/state');
+      lobbyLink.hidden = true;
       if (pollError && !state?.complete) status.textContent = '';
       pollError = false;
     } catch (error) {
       pollError = true;
+      if (roomCode && [401, 404].includes(error.status)) {
+        lobbyLink.hidden = false;
+        if (error.status === 404) {
+          lobbyLink.href = '/';
+          lobbyLink.textContent = 'Criar outra sala';
+        } else {
+          lobbyLink.href = '/sala?' + new URLSearchParams({ room: roomCode });
+          lobbyLink.textContent = 'Voltar ao lobby';
+        }
+      }
       status.textContent = error instanceof TypeError
         ? 'Sem conexão com o leilão. Tentando reconectar…' : error.message;
     }

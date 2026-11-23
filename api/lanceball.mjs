@@ -1,9 +1,9 @@
-﻿import { handleRequest, requestUrl } from '../demo.mjs';
+import { handleRequest, requestUrl } from '../demo.mjs';
 import { persistentHandler } from '../persistent-handler.mjs';
 import { supabaseStore } from '../supabase-store.mjs';
 
-const url = process.env.SUPABASE_URL;
-const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+const url = process.env.SUPABASE_URL?.trim();
+const key = (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY)?.trim();
 const store = url && key ? supabaseStore(url, key) : null;
 const persisted = store ? persistentHandler(store) : null;
 const gameRoutes = new Set(['/rooms', '/room', '/state', '/start', '/bid', '/pass', '/post-auction']);
@@ -15,7 +15,7 @@ function json(response, code, data) {
 }
 
 export default async function lanceball(request, response) {
-  const { pathname } = requestUrl(request);
+  const { pathname, searchParams } = requestUrl(request);
   if (request.method === 'GET' && pathname === '/health') {
     if (!store) return json(response, url || key ? 503 : 200, {
       armazenamento: 'memória', status: 'Supabase não configurado',
@@ -35,6 +35,10 @@ export default async function lanceball(request, response) {
     }
   }
   if (persisted) return persisted(request, response);
+  const multiplayer = pathname === '/rooms' || pathname === '/room' || searchParams.has('room');
+  if (process.env.VERCEL === '1' && gameRoutes.has(pathname) && multiplayer && !url && !key) {
+    return json(response, 503, { error: 'Multiplayer indisponível. Conecte o Supabase na Vercel e abra uma sala nova.' });
+  }
   if ((url || key) && gameRoutes.has(pathname)) {
     return json(response, 503, { error: 'A configuração do Supabase na Vercel está incompleta.' });
   }

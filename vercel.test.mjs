@@ -37,6 +37,26 @@ test('a entrada da Vercel atende a página, os recursos e o leilão', async () =
     });
     assert.equal(bid.status, 200);
     assert.equal((await bid.json()).state.round.highest.amount, 5);
+    const missing = await request('/state', { room: '00000000' });
+    assert.equal(missing.status, 404);
+    const created = await request('/rooms', {}, {
+      method: 'POST', body: JSON.stringify({ name: 'Arena', team: 'Teste', identity: 'Porto', mode: 'ucl', size: 4 }),
+    });
+    assert.equal(created.status, 201);
+    const { code } = await created.json();
+    assert.equal((await request('/state', { room: code })).status, 401);
+
+    const environment = process.env.VERCEL;
+    try {
+      process.env.VERCEL = '1';
+      const disabled = await request('/rooms');
+      assert.equal(disabled.status, 503);
+      assert.match((await disabled.json()).error, /Supabase/);
+      assert.equal((await request('/')).status, 200);
+    } finally {
+      if (environment === undefined) delete process.env.VERCEL;
+      else process.env.VERCEL = environment;
+    }
   } finally {
     await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
   }

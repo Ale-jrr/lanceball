@@ -262,7 +262,8 @@ export async function handleRequest(req, res, runtime = localRuntime) {
         return send(400, { error: 'Ação inválida.' });
       }
     }
-    if (code && !member) return send(401, { error: 'Entre na sala antes de acessar a partida.' });
+    if (code && !online) return send(404, { error: 'A sala não está mais disponível. Abra um convite novo.' });
+    if (code && !member) return send(401, { error: 'Seu acesso à sala não foi reconhecido. Volte ao lobby para verificar o convite.' });
     if (code && !online.auction) return send(409, { error: 'O anfitrião ainda não iniciou o leilão.' });
     const roomId = url.searchParams.get('solo');
     if (roomId !== null && !/^[0-9a-f-]{36}$/i.test(roomId)) throw Error('Sessão inválida.');
