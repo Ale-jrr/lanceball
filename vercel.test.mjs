@@ -18,10 +18,13 @@ test('a hospedagem estática leva apenas a conexão pública ao navegador', asyn
     assert.match(config, /sb_publishable_test/);
     assert.doesNotMatch(config, /sb_secret_/);
     for (const file of ['index.html', 'sala/index.html', 'leilao/index.html', 'pos-leilao/index.html',
-      'campeonato/index.html', 'health/index.html']) {
+      'health/index.html']) {
       const page = await readFile(join(dir, file), 'utf8');
       assert.match(page, /client-api.mjs/);
+      const header = page.match(/<header class="arena-header">[\s\S]*?<\/header>/)?.[0];
+      if (header) assert.doesNotMatch(header, /href="\/(?:campeonato|leilao)"/);
     }
+    await assert.rejects(readFile(join(dir, 'campeonato/index.html')), { code: 'ENOENT' });
     await assert.rejects(buildSite(dir, { ...env, LANCEBALL_SUPABASE_PUBLISHABLE_KEY: 'sb_secret_test' }), /chave pública/);
   } finally {
     await rm(dir, { recursive: true, force: true });

@@ -113,7 +113,15 @@ button:disabled { opacity: .47; cursor: default; }
 
 .auction-page .page-intro { margin-bottom: 1.15rem; }
 #catalogInfo { font-size: .87rem; margin-top: .6rem; }
-.auction-page .grid { grid-template-columns: minmax(0, 1.9fr) minmax(0, .84fr) minmax(0, 1fr); }
+.auction-page .grid {
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, .84fr) minmax(0, 1fr);
+  grid-template-areas: "auction squad purchases" "auction squad teams";
+  grid-template-rows: auto 1fr;
+}
+.auction-page .auction { grid-area: auction; }
+.auction-squad { grid-area: squad; }
+.purchase-history { grid-area: purchases; }
+.auction-teams { grid-area: teams; }
 .auction { border-top-color: #f3d38b91; }
 .progress { display: flex; gap: .85rem; align-items: center; white-space: nowrap; color: var(--muted); margin-bottom: .85rem; }
 progress { width: 100%; height: .55rem; accent-color: var(--gold); }
@@ -175,26 +183,26 @@ th, td { padding: .5rem .35rem; text-align: left; border-bottom: 1px solid var(-
 th { color: var(--muted); }
 .post-page #restore { max-width: 42rem; }
 
-.preview-page form { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; }
-#results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
-#results ol { padding-left: 1.25rem; }
-#results li { padding: .35rem 0; border-bottom: 1px solid var(--line); }
-#results .result-final { border-color: #ad8b47; background: linear-gradient(110deg, #30291e, var(--surface)); }
 
 @media (max-width: 1000px) {
-  .auction-page .grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
-  .auction-page .auction { grid-row: span 2; }
+  .auction-page .grid {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-areas: "auction purchases" "auction squad" "auction teams";
+    grid-template-rows: auto auto 1fr;
+  }
 }
 @media (max-width: 720px) {
-  .layout, .grid, .auction-page .grid, .rules, #results { grid-template-columns: minmax(0, 1fr); }
-  .auction-page .auction { grid-row: auto; }
+  .layout, .grid, .auction-page .grid, .rules { grid-template-columns: minmax(0, 1fr); }
+  .auction-page .grid {
+    grid-template-areas: "auction" "purchases" "squad" "teams";
+    grid-template-rows: auto;
+  }
   .rules { gap: .75rem; }
   .page-intro { margin-top: 1.6rem; }
 }
 @media (max-width: 390px) {
   .arena-nav { padding-block: .55rem; flex-wrap: wrap; }
   .arena-nav nav { justify-content: flex-start; }
-  .preview-page form > * { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
@@ -239,12 +247,24 @@ th { color: var(--muted); }
   .exit-room { float: none; margin-top: 1rem; margin-left: 0; }
 }
 
-.purchase-history { margin-top: 1rem; padding-top: .85rem; border-top: 1px solid var(--line); }
-.purchase-history h3 { color: var(--gold); }
-#purchases { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; max-height: 18rem; overflow: auto; }
-#purchases li { overflow-wrap: anywhere; padding: .55rem .65rem; background: var(--surface-inset); border-radius: .55rem; font-size: .9rem; }
+#purchases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 9rem;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+#purchases li {
+  overflow-wrap: anywhere;
+  padding: .45rem .35rem;
+  border-bottom: 1px solid var(--line);
+  font-size: .85rem;
+}
+#purchases li:first-child { padding-top: .2rem; }
+#purchases li:last-child { border-bottom: 0; }
 #purchases strong, #purchases span { display: block; }
-#purchases span { color: var(--muted); font-size: .85rem; margin-top: .15rem; }
+#purchases span { color: var(--muted); font-size: .78rem; margin-top: .15rem; }
 
 .competition-note { margin: 1rem 0 .7rem; font-size: .9rem; font-weight: 700; color: var(--gold); }
 
@@ -570,8 +590,6 @@ body {
 .squad-line .empty-slot { border-style: dashed; background: #15332bde; }
 .squad-line .empty-slot strong { font-weight: 500; }
 .squad-line .out-of-position { border-color: var(--gold); }
-.purchase-history h3 { color: var(--text); font-size: .85rem; }
-#purchases li { border-radius: .35rem; font-size: .8rem; }
 .auction-page .panel > details { font-size: .82rem; }
 @media (min-width: 1001px) and (hover: hover) and (pointer: fine) {
   .quick { grid-template-columns: repeat(6, minmax(0, 1fr)); }
@@ -598,7 +616,6 @@ body {
 .post-page .pitch-row small { border: 1px solid #a5d2bc45; background: #112d25; }
 .post-page .score, .post-page .fixture strong, .post-page td { font-variant-numeric: tabular-nums; }
 .post-page .events li, .post-page .fixture, .post-page table { font-size: .875rem; }
-.preview-page #results { margin-top: .9rem; }
 
 @media (max-width: 720px) {
   .hero {
