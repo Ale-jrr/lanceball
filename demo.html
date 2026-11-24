@@ -247,6 +247,7 @@ function render() {
       ? round.clue.label + ' · ' + (positionName(round.clue.detail) ?? positionName(round.clue.position) ?? round.clue.value)
       : [playerPositionName(round.player), round.player.club].filter(Boolean).join(' · ');
     byId('highest').textContent = round.highest ? money(round.highest.amount) : 'Sem lance';
+    byId('highest').classList.toggle('bid-empty', !round.highest);
     byId('leader').textContent = round.highest ? state.teams[round.highest.teamId].name : '';
   }
   const purchase = state?.purchases.at(-1);
