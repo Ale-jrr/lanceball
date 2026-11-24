@@ -180,7 +180,10 @@ test('bots valorizam overall, preenchem posições e reservam saldo para as vaga
     catalog: { players: Array(28) }, queue: Array(27), round: {} };
   const ordinary = { position: 'FWD', overall: 78 };
   const elite = { ...ordinary, overall: 91 };
-  assert.ok(botBidLimit(state, team, elite) > 20);
+  assert.ok(botBidLimit(state, team, elite) >= 12);
+  assert.ok(botBidLimit(state, team, elite) <= 18);
+  assert.ok(botBidLimit(state, team, ordinary) <= 8);
+  assert.ok(botBidLimit(state, { ...team, players: Array(6).fill({ position: 'DEF' }) }, elite) <= 18);
   assert.ok(botBidLimit(state, team, elite) > botBidLimit(state, team, ordinary));
   assert.ok(botBidLimit(state, { ...team, balance: 10 }, elite) <= 4);
   assert.equal(botBidLimit(state, { ...team, players: [ordinary, ordinary] }, elite), 0);

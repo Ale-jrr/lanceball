@@ -73,10 +73,8 @@ function advanceSolo(room, now) {
     .sort((a, b) => (b.limit + b.variation) - (a.limit + a.variation));
   const candidate = candidates[0];
   if (!candidate) return;
-  const { team, limit } = candidate;
   if (window === 'early' && player.overall < 83 && !state.round.clue && randomInt(100) < 20) return;
-  const extra = highest && limit - minimum >= 5 ? randomInt(3) : 0;
-  auction.bid(team.id, player.id, minimum + extra);
+  auction.bid(candidate.team.id, player.id, minimum);
 }
 
 async function readBody(req, limit = 4096) {
