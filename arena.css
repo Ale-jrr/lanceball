@@ -400,8 +400,26 @@ body {
   border: 1px solid #92c6b180;
   background: #102723;
 }
-.player-portrait figcaption { margin-top: .25rem; font-size: .68rem; line-height: 1.2; overflow-wrap: anywhere; }
-.player-portrait figcaption a { color: #d3e8dd; }
+.player-portrait details { position: relative; }
+.player-portrait summary { cursor: pointer; list-style: none; }
+.player-portrait summary::-webkit-details-marker { display: none; }
+.player-portrait summary:focus-visible { outline: 2px solid #ffe09b; outline-offset: 3px; border-radius: .5rem; }
+.portrait-credit {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + .35rem);
+  left: 0;
+  width: max-content;
+  max-width: 12rem;
+  padding: .5rem .65rem;
+  border: 1px solid #45635c;
+  border-radius: .5rem;
+  background: #142922;
+  font-size: .75rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.portrait-credit a { color: #d3e8dd; }
 .last-purchase { display: flex; gap: .55rem; align-items: center; margin-top: .65rem; }
 .last-purchase:has(#lastPurchase:empty) { display: none; }
 .last-purchase #lastPurchase { margin: 0; }

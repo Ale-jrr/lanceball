@@ -169,7 +169,12 @@ function showPortrait(id, player, portrait) {
     else showPlaceholder();
   });
   image.addEventListener('load', () => { if (image.isConnected) figure.hidden = false; });
-  const credit = document.createElement('figcaption');
+  const details = document.createElement('details');
+  const toggle = document.createElement('summary');
+  toggle.setAttribute('aria-label', 'Créditos da foto de ' + player.name);
+  toggle.append(image);
+  const credit = document.createElement('div');
+  credit.className = 'portrait-credit';
   const author = document.createElement('a');
   author.href = portrait.source;
   author.textContent = portrait.author;
@@ -181,7 +186,8 @@ function showPortrait(id, player, portrait) {
     link.rel = 'noopener noreferrer';
   }
   credit.append(author, ' · ', license);
-  figure.append(image, credit);
+  details.append(toggle, credit);
+  figure.append(details);
   image.src = source;
 }
 
