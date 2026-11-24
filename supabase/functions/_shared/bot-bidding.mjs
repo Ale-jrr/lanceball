@@ -8,9 +8,7 @@ export function botBidLimit(state, team, player) {
   const auctionProgress = 1 - state.queue.length / state.catalog.players.length;
   const urgency = Math.max(0, auctionProgress - team.players.length / state.rosterSize);
   const positionSupply = state.queue.filter(entry => entry.position === player.position).length;
-  const positionDemand = state.teams?.reduce((total, entry) => total + Math.max(0,
-    state.quotas[player.position] - entry.players.filter(signed => signed.position === player.position).length), 0) ?? 0;
-  const scarcity = positionDemand > positionSupply ? .10 : 0;
+  const scarcity = positionSupply <= needed ? .10 : 0;
   const overall = state.round.clue ? 81 : player.overall;
   const quality = .48 + .064 * Math.max(0, overall - 78);
   const squadAverage = team.players.length

@@ -95,6 +95,23 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     assert.deepEqual(result.purchases[0], winner);
     assert.equal(result.teams[winner.teamId].balance, 99);
 
+    const botRound = rows.get('room:' + code).payload.room.auction.round;
+    botRound.player.overall = 91;
+    botRound.deadline = Date.now() + 5000;
+    const openedByBot = (await request(0, '/state' + query, undefined, host)).data.state;
+    assert.equal(openedByBot.round.highest.amount, 1);
+    assert.ok(openedByBot.teams[openedByBot.round.highest.teamId].bot);
+
+    const immediate = (await request(1, '/state' + query, undefined, guest)).data.state;
+    assert.deepEqual(immediate.round.highest, openedByBot.round.highest);
+
+    const afterOpening = rows.get('room:' + code).payload.room.auction;
+    afterOpening.bids.at(-1).time -= 2000;
+    const coveredByBot = (await request(1, '/state' + query, undefined, guest)).data.state;
+    assert.equal(coveredByBot.round.highest.amount, 2);
+    assert.ok(coveredByBot.teams[coveredByBot.round.highest.teamId].bot);
+    assert.notEqual(coveredByBot.round.highest.teamId, openedByBot.round.highest.teamId);
+
     // Move the shared draft to completion without waiting for every timer.
     const draft = rows.get('room:' + code).payload.room.auction;
     let clock = Date.now();

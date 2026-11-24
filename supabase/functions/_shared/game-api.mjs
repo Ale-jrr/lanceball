@@ -60,21 +60,17 @@ function advanceSolo(room, now) {
     room.botWindows.clear();
   }
   if (!window) return;
-  const humanBid = highest && !state.teams[highest.teamId].bot ? highest.amount : null;
-  const decision = humanBid === null ? window : window + ':human:' + humanBid;
-  if (room.botWindows.has(decision)) return;
-  room.botWindows.add(decision);
-  if (humanBid === null && [...room.botWindows].some(key => key.startsWith(window + ':human:'))) return;
+  const latestBid = state.bids.at(-1);
+  if (latestBid?.playerId === player.id && now - latestBid.time < 1_200) return;
+
   const minimum = (highest?.amount ?? 0) + 1;
-  const candidates = state.teams
-    .filter(team => team.bot && team.id !== highest?.teamId && !state.round.passed?.includes(team.id))
-    .map(team => ({ team, limit: botBidLimit(state, team, player), variation: randomInt(5) }))
-    .filter(candidate => candidate.limit >= minimum)
-    .sort((a, b) => (b.limit + b.variation) - (a.limit + a.variation));
-  const candidate = candidates[0];
-  if (!candidate) return;
-  if (window === 'early' && player.overall < 83 && !state.round.clue && randomInt(100) < 20) return;
-  auction.bid(candidate.team.id, player.id, minimum);
+  const candidates = state.teams.filter(team =>
+    team.bot && team.id !== highest?.teamId && !state.round.passed?.includes(team.id) &&
+    !room.botWindows.has(window + ':bot:' + team.id) && botBidLimit(state, team, player) >= minimum);
+  if (!candidates.length) return;
+  const team = candidates[randomInt(candidates.length)];
+  auction.bid(team.id, player.id, minimum);
+  room.botWindows.add(window + ':bot:' + team.id);
 }
 
 async function readBody(req, limit = 4096) {

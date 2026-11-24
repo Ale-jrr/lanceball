@@ -177,15 +177,14 @@ test('bots valorizam overall, preenchem posições e reservam saldo para as vaga
   const { botBidLimit } = await import('./supabase/functions/_shared/bot-bidding.mjs');
   const team = { id: 1, balance: 100, players: [] };
   const state = { rosterSize: 7, quotas: { GK: 1, DEF: 2, MID: 2, FWD: 2 },
-    catalog: { players: Array(28) }, queue: Array(27), round: {} };
+    catalog: { players: Array(28) }, queue: Array(27).fill({ position: 'FWD' }), round: {} };
   const ordinary = { position: 'FWD', overall: 78 };
   const elite = { ...ordinary, overall: 91 };
   assert.ok(botBidLimit(state, team, elite) >= 12);
   assert.ok(botBidLimit(state, team, elite) <= 18);
   assert.ok(botBidLimit(state, team, ordinary) <= 8);
-  const scarce = { ...state, teams: [team] };
-  const plentiful = { ...scarce, queue: Array(27).fill(ordinary) };
-  assert.ok(botBidLimit(scarce, team, ordinary) > botBidLimit(plentiful, team, ordinary));
+  const scarce = { ...state, queue: Array(27).fill({ position: 'MID' }) };
+  assert.ok(botBidLimit(scarce, team, ordinary) > botBidLimit(state, team, ordinary));
   const withDefender = overall => ({ ...team, players: [{ position: 'DEF', overall }] });
   assert.ok(botBidLimit(state, withDefender(78), elite) > botBidLimit(state, withDefender(91), elite));
   const lastVacancy = { ...team, balance: 50, players: Array(6).fill({ position: 'DEF', overall: 83 }) };
