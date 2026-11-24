@@ -40,14 +40,6 @@
 </div>
 <label id="teamLabel" for="team">Sua equipe nesta aba</label><select id="team"></select>
 <p id="balance"></p>
-<dl id="auction-metrics" class="auction-metrics" hidden>
-  <div><dt>Vagas abertas</dt><dd id="openSlots"></dd></div>
-  <div><dt>Saldo livre após reserva</dt><dd id="freeCash"></dd></div>
-  <div><dt>Saldo por vaga</dt><dd id="cashPerSlot"></dd></div>
-  <div><dt>Overall médio do elenco</dt><dd id="squadAverage"></dd></div>
-  <div><dt>Atletas na fila</dt><dd id="playersLeft"></dd></div>
-  <div id="bid-guide" hidden><dt>Lance de referência</dt><dd id="bidGuideValue"></dd></div>
-</dl>
 <div class="last-purchase"><figure class="player-portrait player-portrait-small" id="revealed-portrait" hidden></figure><p id="lastPurchase"></p></div>
 <div class="quick" id="quick" hidden><button data-step="1">+1</button><button data-step="2">+2</button><button data-step="5">+5</button><button data-step="10">+10</button><button class="max" id="maxBid">Máximo</button><button class="pass" id="pass">Passar</button></div>
 <p id="status" role="status"></p><a id="return-lobby" hidden>Voltar ao lobby</a><a id="continue" href="/pos-leilao" hidden style="color:var(--gold)">Continuar para trocas</a>
@@ -129,32 +121,6 @@ function updateTimer() {
   }
   byId('maxBid').dataset.total = maximum;
   byId('balance').textContent = 'Saldo ' + money(selected.balance) + ' · Lance máximo ' + money(maximum);
-}
-
-function renderAuctionMetrics(selected, round) {
-  byId('auction-metrics').hidden = !selected;
-  if (!selected) return;
-  const remaining = state.rosterSize - selected.players.length;
-  const queued = Math.max(0, state.totalPlayers - state.roundNumber);
-  const average = selected.players.length
-    ? selected.players.reduce((sum, player) => sum + player.overall, 0) / selected.players.length
-    : null;
-  byId('openSlots').textContent = remaining;
-  byId('freeCash').textContent = money(Math.max(0, selected.balance - remaining));
-  byId('cashPerSlot').textContent = remaining ? money(Math.floor(selected.balance / remaining)) : '—';
-  byId('squadAverage').textContent = average?.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) ?? '—';
-  byId('playersLeft').textContent = queued;
-
-  const position = round?.player.position;
-  const needed = position ? state.quotas[position] - selected.players.filter(player => player.position === position).length : 0;
-  const showGuide = remaining > 0 && needed > 0 && !round?.clue;
-  byId('bid-guide').hidden = !showGuide;
-  if (!showGuide) return;
-  const quality = Math.min(1.45, .5 + .065 * Math.max(0, round.player.overall - 78));
-  const progress = state.roundNumber / state.totalPlayers;
-  const urgency = Math.max(0, progress - selected.players.length / state.rosterSize);
-  const target = Math.floor(selected.balance / remaining * (quality + .25 * urgency));
-  byId('bidGuideValue').textContent = money(Math.max(1, Math.min(target, selected.balance - remaining + 1)));
 }
 
 function updateHeading(team) {
@@ -271,7 +237,6 @@ function render() {
   });
   byId('teams').replaceChildren(...teams);
   byId('balance').textContent = selected ? `Saldo: ${money(selected.balance)} · ${selected.players.length}/${state.rosterSize} atletas` : '';
-  renderAuctionMetrics(selected, round);
   showPortrait('player-portrait', round?.clue ? null : round?.player, round?.portrait);
   if (round) {
     if (status.textContent === 'Você passou esta rodada.' && !round.passed?.includes(Number(team.value))) status.textContent = '';

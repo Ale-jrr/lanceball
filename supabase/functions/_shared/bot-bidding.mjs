@@ -13,9 +13,13 @@ export function botBidLimit(state, team, player) {
   const scarcity = positionDemand > positionSupply ? .10 : 0;
   const overall = state.round.clue ? 81 : player.overall;
   const quality = .48 + .064 * Math.max(0, overall - 78);
+  const squadAverage = team.players.length
+    ? team.players.reduce((sum, signed) => sum + signed.overall, 0) / team.players.length
+    : overall;
+  const squadUpgrade = state.round.clue ? 0 : Math.max(-.10, Math.min(.10, (overall - squadAverage) * .02));
   const style = [.88, 1, 1.13][team.id % 3];
   const budgetPerSlot = team.balance / Math.max(3, remaining);
   const lastVacancy = remaining === 1 ? .3 : 0;
-  const value = budgetPerSlot * (quality + .45 * urgency + lastVacancy + scarcity) * style;
+  const value = budgetPerSlot * (quality + .45 * urgency + lastVacancy + scarcity + squadUpgrade) * style;
   return Math.max(0, Math.min(available, Math.floor(value)));
 }
