@@ -12,7 +12,11 @@
 <p id="status" role="status">Carregando a sala…</p></div>
 <form class="panel" id="join" hidden>
 <label>Nome da sua equipe<input name="team" required maxlength="30"></label>
-<label>Clube<select name="identity" required></select></label>
+<fieldset class="club-picker">
+  <legend>Clube que você vai representar</legend>
+  <div class="club-grid"><!-- UCL_CLUBS --></div>
+  <p id="club-availability" class="club-availability" hidden>Os clubes já escolhidos aparecem desabilitados.</p>
+</fieldset>
 <label id="password" hidden>Senha da sala<input type="password" name="password" maxlength="64"></label>
 <button class="primary">Entrar na sala</button>
 </form>
@@ -29,14 +33,16 @@
 </main>
 <script type="module">
 import { arenaFetch, liveUpdates } from '/client-api.mjs';
+import { initClubBadges } from '/club-badges.mjs';
 const byId = id => document.getElementById(id);
 const code = (new URLSearchParams(location.search).get('room') ?? '').toUpperCase();
 const key = 'arena-member:' + code;
 let token = localStorage.getItem(key);
 const join = byId('join');
+const clubInputs = join.querySelectorAll('input[name=identity]');
+initClubBadges(join);
 const status = byId('status');
 let busy = false;
-let loaded = false;
 
 async function api(input) {
   const headers = {};
@@ -60,14 +66,14 @@ function render(data) {
   join.hidden = data.you !== null || data.started;
   byId('lobby').hidden = data.you === null;
   byId('password').hidden = !data.private;
-  if (!loaded) {
-    join.elements.identity.add(new Option('Escolha sua equipe', ''));
-    for (const identity of data.choices) join.elements.identity.add(new Option(identity, identity));
-    loaded = true;
+  const choices = new Set(data.choices);
+  const taken = new Set(data.members.map(member => member.identity));
+  for (const input of clubInputs) {
+    input.closest('.club-option').hidden = !choices.has(input.value);
+    input.disabled = !choices.has(input.value) || taken.has(input.value);
+    if (input.disabled) input.checked = false;
   }
-  for (const option of join.elements.identity.options) {
-    option.disabled = data.members.some(member => member.identity === option.value);
-  }
+  byId('club-availability').hidden = !data.members.length;
   byId('count').textContent = 'Participantes ' + data.members.length + '/' + data.size;
   byId('members').replaceChildren(...data.members.map(member => {
     const row = document.createElement('li');

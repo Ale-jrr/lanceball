@@ -13,7 +13,7 @@ async function pageTemplate(file, active) {
     </div></header>
   `);
 }
-const [homeTemplate, page, roomPage, postPage, tournamentPage, arenaCss, roomExitScript, positionScript, arenaBackground] = await Promise.all([
+const [homeTemplate, page, roomTemplate, postPage, tournamentPage, arenaCss, roomExitScript, positionScript, arenaBackground] = await Promise.all([
   pageTemplate('./home.html', '/'),
   pageTemplate('./demo.html', '/leilao'),
   pageTemplate('./room.html'),
@@ -24,17 +24,20 @@ const [homeTemplate, page, roomPage, postPage, tournamentPage, arenaCss, roomExi
   readFile(new URL('./positions.mjs', import.meta.url)),
   readFile(new URL('./arena-background.png', import.meta.url)),
 ]);
-const clubOptions = uclClubs.map(club => {
-  const initials = club.split(/\s+/).map(word => word[0]).join('').slice(0, 3);
-  return `<label class="club-option">
-    <input type="radio" name="club" value="${club}" required>
+function clubOptions(field) {
+  return uclClubs.map(club => {
+    const initials = club.split(/\s+/).map(word => word[0]).join('').slice(0, 3);
+    return `<label class="club-option">
+    <input type="radio" name="${field}" value="${club}" required>
     <span class="club-card">
-      <span class="club-badge" aria-hidden="true"><span>${initials}</span><img src="${clubCrests.get(club)}" width="38" height="38" alt="" loading="lazy"></span>
+      <span class="club-badge" aria-hidden="true"><span>${initials}</span><img src="${clubCrests.get(club)}" width="38" height="38" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
       <span class="club-name">${club}</span>
     </span>
   </label>`;
-}).join('');
-const home = homeTemplate.replace('<!-- UCL_CLUBS -->', clubOptions);
+  }).join('');
+}
+const home = homeTemplate.replace('<!-- UCL_CLUBS -->', clubOptions('club'));
+const roomPage = roomTemplate.replace('<!-- UCL_CLUBS -->', clubOptions('identity'));
 
 export const siteAssets = new Map([
   ['/', { content: home, type: 'text/html; charset=utf-8', file: 'index.html' }],
@@ -46,6 +49,7 @@ export const siteAssets = new Map([
   ['/edge-config.mjs', { content: await readFile(new URL('./edge-config.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'edge-config.mjs' }],
   ['/health', { content: await readFile(new URL('./health.html', import.meta.url)), type: 'text/html; charset=utf-8', file: 'health/index.html' }],
   ['/arena.css', { content: arenaCss, type: 'text/css; charset=utf-8', file: 'arena.css' }],
+  ['/club-badges.mjs', { content: await readFile(new URL('./club-badges.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'club-badges.mjs' }],
   ['/formations.mjs', { content: await readFile(new URL('./supabase/functions/_shared/formations.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'formations.mjs' }],
   ['/positions.mjs', { content: positionScript, type: 'text/javascript; charset=utf-8', file: 'positions.mjs' }],
   ['/room-exit.js', { content: roomExitScript, type: 'text/javascript; charset=utf-8', file: 'room-exit.js' }],

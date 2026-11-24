@@ -51,12 +51,9 @@
 </main>
 <script type="module">
 import { arenaFetch } from '/client-api.mjs';
+import { initClubBadges } from '/club-badges.mjs';
 const form = document.querySelector('form');
-for (const badge of document.querySelectorAll('.club-card img')) {
-  const fallback = () => { badge.hidden = true; };
-  badge.addEventListener('error', fallback, { once: true });
-  if (badge.complete && !badge.naturalWidth) fallback();
-}
+initClubBadges(form);
 
 const roomStatus = document.querySelector('#room-status');
 const create = document.querySelector('#create-room');
