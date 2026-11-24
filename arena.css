@@ -452,3 +452,20 @@ body {
 }
 .portrait-silhouette::before { width: 30%; height: 31%; top: 18%; border-radius: 50%; }
 .portrait-silhouette::after { width: 69%; height: 44%; top: 55%; border-radius: 65% 65% 0 0; }
+
+
+.auction-metrics:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: .5rem;
+  margin: .75rem 0;
+}
+.auction-metrics > div {
+  padding: .5rem .65rem;
+  border: 1px solid var(--line, #304755);
+  border-radius: .5rem;
+  background: #10202ab3;
+}
+.auction-metrics dt { color: var(--muted); font-size: .75rem; }
+.auction-metrics dd { margin: .2rem 0 0; font-weight: 700; }
+#bidGuideValue { color: var(--gold); }
