@@ -143,16 +143,31 @@ function updateHeading(team) {
 
 function showPortrait(id, player, portrait) {
   const figure = byId(id);
-  const source = portrait?.src ?? '';
+  const source = portrait?.src ?? (player ? 'placeholder' : '');
   if (figure.dataset.source === source) return;
   figure.dataset.source = source;
   figure.hidden = true;
   figure.replaceChildren();
-  if (!portrait) return;
+  function showPlaceholder() {
+    const silhouette = document.createElement('div');
+    silhouette.className = 'portrait-silhouette';
+    silhouette.setAttribute('role', 'img');
+    silhouette.setAttribute('aria-label', 'Foto indispon?vel');
+    figure.replaceChildren(silhouette);
+    figure.hidden = false;
+  }
+  if (!portrait) {
+    if (player) showPlaceholder();
+    return;
+  }
   const image = document.createElement('img');
   image.alt = 'Foto de ' + player.name;
   image.referrerPolicy = 'no-referrer';
-  image.addEventListener('error', () => { if (image.isConnected) image.src = portrait.original; }, { once: true });
+  image.addEventListener('error', () => {
+    if (!image.isConnected) return;
+    if (portrait.original && image.src !== portrait.original) image.src = portrait.original;
+    else showPlaceholder();
+  });
   image.addEventListener('load', () => { if (image.isConnected) figure.hidden = false; });
   const credit = document.createElement('figcaption');
   const author = document.createElement('a');
@@ -215,7 +230,7 @@ function render() {
   });
   byId('teams').replaceChildren(...teams);
   byId('balance').textContent = selected ? `Saldo: ${money(selected.balance)} · ${selected.players.length}/${state.rosterSize} atletas` : '';
-  showPortrait('player-portrait', round?.player, round?.clue ? null : round?.portrait);
+  showPortrait('player-portrait', round?.clue ? null : round?.player, round?.portrait);
   if (round) {
     if (status.textContent === 'Você passou esta rodada.' && !round.passed?.includes(Number(team.value))) status.textContent = '';
     byId('player').textContent = round.clue ? 'Carta surpresa' : round.player.name;

@@ -423,3 +423,14 @@ body {
 .event-decisive small { display: block; color: #c4d5ff; }
 @keyframes decisive-in { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .decisive-shot.fresh { animation: none; } }
+
+.portrait-silhouette {
+  width: 100%; aspect-ratio: 1; position: relative; overflow: hidden;
+  border: 1px solid #739a8c; border-radius: .55rem;
+  background: radial-gradient(ellipse at 60% 0%, #2d5c50, #132a28 82%);
+}
+.portrait-silhouette::before, .portrait-silhouette::after {
+  content: ""; position: absolute; left: 50%; transform: translateX(-50%); background: #a1bbac80;
+}
+.portrait-silhouette::before { width: 30%; height: 31%; top: 18%; border-radius: 50%; }
+.portrait-silhouette::after { width: 69%; height: 44%; top: 55%; border-radius: 65% 65% 0 0; }

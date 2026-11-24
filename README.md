@@ -28,3 +28,8 @@ O site fica estático na Vercel. A Edge Function **lanceball** valida as ações
 4. Envie a branch `main`. A Vercel usa `npm run build` e a pasta `dist`. Desative sobrescritas antigas de Build Command e Output Directory. Confira `/health` no site e teste uma sala nova em dois navegadores.
 
 O servidor local continua usando SQLite. O deploy estático precisa de uma Edge Function publicada e de um projeto Supabase com as duas tabelas criadas.
+
+
+## Retratos dos jogadores
+
+O leilão exibe retratos com créditos quando uma licença aberta foi confirmada. Sem um retrato compatível, o card exibe uma silhueta. Para ampliar o catálogo, rode `python import-portraits.py CAMINHO_DO_CSV --contact SEU_CONTATO` usando o CSV de origem do FC 26. O importador cruza nomes e datas de nascimento no Wikidata e aceita apenas metadados de licenças compatíveis no Wikimedia Commons. Confira o arquivo gerado e publique novamente a função Supabase.
