@@ -101,10 +101,11 @@ def main():
     agent = f"LANCEBALLPortraits/1.0 ({args.contact})"
     target = ROOT / "supabase/functions/_shared/licensed-portraits.json"
     portraits = json.loads(target.read_text(encoding="utf-8"))
-    catalog = {row["id"] for row in json.loads((ROOT / "catalog.json").read_text(encoding="utf-8-sig"))["players"]}
+    catalog = {row["id"]: row["overall"] for row in json.loads((ROOT / "catalog.json").read_text(encoding="utf-8-sig"))["players"]}
     with args.csv.open(encoding="utf-8-sig", newline="") as source:
         records = [row for row in csv.DictReader(source)
                    if row["player_id"] in catalog and row.get("dob") and row["player_id"] not in portraits]
+    records.sort(key=lambda row: -catalog[row['player_id']])
     for index, row in enumerate(records[:args.limit], 1):
         portrait = photo(identify(row, agent), agent)
         if portrait:
