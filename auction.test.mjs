@@ -147,3 +147,25 @@ test('a carta surpresa revela identidade e overall apenas depois do prazo', () =
     auction.close();
   }
 });
+
+test('lances adicionam até três segundos com teto de seis e preservam o prazo inicial', () => {
+  let now = 0;
+  const auction = openAuction(':memory:', () => now);
+  try {
+    auction.start(catalog);
+    const { round } = auction.tick();
+    const id = round.player.id;
+    auction.bid(0, id, 1);
+    assert.equal(auction.snapshot().round.deadline, 10000);
+    now = 6000;
+    auction.bid(1, id, 2);
+    assert.equal(auction.snapshot().round.deadline, 12000);
+    auction.bid(2, id, 3);
+    assert.equal(auction.snapshot().round.deadline, 12000);
+    now = 11000;
+    auction.bid(3, id, 4);
+    assert.equal(auction.snapshot().round.deadline, 15000);
+  } finally {
+    auction.close();
+  }
+});

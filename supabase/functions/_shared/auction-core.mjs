@@ -4,6 +4,7 @@ import { rosterQuotas as quotas, rosterSize } from './fut7.mjs';
 
 const reserve = 1;
 const bidExtensionMs = 3000;
+const bidExtensionLimitMs = 6000;
 
 export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
   function purchase(state, team, player, amount, method) {
@@ -109,7 +110,9 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
           throw Error('Lance inválido');
         }
         round.highest = { teamId, amount };
-        round.deadline += bidExtensionMs;
+        round.deadline = Math.max(round.deadline, Math.min(
+          round.deadline + bidExtensionMs, time + bidExtensionLimitMs,
+        ));
         state.bids.push({ playerId, teamId, amount, time });
         return { state, value: round.highest };
       });
