@@ -123,8 +123,9 @@ byId('copy').onclick = async () => {
 async function poll() {
   if (!busy) {
     try {
+      const currentToken = token;
       const data = await api();
-      if (!loaded || data.started || data.you !== null) render(data);
+      if (!busy && currentToken === token) render(data);
     } catch (error) {
       status.textContent = error.message;
     }
