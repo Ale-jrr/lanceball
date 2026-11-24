@@ -3,26 +3,14 @@ import { playSeason } from './tournament.mjs';
 import { hostId } from './rooms.mjs';
 import { rosterSize } from './fut7.mjs';
 
-const fut7Formations = {
-  '2-2-2': ['GK','DEF','DEF','MID','MID','FWD','FWD'],
-  '3-2-1': ['GK','DEF','DEF','DEF','MID','MID','FWD'],
-  '2-3-1': ['GK','DEF','DEF','MID','MID','MID','FWD'],
-};
+import { autoLineup, fut7Formations } from './formations.mjs';
+
 const legacyFormations = {
   '4-3-3': ['GK','DEF','DEF','DEF','DEF','MID','MID','MID','FWD','FWD','FWD'],
   '4-4-2': ['GK','DEF','DEF','DEF','DEF','MID','MID','MID','MID','FWD','FWD'],
   '3-4-3': ['GK','DEF','DEF','DEF','MID','MID','MID','MID','FWD','FWD','FWD'],
 };
 const tactics = ['Equilibrada', 'Ofensiva', 'Defensiva', 'Contra-ataque', 'Posse de bola', 'Pressão alta'];
-
-function autoLineup(players, slots) {
-  const available = [...players].sort((a, b) => b.overall - a.overall);
-  const ids = slots.map(role => {
-    const index = available.findIndex(player => player.position === role);
-    return index < 0 ? null : available.splice(index, 1)[0].id;
-  });
-  return ids.map(id => id ?? available.shift().id);
-}
 
 function calculate(mode, model) {
   return playSeason(mode, model.teams, undefined, { seed: model.seed, changes: model.changes });
@@ -117,6 +105,9 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
       other.players[other.players.indexOf(target)] = mine;
     }
     post.offers.unshift({ mine: mine.name, target: target.name, team: other.name, accepted });
+  } else if (action === 'close-trades') {
+    if (!online || actor !== host) throw Error('Só o anfitrião pode encerrar as trocas para todos.');
+    if (post.stage === 'trades') post.stage = 'lineup';
   } else if (action === 'lineup' && post.stage === 'trades') {
     if (!post.ready.includes(actor)) post.ready.push(actor);
   } else if (action === 'simulate' && post.stage !== 'tournament') {

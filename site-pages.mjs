@@ -46,6 +46,7 @@ export const siteAssets = new Map([
   ['/edge-config.mjs', { content: await readFile(new URL('./edge-config.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'edge-config.mjs' }],
   ['/health', { content: await readFile(new URL('./health.html', import.meta.url)), type: 'text/html; charset=utf-8', file: 'health/index.html' }],
   ['/arena.css', { content: arenaCss, type: 'text/css; charset=utf-8', file: 'arena.css' }],
+  ['/formations.mjs', { content: await readFile(new URL('./supabase/functions/_shared/formations.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'formations.mjs' }],
   ['/positions.mjs', { content: positionScript, type: 'text/javascript; charset=utf-8', file: 'positions.mjs' }],
   ['/room-exit.js', { content: roomExitScript, type: 'text/javascript; charset=utf-8', file: 'room-exit.js' }],
   ['/arena-background.png', { content: arenaBackground, type: 'image/png', file: 'arena-background.png' }],

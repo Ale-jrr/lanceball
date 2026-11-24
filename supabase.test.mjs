@@ -110,8 +110,16 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
       auction.close();
     }
     const route = '/post-auction' + query;
-    await request(0, route, { action: 'lineup' }, host);
-    assert.equal((await request(1, route, { action: 'lineup' }, guest)).data.stage, 'lineup');
+    const rejected = await request(1, route, { action: 'close-trades' }, guest);
+    assert.match(rejected.data.error, /anfitrião/);
+    assert.equal((await request(1, route, undefined, guest)).data.stage, 'trades');
+    assert.equal((await request(0, route, { action: 'lineup' }, host)).data.stage, 'trades');
+    const closed = await request(0, route, { action: 'close-trades' }, host);
+    assert.equal(closed.status, 200);
+    assert.equal(closed.data.stage, 'lineup');
+    assert.equal((await request(1, route, undefined, guest)).data.stage, 'lineup');
+    const lateTrade = await request(1, route, { action: 'trade' }, guest);
+    assert.match(lateTrade.data.error, /trocas foi encerrada/);
     for (const [instance, token] of [[0, host], [1, guest]]) {
       const view = (await request(instance, route, undefined, token)).data;
       const submitted = await request(instance, route, {

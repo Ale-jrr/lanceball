@@ -93,7 +93,7 @@ function roster(team, ratings) {
   const item = el('section', '', 'panel');
   const heading = el('h3');
   heading.append(crest(team), team.name);
-  if (ratings) heading.append(' · ' + average(team.players));
+  if (team.players.length) heading.append(el('small', 'Média ' + average(team.players) + ' OVR', 'team-average'));
   const players = el('div', '', 'players');
   for (const player of team.players) {
     const row = el('div', player.name, 'player');
@@ -157,7 +157,14 @@ function trades() {
   columns.append(roster(own, false), proposals);
   const others = el('div', '', 'rosters');
   opponents.forEach(team => others.append(roster(team, false)));
-  if (!state.tradeReady) content.append(button('Ir para a escalação', () => send('lineup'), true));
+  const actions = el('div', '', 'controls');
+  if (!state.tradeReady) actions.append(button('Ir para a escalação', () => send('lineup'), true));
+  if (state.online && state.isHost) {
+    actions.append(button('Encerrar trocas para todos', () => {
+      if (confirm('Encerrar as trocas e abrir a escalação para todos da sala?')) send('close-trades');
+    }));
+  }
+  if (actions.childElementCount) content.append(actions);
   content.append(columns,
     el('h2', 'Outras equipes'), others);
 }
@@ -173,7 +180,9 @@ function lineup() {
   }
   const selection = panel('Titulares');
   const tactics = panel('Formação e tática');
-  const [formationField, formation] = select('Formação', Object.keys(state.formations).map(name => [name, name]), state.formation);
+  const preferredFormation = sessionStorage.getItem('auction-formation:' + (roomCode ?? solo ?? 'local'));
+  const initialFormation = Object.hasOwn(state.formations, preferredFormation) ? preferredFormation : state.formation;
+  const [formationField, formation] = select('Formação', Object.keys(state.formations).map(name => [name, name]), initialFormation);
   const [tacticField, tactic] = select('Tática', state.tactics.map(name => [name, name]), state.tactic);
   lineupIds = [...state.auto[formation.value]];
   const slots = el('div');
@@ -439,7 +448,7 @@ try {
   restore.hidden = Boolean(roomCode);
 }
 async function syncRoom() {
-  if (!busy && state && (state.stage === 'tournament' || state.tradeReady ||
+  if (!busy && state && (state.stage === 'tournament' || (state.online && state.stage === 'trades') ||
       (state.stage === 'lineup' && state.lineup))) {
     try {
       const version = actionVersion;

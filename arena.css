@@ -132,9 +132,7 @@ progress { width: 100%; height: .55rem; accent-color: var(--gold); }
 .quick .max { background: #453727; }
 #balance, #lastPurchase, .auction #status { margin: .7rem 0 0; }
 #continue { display: inline-flex; margin-top: .75rem; }
-#teams, #history, #squad { list-style: none; padding: 0; margin: .55rem 0 0; }
-#squad { display: grid; gap: .4rem; }
-#squad li { display: grid; gap: .13rem; padding: .42rem .6rem; border: 1px solid var(--line); border-radius: .55rem; background: var(--surface-inset); }
+#teams, #history { list-style: none; padding: 0; margin: .55rem 0 0; }
 .slot-position { color: var(--muted); font-size: .86rem; }
 #teams li { display: flex; gap: .5rem; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding: .55rem .38rem; font-size: .9rem; }
 #teams li span { overflow-wrap: anywhere; }
@@ -514,19 +512,61 @@ body {
 .quick button { font-variant-numeric: tabular-nums; }
 .quick .max { background: #292232; color: #f6d79a; }
 .quick .pass { background: transparent; }
-#squad { gap: 0; }
-#squad li {
-  gap: .12rem;
-  padding: .43rem .1rem;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+#squad-formation { margin: .3rem 0 .75rem; }
+.auction-squad label { font-size: .8rem; color: var(--muted); }
+#squad {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(4rem, 1fr));
+  border: 1px solid #80b59b80;
+  border-radius: .6rem;
+  background: repeating-linear-gradient(0deg, #1b4034 0 12.5%, #214b3d 12.5% 25%);
 }
-#squad li:last-child { border-bottom: 0; }
-.slot-position { font-size: .72rem; }
-.slot-player, .slot-empty { font-size: .84rem; }
-.slot-empty { color: #a2afc8; }
+#squad::before, #squad::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+#squad::before {
+  inset: .4rem;
+  border: 1px solid #98c3ae69;
+  background: linear-gradient(transparent calc(50% - .5px), #98c3ae69 50%, transparent calc(50% + .5px));
+}
+#squad::after {
+  width: 28%;
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #98c3ae69;
+  border-radius: 50%;
+}
+.squad-line {
+  list-style: none;
+  margin: 0;
+  padding: .38rem .55rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .25rem;
+}
+.squad-line li {
+  flex: 0 1 5.3rem;
+  min-width: 0;
+  padding: .28rem .16rem;
+  border: 1px solid #90c9ae85;
+  border-radius: .35rem;
+  background: #0e2923;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.squad-line strong, .squad-line small { display: block; font-size: .72rem; }
+.squad-line small { color: #c1d9cd; font-size: .65rem; }
+.squad-line .empty-slot { border-style: dashed; background: #15332bde; }
+.squad-line .empty-slot strong { font-weight: 500; }
+.squad-line .out-of-position { border-color: var(--gold); }
 .purchase-history h3 { color: var(--text); font-size: .85rem; }
 #purchases li { border-radius: .35rem; font-size: .8rem; }
 .auction-page .panel > details { font-size: .82rem; }
@@ -562,3 +602,13 @@ body {
     background: linear-gradient(90deg, #101a30f7 0%, #101a30b0 100%), url("/arena-background.png") center / cover;
   }
 }
+
+.team-average {
+  display: block;
+  color: var(--gold);
+  font-size: .78rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+#teams .team-average { margin: .15rem 0 0; }
+#squad-average { margin: -.15rem 0 .65rem; }

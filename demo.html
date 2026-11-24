@@ -44,7 +44,13 @@
 <div class="quick" id="quick" hidden><button data-step="1">+1</button><button data-step="2">+2</button><button data-step="5">+5</button><button data-step="10">+10</button><button class="max" id="maxBid">Máximo</button><button class="pass" id="pass">Passar</button></div>
 <p id="status" role="status"></p><a id="return-lobby" hidden>Voltar ao lobby</a><a id="continue" href="/pos-leilao" hidden style="color:var(--gold)">Continuar para trocas</a>
 </section>
-<section class="panel"><h2>Seu elenco</h2><ul id="squad"></ul></section><section class="panel"><h2>Equipes da sala</h2><ul id="teams"></ul>
+<section class="panel auction-squad" aria-labelledby="squad-title">
+  <h2 id="squad-title">Seu elenco</h2>
+  <p id="squad-average" class="team-average" hidden></p>
+  <label for="squad-formation">Formação</label>
+  <select id="squad-formation"></select>
+  <div id="squad" aria-label="Campo de fut7"></div>
+</section><section class="panel"><h2>Equipes da sala</h2><ul id="teams"></ul>
 <div class="purchase-history"><h3>Quem levou</h3><ol id="purchases"></ol></div>
 <details><summary>Últimos lances</summary><ol id="history"></ol></details></section>
 </div>
@@ -53,6 +59,7 @@
 <script type="module">
 import { arenaFetch, liveUpdates } from '/client-api.mjs';
 import { playerPositionName, positionName } from '/positions.mjs';
+import { autoLineup, fut7Formations } from '/formations.mjs';
 const byId = id => document.getElementById(id);
 const setup = new URLSearchParams(location.search);
 const roomCode = setup.get('room')?.toUpperCase();
@@ -75,6 +82,15 @@ auctionCrest.onerror = () => { auctionCrest.hidden = true; };
 const money = amount => '$' + amount;
 const team = byId('team');
 const status = byId('status');
+const squadFormation = byId('squad-formation');
+const formationKey = 'auction-formation:' + (roomCode ?? setup.get('solo') ?? 'local');
+for (const name of Object.keys(fut7Formations)) squadFormation.add(new Option(name, name));
+const preferredFormation = sessionStorage.getItem(formationKey);
+if (Object.hasOwn(fut7Formations, preferredFormation)) squadFormation.value = preferredFormation;
+squadFormation.onchange = () => {
+  sessionStorage.setItem(formationKey, squadFormation.value);
+  renderSquad(state?.teams[Number(team.value)]?.players ?? []);
+};
 let state;
 let clockOffset = 0;
 let busy = false;
@@ -192,6 +208,11 @@ function showPortrait(id, player, portrait) {
   image.src = source;
 }
 
+function squadAverage(players) {
+  return (players.reduce((total, player) => total + player.overall, 0) / players.length)
+    .toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+}
+
 function render() {
   const round = state?.round;
   const selected = state?.teams[Number(team.value)];
@@ -229,6 +250,12 @@ function render() {
       badge.className = 'passed-badge';
       badge.textContent = 'Passou';
       name.append(badge);
+    }
+    if (state.complete && entry.players.length) {
+      const average = document.createElement('small');
+      average.className = 'team-average';
+      average.textContent = 'Média ' + squadAverage(entry.players) + ' OVR';
+      name.append(average);
     }
     const balance = document.createElement('strong');
     balance.textContent = money(entry.balance);
@@ -288,20 +315,41 @@ function render() {
   }
   list('history', (state?.bids ?? []).slice(-6).reverse().map(
     bid => `${state.teams[bid.teamId].name} · ${(state.catalog.players.find(player => player.id === bid.playerId)?.name ?? 'Carta surpresa')} · ${money(bid.amount)}`), 'Nenhum lance registrado.');
-  const slots = Object.entries(state?.quotas ?? {}).flatMap(([role, count]) => {
-    const players = selected?.players.filter(player => player.position === role) ?? [];
-    return Array.from({ length: count }, (_, index) => {
-      const item = document.createElement('li');
-      const position = document.createElement('span');
-      position.className = 'slot-position';
-      const player = players[index];
-      position.textContent = player ? playerPositionName(player) : positionName(role);
-      item.append(position, player ? player.name + ' · ' + player.overall + ' OVR' : 'Vaga aberta');
-      return item;
-    });
-  });
-  byId('squad').replaceChildren(...slots);
+  renderSquad(selected?.players ?? []);
   updateTimer();
+}
+
+function renderSquad(players) {
+  const average = byId('squad-average');
+  average.hidden = !state?.complete || !players.length;
+  average.textContent = average.hidden ? '' : 'Média do elenco ' + squadAverage(players) + ' OVR';
+  const layout = fut7Formations[squadFormation.value];
+  const lineup = autoLineup(players, layout);
+  const byPlayer = new Map(players.map(player => [player.id, player]));
+  const rows = ['FWD', 'MID', 'DEF', 'GK'].map(role => {
+    const row = document.createElement('ul');
+    row.className = 'squad-line';
+    row.setAttribute('aria-label', positionName(role));
+    layout.forEach((slot, index) => {
+      if (slot !== role) return;
+      const player = byPlayer.get(lineup[index]);
+      const item = document.createElement('li');
+      const name = document.createElement('strong');
+      const detail = document.createElement('small');
+      name.textContent = player?.name ?? 'Vaga aberta';
+      detail.textContent = player ? player.overall + ' OVR' : positionName(role);
+      if (player && player.position !== role) {
+        item.classList.add('out-of-position');
+        detail.textContent += ' · Fora de posição';
+      } else if (!player) {
+        item.classList.add('empty-slot');
+      }
+      item.append(name, detail);
+      row.append(item);
+    });
+    return row;
+  });
+  byId('squad').replaceChildren(...rows);
 }
 
 async function request(url, options) {
@@ -411,6 +459,7 @@ async function poll() {
   }
 }
 updateHeading();
+renderSquad([]);
 setInterval(updateTimer, 150);
 liveUpdates(roomCode ?? null, poll, connected => {
   if (!roomCode) return 850;
