@@ -78,21 +78,22 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     assert.equal(initial.yourTeamId, 1);
     assert.deepEqual((await request(1, '/rooms')).data, []);
     const playerId = initial.state.round.player.id;
+    rows.get('room:' + code).payload.room.auction.round.deadline = Date.now() + 1500;
     const bids = await Promise.all([
-      request(0, '/bid' + query, { teamId: 0, playerId, amount: 9 }, host),
-      request(1, '/bid' + query, { teamId: 1, playerId, amount: 9 }, guest),
+      request(0, '/bid' + query, { teamId: 0, playerId, amount: 1 }, host),
+      request(1, '/bid' + query, { teamId: 1, playerId, amount: 1 }, guest),
     ]);
     assert.deepEqual(bids.map(result => result.status).sort(), [200, 400]);
     const row = rows.get('room:' + code);
     assert.equal(row.payload.room.auction.bids.length, 1);
-    assert.equal(row.payload.room.auction.round.highest.amount, 9);
+    assert.equal(row.payload.room.auction.round.highest.amount, 1);
     row.payload.room.auction.round.deadline = Date.now() - 1;
     const winner = (await request(1, '/state' + query, undefined, guest)).data.state.purchases[0];
-    assert.equal(winner.amount, 9);
+    assert.equal(winner.amount, 1);
     const result = (await request(0, '/state' + query, undefined, host)).data.state;
     assert.equal(result.purchases.length, 1);
     assert.deepEqual(result.purchases[0], winner);
-    assert.equal(result.teams[winner.teamId].balance, 91);
+    assert.equal(result.teams[winner.teamId].balance, 99);
 
     // Move the shared draft to completion without waiting for every timer.
     const draft = rows.get('room:' + code).payload.room.auction;

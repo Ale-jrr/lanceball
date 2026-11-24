@@ -106,8 +106,9 @@ export function requestUrl(request) {
 export async function handleGameRequest(req, res, runtime) {
   const { onlineRooms, soloRooms, sharedAuction, joinAttempts, catalog: source,
     openAuction, catalogInfo, restoreLocal = false, maintain = true } = runtime;
-  if (maintain) maintainRooms(runtime);
   const url = requestUrl(req);
+  const placingBid = req.method === 'POST' && url.pathname === '/bid';
+  if (maintain && !placingBid) maintainRooms(runtime);
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
   const send = (status, data) => res.writeHead(status).end(JSON.stringify(data));
