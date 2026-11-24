@@ -31,8 +31,7 @@ a:hover { color: #fff0c8; }
 .arena-header { background: #0d1821; border-bottom: 1px solid var(--line); }
 .arena-nav { display: flex; align-items: center; justify-content: space-between; gap: .8rem; min-height: 4.25rem; }
 .arena-brand { display: inline-flex; align-items: center; flex-shrink: 0; gap: .65rem; color: var(--text); text-decoration: none; font-weight: 720; letter-spacing: .075em; font-size: .9rem; }
-.brand-mark { width: 2rem; aspect-ratio: 1; position: relative; border: 2px solid var(--gold); border-radius: .52rem .52rem .85rem .85rem; display: grid; place-items: center; background: #293228; }
-.brand-mark::after { content: ""; width: .78rem; aspect-ratio: 1; border: 2px solid var(--gold); border-radius: 50%; }
+.brand-mark { display: block; width: 2.25rem; height: 2.25rem; flex: none; border-radius: .5rem; object-fit: contain; }
 .arena-nav nav { display: flex; flex-wrap: wrap; gap: .45rem; justify-content: flex-end; }
 .arena-nav nav a {
   display: inline-flex;
