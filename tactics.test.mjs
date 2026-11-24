@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { postAuction } from './supabase/functions/_shared/post-auction.mjs';
-import { playSeason } from './supabase/functions/_shared/tournament.mjs';
+import { decisiveShot, playSeason } from './supabase/functions/_shared/tournament.mjs';
 
 const teams = Array.from({ length: 4 }, (_, id) => ({
   id, name: 'Equipe ' + id, bot: id > 1, tactic: 'Equilibrada',
@@ -89,4 +89,17 @@ test('vinhetas revelam classificados só após a fase correspondente', () => {
   assert.equal(seen.get('semifinals').round.name, 'Liga');
   assert.equal(seen.get('final').round.name, 'Semifinais · Volta');
   assert.equal(seen.get('champion').highlight.teams[0].name, view.season.champion);
+});
+
+test('chutes decisivos destacam chances de empate ou vantagem no fim', () => {
+  assert.equal(decisiveShot(79, 0), null);
+  assert.equal(decisiveShot(80, -1), 'equalizer');
+  assert.equal(decisiveShot(89, 0), 'lead');
+  assert.equal(decisiveShot(90, -2), null);
+  assert.equal(decisiveShot(91, 0), null);
+  assert.equal(decisiveShot(110, 0), 'lead');
+  const inputs = teams.map(team => ({ ...team, lineup: team.players }));
+  const season = playSeason('ucl', inputs, () => .01);
+  assert.ok(season.rounds.flatMap(round => round.games).some(game =>
+    game.events.some(event => event.highlight?.outcome === 'goal')));
 });

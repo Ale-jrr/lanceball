@@ -252,6 +252,14 @@ function standings(season, played) {
   return item;
 }
 
+let lastAnimatedHighlight;
+function highlightTitle({ kind, outcome, aggregate }) {
+  const context = aggregate ? ' no agregado' : '';
+  if (outcome === 'goal') return (kind === 'equalizer' ? 'Gol de empate' : 'Gol para passar à frente') + context;
+  if (outcome === 'save') return (kind === 'equalizer' ? 'Defesa evita o empate' : 'Defesa evita o gol da vantagem') + context;
+  return (kind === 'equalizer' ? 'Chance de empate' : 'Chance de passar à frente') + context;
+}
+
 function tournament() {
   const { season, teams } = state;
   const own = teams.find(team => team.id === state.you);
@@ -305,7 +313,11 @@ function tournament() {
     away.append(crest(ownMatch.away), ownMatch.away.name);
     score.append(home, ' ', el('span', current.score.join(' × ')), ' ', away);
     const feed = el('ol', '', 'events');
-    for (const event of [...current.events].reverse()) feed.append(el('li', event.minute + "' · " + event.text));
+    for (const event of [...current.events].reverse()) {
+      const item = el('li', event.minute + "' · " + event.text, event.highlight ? 'event-decisive' : '');
+      if (event.highlight) item.append(el('small', highlightTitle(event.highlight)));
+      feed.append(item);
+    }
     if (ownMatch.carry) {
       const aggregate = ownMatch.carry.map((goals, side) => goals + current.score[side]);
       score.append(el('div', 'Agregado ' + aggregate.join(' × '), 'slot-position'));
@@ -313,6 +325,15 @@ function tournament() {
     match.append(score, el('p', current.status), controls,
       el('p', 'Finalizações ' + (current.latest?.shots ?? [0, 0]).join(' × ') +
         ' · No alvo ' + (current.latest?.onTarget ?? [0, 0]).join(' × ')), feed);
+    const decisive = current.events.findLast(event => event.highlight && minute - event.minute <= 6);
+    if (decisive) {
+      const key = ownMatch.id + ':' + decisive.minute;
+      const featured = el('aside', '', key === lastAnimatedHighlight ? 'decisive-shot' : 'decisive-shot fresh');
+      lastAnimatedHighlight = key;
+      featured.append(el('p', decisive.minute + "' · Lance decisivo", 'decisive-label'),
+        el('h3', highlightTitle(decisive.highlight)), el('p', decisive.text));
+      match.insertBefore(featured, feed);
+    }
     if (state.clock.canChangeTactic) {
       const tactics = el('section');
       tactics.append(el('h3', 'Alterar tática manualmente'),

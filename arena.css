@@ -413,3 +413,13 @@ body {
     padding-left: .65rem;
   }
 }
+
+.decisive-shot { margin: .85rem 0; padding: .85rem 1rem; border: 1px solid #8da9ff; border-left: 4px solid #a5bfff; border-radius: .6rem; background: linear-gradient(105deg, #243f8a, #162652); }
+.decisive-shot.fresh { animation: decisive-in .35s ease-out; }
+.decisive-shot h3, .decisive-shot p { margin: 0; }
+.decisive-shot p { color: #e4edff; }
+.decisive-shot .decisive-label { margin-bottom: .3rem; color: #c4d5ff; font-size: .86rem; font-weight: 750; }
+.events li.event-decisive { border-left: 2px solid #8da9ff; background: #1d30684d; }
+.event-decisive small { display: block; color: #c4d5ff; }
+@keyframes decisive-in { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .decisive-shot.fresh { animation: none; } }

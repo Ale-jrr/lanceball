@@ -70,6 +70,13 @@ function schedule(group) {
   });
 }
 
+export function decisiveShot(minute, margin) {
+  if (minute < 80 || (minute > 90 && minute < 110)) return null;
+  if (margin === -1) return 'equalizer';
+  if (margin === 0) return 'lead';
+  return null;
+}
+
 export function playSeason(mode, teams, draw = Math.random, { seed, changes = {} } = {}) {
   function matchRandom(id) {
     if (seed === undefined) return draw;
@@ -135,12 +142,17 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
         if (accurate) onTarget[side]++;
         const goal = accurate && random() < Math.max(.12, Math.min(.55, .28 +
           (attack[side] - defense[opponent]) * .012 + (player.rating - 80) * .003));
+        const margin = score[side] - score[opponent] + (carry?.[side] ?? 0) - (carry?.[opponent] ?? 0);
+        const kind = decisiveShot(minute, margin);
+        const highlight = kind ? { kind, outcome: goal ? 'goal' : accurate ? 'save' : 'miss',
+          aggregate: Boolean(carry) } : null;
         if (goal) score[side]++;
         const keeper = sides[opponent].lineup.find(entry => entry.role === 'GK');
         const text = goal ? 'Gol de ' + player.name + '!' : accurate
           ? keeper.name + ' defende a finalização de ' + player.name
           : player.name + ' finaliza para fora';
-        events.push({ minute, side, text, score: [...score], shots: [...shots], onTarget: [...onTarget] });
+        events.push({ minute, side, text, score: [...score], shots: [...shots], onTarget: [...onTarget],
+          ...(highlight ? { highlight } : {}) });
       }
     }
     chances(1, 90);
