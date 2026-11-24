@@ -104,7 +104,8 @@ function updateTimer() {
   const minimum = (round.highest?.amount ?? 0) + 1;
   const maximum = roleFull ? 0 : selected.balance - Math.max(0, state.rosterSize - 1 - selected.players.length);
   const passed = round.passed?.includes(selected.id);
-  const disabled = busy || pollError || seconds === 0 || passed || maximum < minimum;
+  const leading = round.highest?.teamId === selected.id;
+  const disabled = busy || pollError || seconds === 0 || passed || leading || maximum < minimum;
   byId('maxBid').disabled = disabled;
   byId('pass').disabled = busy || pollError || passed || seconds === 0;
   for (const button of byId('quick').querySelectorAll('[data-step]')) {

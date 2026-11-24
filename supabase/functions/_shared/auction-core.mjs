@@ -99,6 +99,7 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
           throw Error('Rodada indisponível');
         }
         if (round.passed?.includes(teamId)) throw Error('Você já passou esta rodada');
+        if (round.highest?.teamId === teamId) throw Error('Seu lance já está na frente');
         const position = round.player.position;
         if (team.players.filter(player => player.position === position).length >= quotas[position]) {
           throw Error('Posição preenchida');

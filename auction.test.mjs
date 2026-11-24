@@ -163,6 +163,9 @@ test('lances adicionam até três segundos com teto de seis e preservam o prazo 
     auction.bid(2, id, 3);
     assert.equal(auction.snapshot().round.deadline, 12000);
     now = 11000;
+    assert.throws(() => auction.bid(2, id, 4), /seu lance já está na frente/i);
+    assert.equal(auction.snapshot().round.deadline, 12000);
+    assert.equal(auction.snapshot().bids.length, 3);
     auction.bid(3, id, 4);
     assert.equal(auction.snapshot().round.deadline, 15000);
   } finally {
