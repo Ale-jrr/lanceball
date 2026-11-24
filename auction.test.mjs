@@ -186,7 +186,9 @@ test('bots valorizam overall, preenchem posições e reservam saldo para as vaga
   const scarce = { ...state, teams: [team] };
   const plentiful = { ...scarce, queue: Array(27).fill(ordinary) };
   assert.ok(botBidLimit(scarce, team, ordinary) > botBidLimit(plentiful, team, ordinary));
-  assert.ok(botBidLimit(state, { ...team, players: Array(6).fill({ position: 'DEF' }) }, elite) <= 18);
+  const lastVacancy = { ...team, balance: 50, players: Array(6).fill({ position: 'DEF' }) };
+  const lastBid = botBidLimit(state, lastVacancy, elite);
+  assert.ok(lastBid > 18 && lastBid < lastVacancy.balance);
   assert.ok(botBidLimit(state, team, elite) > botBidLimit(state, team, ordinary));
   assert.ok(botBidLimit(state, { ...team, balance: 10 }, elite) <= 4);
   assert.equal(botBidLimit(state, { ...team, players: [ordinary, ordinary] }, elite), 0);
