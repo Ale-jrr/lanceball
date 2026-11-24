@@ -1,3 +1,4 @@
+import { botBidLimit } from './bot-bidding.mjs';
 import { Buffer } from 'node:buffer';
 import { randomInt } from 'node:crypto';
 import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
@@ -58,23 +59,24 @@ function advanceSolo(room, now) {
     room.botRound = player.id;
     room.botWindows.clear();
   }
-  if (!window || room.botWindows.has(window)) return;
-  room.botWindows.add(window);
-  const contenders = state.teams.filter(team => team.bot && team.id !== highest?.teamId && !state.round.passed?.includes(team.id));
-  if (!contenders.length) return;
-  const offset = randomInt(contenders.length);
-  const amount = (highest?.amount ?? 0) + 1;
-  const limit = Math.max(2, Math.floor((player.overall - 68) / 4));
-  if (amount > limit || (highest && randomInt(100) < 22)) return;
-  for (let index = 0; index < contenders.length; index++) {
-    const team = contenders[(index + offset) % contenders.length];
-    try {
-      auction.bid(team.id, player.id, amount);
-      return;
-    } catch (error) {
-      if (!['Lance inválido', 'Posição preenchida', 'Rodada indisponível'].includes(error.message)) throw error;
-    }
-  }
+  if (!window) return;
+  const humanBid = highest && !state.teams[highest.teamId].bot ? highest.amount : null;
+  const decision = humanBid === null ? window : window + ':human:' + humanBid;
+  if (room.botWindows.has(decision)) return;
+  room.botWindows.add(decision);
+  if (humanBid === null && [...room.botWindows].some(key => key.startsWith(window + ':human:'))) return;
+  const minimum = (highest?.amount ?? 0) + 1;
+  const candidates = state.teams
+    .filter(team => team.bot && team.id !== highest?.teamId && !state.round.passed?.includes(team.id))
+    .map(team => ({ team, limit: botBidLimit(state, team, player), variation: randomInt(5) }))
+    .filter(candidate => candidate.limit >= minimum)
+    .sort((a, b) => (b.limit + b.variation) - (a.limit + a.variation));
+  const candidate = candidates[0];
+  if (!candidate) return;
+  const { team, limit } = candidate;
+  if (window === 'early' && player.overall < 83 && !state.round.clue && randomInt(100) < 20) return;
+  const extra = highest && limit - minimum >= 5 ? randomInt(3) : 0;
+  auction.bid(team.id, player.id, minimum + extra);
 }
 
 async function readBody(req, limit = 4096) {

@@ -169,3 +169,18 @@ test('lances adicionam até três segundos com teto de seis e preservam o prazo 
     auction.close();
   }
 });
+
+test('bots valorizam overall, preenchem posições e reservam saldo para as vagas', async () => {
+  const { botBidLimit } = await import('./supabase/functions/_shared/bot-bidding.mjs');
+  const team = { id: 1, balance: 100, players: [] };
+  const state = { rosterSize: 7, quotas: { GK: 1, DEF: 2, MID: 2, FWD: 2 },
+    catalog: { players: Array(28) }, queue: Array(27), round: {} };
+  const ordinary = { position: 'FWD', overall: 78 };
+  const elite = { ...ordinary, overall: 91 };
+  assert.ok(botBidLimit(state, team, elite) > 20);
+  assert.ok(botBidLimit(state, team, elite) > botBidLimit(state, team, ordinary));
+  assert.ok(botBidLimit(state, { ...team, balance: 10 }, elite) <= 4);
+  assert.equal(botBidLimit(state, { ...team, players: [ordinary, ordinary] }, elite), 0);
+  assert.equal(botBidLimit({ ...state, round: { clue: {} } }, team, elite),
+    botBidLimit({ ...state, round: { clue: {} } }, team, ordinary));
+});
