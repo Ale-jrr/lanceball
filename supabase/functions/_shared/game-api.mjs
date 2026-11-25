@@ -199,7 +199,7 @@ export async function handleGameRequest(req, res, runtime) {
       if (req.method === 'GET') return send(200, postAuction(room, 'read', {}, member?.id ?? 0));
       const { action, ...input } = await readBody(req);
       if (member && !member.token) return send(401, { error: 'Você não está nesta sala.' });
-      if (!['trade', 'lineup', 'close-trades', 'simulate', 'clock', 'tactic'].includes(action)) throw Error('Ação inválida.');
+      if (!['simulate', 'clock', 'tactic'].includes(action)) throw Error('Ação inválida.');
       return send(200, postAuction(room, action, input, member?.id ?? 0));
     }
     if (req.method === 'GET' && url.pathname === '/state') {

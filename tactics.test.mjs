@@ -34,8 +34,7 @@ test('o relógio aplica somente comandos do próprio participante', () => {
     auction: { snapshot: () => ({ complete: true, teams }) },
   };
   const call = (action, input = {}, actor = 0, now = 0) => postAuction(room, action, input, actor, now);
-  call('lineup', {}, 0);
-  const opened = call('lineup', {}, 1);
+  const opened = call('read', {}, 1);
   assert.deepEqual(opened.pendingLineupTeamIds, [0, 1]);
   for (const actor of [0, 1]) {
     const view = call('read', {}, actor);
@@ -71,7 +70,7 @@ test('vinhetas revelam classificados só após a fase correspondente', () => {
   const room = {
     mode: 'ucl', auction: { snapshot: () => ({ complete: true, teams: soloTeams }) },
   };
-  const lineup = postAuction(room, 'lineup');
+  const lineup = postAuction(room, 'read');
   let view = postAuction(room, 'simulate', {
     formation: '2-2-2', tactic: 'Equilibrada', ids: lineup.auto['2-2-2'],
   });

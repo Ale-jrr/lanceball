@@ -41,8 +41,8 @@
 <label id="teamLabel" for="team">Sua equipe nesta aba</label><select id="team"></select>
 <p id="balance"></p>
 <div class="last-purchase"><figure class="player-portrait player-portrait-small" id="revealed-portrait" hidden></figure><p id="lastPurchase"></p></div>
-<div class="quick" id="quick" hidden><button data-step="1">+1</button><button data-step="2">+2</button><button data-step="5">+5</button><button data-step="10">+10</button><button class="max" id="maxBid">Máximo</button><button class="pass" id="pass">Passar</button></div>
-<p id="status" role="status"></p><a id="return-lobby" hidden>Voltar ao lobby</a><a id="continue" href="/pos-leilao" hidden style="color:var(--gold)">Continuar para trocas</a>
+<div class="quick" id="quick" hidden><button type="button" data-step="1">+1</button><button type="button" data-step="2">+2</button><button type="button" data-step="5">+5</button><button type="button" data-step="10">+10</button><button type="button" class="max" id="maxBid">Máximo</button><button type="button" class="pass quiet" id="pass">Passar</button></div>
+<p id="status" role="status"></p><a id="return-lobby" class="action secondary" hidden>Voltar ao lobby</a><a id="continue" href="/pos-leilao" class="action primary" hidden>Ir para a escalação</a>
 </section>
 <section class="panel purchase-history" aria-labelledby="purchases-title">
   <h2 id="purchases-title">Quem levou</h2>

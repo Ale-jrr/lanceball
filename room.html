@@ -18,7 +18,7 @@
   <p id="club-availability" class="club-availability" hidden>Os clubes já escolhidos aparecem desabilitados.</p>
 </fieldset>
 <label id="password" hidden>Senha da sala<input type="password" name="password" maxlength="64"></label>
-<button class="primary">Entrar na sala</button>
+<button type="submit" id="join-room-button" class="primary">Entrar na sala</button>
 </form>
 <section class="panel" id="lobby" hidden>
 <h2 id="count">Participantes</h2>
@@ -66,6 +66,7 @@ function render(data) {
   join.hidden = data.you !== null || data.started;
   byId('lobby').hidden = data.you === null;
   byId('password').hidden = !data.private;
+  join.elements.password.required = data.private;
   const choices = new Set(data.choices);
   const exclusiveClubs = data.size <= choices.size;
   const taken = new Set(exclusiveClubs ? data.members.map(member => member.identity) : []);
@@ -97,6 +98,10 @@ function render(data) {
 async function act(action, data = {}) {
   if (busy) return;
   busy = true;
+  const control = byId(action === 'join' ? 'join-room-button' : 'start');
+  const label = control.textContent;
+  control.disabled = true;
+  control.textContent = action === 'join' ? 'Entrando…' : 'Iniciando…';
   try {
     const result = await api({ action, ...data });
     if (result.token) {
@@ -109,6 +114,8 @@ async function act(action, data = {}) {
     status.textContent = error.message;
   } finally {
     busy = false;
+    control.disabled = false;
+    control.textContent = label;
   }
 }
 join.onsubmit = event => {

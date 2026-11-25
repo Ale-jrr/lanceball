@@ -88,33 +88,20 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
   const formations = size === rosterSize ? fut7Formations : legacyFormations;
   const baseFormation = size === rosterSize ? '2-2-2' : '4-3-3';
   const post = room.post ??= {
-    stage: 'trades', teams: state.teams, offers: [], formation: baseFormation, tactic: tactics[0],
+    stage: 'lineup', teams: state.teams, formation: baseFormation, tactic: tactics[0],
   };
   const own = post.teams.find(team => team.id === actor && !team.bot);
   if (!own) throw Error('Equipe indisponível.');
   const online = Boolean(room.members);
   const humans = post.teams.filter(team => !team.bot);
   const host = online ? hostId(room) : 0;
-  post.ready ??= [];
+  if (post.stage === 'trades') {
+    post.stage = 'lineup';
+    delete post.ready;
+    delete post.offers;
+  }
   post.lineups ??= {};
-  if (action === 'trade') {
-    if (post.stage !== 'trades' || post.ready.includes(actor)) throw Error('A janela de trocas foi encerrada.');
-    const other = post.teams.find(team => team.bot && team.players.some(player => player.id === input.target));
-    const mine = own.players.find(player => player.id === input.offer);
-    const target = other?.players.find(player => player.id === input.target);
-    if (!mine || !target) throw Error('Escolha dois atletas disponíveis.');
-    const accepted = mine.position === target.position && mine.overall >= target.overall;
-    if (accepted) {
-      own.players[own.players.indexOf(mine)] = target;
-      other.players[other.players.indexOf(target)] = mine;
-    }
-    post.offers.unshift({ mine: mine.name, target: target.name, team: other.name, accepted });
-  } else if (action === 'close-trades') {
-    if (!online || actor !== host) throw Error('Só o anfitrião pode encerrar as trocas para todos.');
-    if (post.stage === 'trades') post.stage = 'lineup';
-  } else if (action === 'lineup' && post.stage === 'trades') {
-    if (!post.ready.includes(actor)) post.ready.push(actor);
-  } else if (action === 'simulate' && post.stage !== 'tournament') {
+  if (action === 'simulate' && post.stage !== 'tournament') {
     if (post.stage !== 'lineup') throw Error('Abra a escalação primeiro.');
     if (!Object.hasOwn(formations, input.formation) || !tactics.includes(input.tactic) ||
         !Array.isArray(input.ids) || input.ids.length !== size || new Set(input.ids).size !== size ||
@@ -123,7 +110,6 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     }
     post.lineups[actor] = { formation: input.formation, tactic: input.tactic, ids: input.ids };
   }
-  if (post.stage === 'trades' && humans.every(team => post.ready.includes(team.id))) post.stage = 'lineup';
   if (post.stage === 'lineup' && humans.every(team => post.lineups[team.id])) {
     const teams = post.teams.map(team => {
       const selection = post.lineups[team.id];
@@ -197,7 +183,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
       pendingTactic: pending?.tactic,
     };
   }
-  const { lineups, ready, live, season, model, ...view } = post;
+  const { lineups, live, season, model, ...view } = post;
   const ownLineup = lineups[actor];
   return {
     ...view, season: season ? visibleSeason(season, live) : undefined,
@@ -205,7 +191,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     formations, tactics, clock, online, you: actor, isHost: actor === host, humans: humans.length,
     formation: ownLineup?.formation ?? post.formation,
     tactic: ownLineup?.tactic ?? post.tactic,
-    lineup: ownLineup?.ids, tradeReady: ready.includes(actor),
+    lineup: ownLineup?.ids,
     lineupsReady: humans.filter(team => lineups[team.id]).length,
     pendingLineupTeamIds: humans.filter(team => !lineups[team.id]).map(team => team.id),
     auto: Object.fromEntries(Object.entries(formations).map(([name, slots]) =>

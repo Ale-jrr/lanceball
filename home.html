@@ -29,20 +29,20 @@
 <label><input type="radio" name="size" value="32"><span class="choice">32</span></label>
 <label><input type="radio" name="size" value="64"><span class="choice">64</span></label>
 </div></fieldset>
-<button class="primary">Jogar leilão contra bots</button>
+<button type="submit" class="primary">Jogar leilão contra bots</button>
 </form>
 <section class="panel side">
 <h2>Jogar com amigos</h2>
 <p>Crie uma sala com as opções ao lado e compartilhe o código ou link. Use uma senha para manter a sala fora da lista pública.</p>
 <label for="room-name">Nome da sala</label><input type="text" id="room-name" maxlength="40" placeholder="Opcional">
 <label for="room-password">Senha da sala</label><input type="password" id="room-password" maxlength="64" placeholder="Opcional">
-<button id="create-room" class="action secondary" type="button">Criar sala</button>
+<button id="create-room" class="secondary" type="button">Criar sala</button>
 <form id="join-room" action="/sala">
 <label for="room-code">Código de convite</label><input type="text" id="room-code" name="room" pattern="[0-9a-fA-F]{8}" maxlength="8" required>
-<button class="action secondary">Entrar com código</button>
+<button type="submit" class="secondary">Entrar com código</button>
 </form>
 <p id="room-status" role="status"></p>
-<div class="rooms-heading"><h3>Salas públicas</h3><button id="refresh-rooms" class="action secondary" type="button">Atualizar</button></div><ul id="rooms"></ul>
+<div class="rooms-heading"><h3>Salas públicas</h3><button id="refresh-rooms" class="quiet" type="button">Atualizar</button></div><ul id="rooms"></ul>
 </section>
 </div>
 <div class="rules">
@@ -62,6 +62,7 @@ const create = document.querySelector('#create-room');
 create.onclick = async () => {
   if (!form.reportValidity()) return;
   create.disabled = true;
+  create.textContent = 'Criando sala…';
   roomStatus.textContent = '';
   const values = new FormData(form);
   const mode = values.get('mode');
@@ -79,9 +80,14 @@ create.onclick = async () => {
   } catch (error) {
     roomStatus.textContent = error.message;
     create.disabled = false;
+    create.textContent = 'Criar sala';
   }
 };
+const refreshRooms = document.querySelector('#refresh-rooms');
 async function listRooms() {
+  if (refreshRooms.disabled) return;
+  refreshRooms.disabled = true;
+  refreshRooms.textContent = 'Atualizando…';
   const list = document.querySelector('#rooms');
   try {
     const response = await arenaFetch('/rooms');
@@ -100,9 +106,12 @@ async function listRooms() {
     }));
   } catch {
     list.textContent = 'Lista de salas indisponível.';
+  } finally {
+    refreshRooms.disabled = false;
+    refreshRooms.textContent = 'Atualizar';
   }
 }
-document.querySelector('#refresh-rooms').onclick = listRooms;
+refreshRooms.onclick = listRooms;
 listRooms();
 </script>
 </body>
