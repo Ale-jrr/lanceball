@@ -1,3 +1,4 @@
+import { auctionPositionOpen, fut7Formations } from './formations.mjs';
 import { randomInt, randomUUID } from 'node:crypto';
 
 import { rosterQuotas as quotas, rosterSize, validCompetitionSize } from './fut7.mjs';
@@ -73,15 +74,22 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
             state.round = { player, deadline: time + 10_000, highest: null, passed: [],
               ...(surprise ? { clue, publicId: randomUUID() } : {}) };
           } else {
-            for (const team of state.teams) {
-              for (const [position, count] of Object.entries(quotas)) {
-                while (team.players.filter(player => player.position === position).length < count) {
+            const allocate = (team, index) => {
+              if (index < 0 || team.balance < reserve) throw Error('Invariante de regularização violada');
+              const [available] = state.passed.splice(index, 1);
+              purchase(state, team, available, reserve, 'allocation');
+            };
+            for (const position of Object.keys(quotas)) {
+              for (const team of state.teams) {
+                while (auctionPositionOpen(team, position, rosterSize)) {
                   const index = state.passed.findIndex(player => player.position === position);
-                  if (index < 0 || team.balance < reserve) throw Error('Invariante de regularização violada');
-                  const [player] = state.passed.splice(index, 1);
-                  purchase(state, team, player, reserve, 'allocation');
+                  if (index < 0) break;
+                  allocate(team, index);
                 }
               }
+            }
+            for (const team of state.teams) {
+              while (team.players.length < rosterSize) allocate(team, 0);
             }
             state.complete = true;
           }
@@ -101,7 +109,7 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
         if (round.passed?.includes(teamId)) throw Error('Você já passou esta rodada');
         if (round.highest?.teamId === teamId) throw Error('Seu lance já está na frente');
         const position = round.player.position;
-        if (team.players.filter(player => player.position === position).length >= quotas[position]) {
+        if (!auctionPositionOpen(team, position, rosterSize)) {
           throw Error('Posição preenchida');
         }
         const minimum = (round.highest?.amount ?? 0) + 1;
@@ -116,6 +124,16 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
         ));
         state.bids.push({ playerId, teamId, amount, time });
         return { state, value: round.highest };
+      });
+    },
+
+    changeFormation(teamId, formation) {
+      return mutate(state => {
+        const team = state?.teams[teamId];
+        if (!team || state.complete) throw Error('Leilão indisponível');
+        if (!Object.hasOwn(fut7Formations, formation)) throw Error('Formação inválida');
+        team.formation = formation;
+        return { state, value: state };
       });
     },
 

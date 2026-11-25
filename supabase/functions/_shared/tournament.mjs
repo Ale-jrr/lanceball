@@ -95,7 +95,7 @@ export function decisiveShot(minute, margin) {
   return null;
 }
 
-export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}, fullBracket = true } = {}) {
+export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}, fullBracket = true, halfBracket = fullBracket } = {}) {
   function matchRandom(id) {
     if (seed === undefined) return draw;
     let value = seed;
@@ -235,7 +235,8 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
   let finalists;
   let thirdPlace = null;
   if (mode === 'ucl') {
-    const qualified = fullBracket && roomSizes.includes(a.length) ? a : a.slice(0, 4);
+    const eligible = fullBracket && roomSizes.includes(a.length) ? a.length : 4;
+    const qualified = a.slice(0, halfBracket && roomSizes.includes(a.length) ? a.length / 2 : eligible);
     let remaining = bracketOrder(qualified);
     const rank = new Map(qualified.map((team, index) => [team.id, index]));
     while (remaining.length > 2) {

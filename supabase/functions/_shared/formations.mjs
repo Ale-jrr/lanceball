@@ -6,6 +6,18 @@ export const fut7Formations = {
   '2-1-3': ['GK','DEF','DEF','MID','FWD','FWD','FWD'],
 };
 
+export function missingInPosition(team, position) {
+  const slots = fut7Formations[team.formation ?? '2-2-2'];
+  return slots.filter(role => role === position).length -
+    team.players.filter(player => player.position === position).length;
+}
+
+export function auctionPositionOpen(team, position, rosterSize) {
+  const remaining = rosterSize - team.players.length;
+  return remaining > 0 && missingInPosition(team, position) > 0 &&
+    (position === 'GK' || remaining > missingInPosition(team, 'GK'));
+}
+
 export function autoLineup(players, slots) {
   const available = [...players].sort((a, b) => b.overall - a.overall);
   const ids = slots.map(role => {

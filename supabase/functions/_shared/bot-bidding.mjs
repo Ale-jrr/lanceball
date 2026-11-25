@@ -1,9 +1,9 @@
+import { auctionPositionOpen, missingInPosition } from './formations.mjs';
+
 export function botBidLimit(state, team, player) {
   const remaining = state.rosterSize - team.players.length;
-  if (remaining <= 0) return 0;
-  const needed = state.quotas[player.position] -
-    team.players.filter(entry => entry.position === player.position).length;
-  if (needed <= 0) return 0;
+  if (!auctionPositionOpen(team, player.position, state.rosterSize)) return 0;
+  const needed = missingInPosition(team, player.position);
   const available = team.balance - (remaining - 1);
   const auctionProgress = 1 - state.queue.length / state.catalog.players.length;
   const urgency = Math.max(0, auctionProgress - team.players.length / state.rosterSize);

@@ -13,7 +13,10 @@ const legacyFormations = {
 const tactics = ['Equilibrada', 'Ofensiva', 'Defensiva', 'Contra-ataque', 'Posse de bola', 'Pressão alta'];
 
 function calculate(mode, model) {
-  return playSeason(mode, model.teams, undefined, { seed: model.seed, changes: model.changes, fullBracket: model.fullBracket ?? false });
+  return playSeason(mode, model.teams, undefined, {
+    seed: model.seed, changes: model.changes, fullBracket: model.fullBracket ?? false,
+    halfBracket: model.halfBracket ?? false,
+  });
 }
 
 function ownLineupTactic(post, actor) {
@@ -43,10 +46,12 @@ function phaseHighlights(season, live, teams) {
       teams: round.games.flatMap(game => [club(game.home), club(game.away)]),
     });
   }
-  if (completed(semifinalEnd)) {
+  const final = season.rounds[finalIndex];
+  if (final.name === 'Final' && completed(semifinalEnd >= 0 ? semifinalEnd : finalIndex - 1)) {
+    const { home, away } = final.games[0];
     highlights.push({
       id: 'final', title: 'Grande final', subtitle: 'As equipes que vão disputar o título',
-      teams: season.rounds[semifinalEnd].games.map(game => club(game.winner)),
+      teams: [club(home), club(away)],
     });
   }
   if (completed(finalIndex)) {
@@ -116,7 +121,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
   if (post.stage === 'lineup' && humans.every(team => post.lineups[team.id])) {
     const teams = post.teams.map(team => {
       const selection = post.lineups[team.id];
-      const slots = formations[selection?.formation ?? baseFormation];
+      const slots = formations[selection?.formation ?? team.formation ?? baseFormation];
       const ids = selection?.ids ?? autoLineup(team.players, slots);
       const lineup = ids.map((id, index) => {
         const player = team.players.find(entry => entry.id === id);
@@ -125,7 +130,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
       });
       return { ...team, lineup, tactic: selection?.tactic ?? tactics[team.id % tactics.length] };
     });
-    post.model = { teams, seed: randomInt(0x1_0000_0000), changes: {}, fullBracket: true };
+    post.model = { teams, seed: randomInt(0x1_0000_0000), changes: {}, fullBracket: true, halfBracket: true };
     post.season = calculate(room.mode, post.model);
     post.stage = 'tournament';
   }
@@ -192,7 +197,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     ...view, season: season ? visibleSeason(season, live) : undefined,
     highlights: season ? phaseHighlights(season, live, post.teams) : [],
     formations, tactics, clock, mode: room.mode, online, you: actor, isHost: actor === host, humans: humans.length,
-    formation: ownLineup?.formation ?? post.formation,
+    formation: ownLineup?.formation ?? own.formation ?? post.formation,
     tactic: ownLineup?.tactic ?? post.tactic,
     lineup: ownLineup?.ids,
     lineupsReady: humans.filter(team => lineups[team.id]).length,

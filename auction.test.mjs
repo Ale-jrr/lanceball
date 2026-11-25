@@ -187,7 +187,7 @@ test('bots valorizam overall, preenchem posições e reservam saldo para as vaga
   assert.ok(botBidLimit(scarce, team, ordinary) > botBidLimit(state, team, ordinary));
   const withDefender = overall => ({ ...team, players: [{ position: 'DEF', overall }] });
   assert.ok(botBidLimit(state, withDefender(78), elite) > botBidLimit(state, withDefender(91), elite));
-  const lastVacancy = { ...team, balance: 50, players: Array(6).fill({ position: 'DEF', overall: 83 }) };
+  const lastVacancy = { ...team, balance: 50, players: [{ position: 'GK', overall: 83 }, ...Array(5).fill({ position: 'DEF', overall: 83 })] };
   const lastBid = botBidLimit(state, lastVacancy, elite);
   assert.ok(lastBid > 18 && lastBid < lastVacancy.balance);
   assert.ok(botBidLimit(state, team, elite) > botBidLimit(state, team, ordinary));
@@ -195,4 +195,32 @@ test('bots valorizam overall, preenchem posições e reservam saldo para as vaga
   assert.equal(botBidLimit(state, { ...team, players: [ordinary, ordinary] }, elite), 0);
   assert.equal(botBidLimit({ ...state, round: { clue: {} } }, team, elite),
     botBidLimit({ ...state, round: { clue: {} } }, team, ordinary));
+});
+
+
+test('a formacao escolhida libera a terceira vaga de defensor e todos completam o elenco', () => {
+  let now = 0;
+  const auction = openAuction(':memory:', () => now);
+  try {
+    auction.start(catalog);
+    let state = auction.tick();
+    while (state.round.player.id !== 'DEF-2') {
+      if (['DEF-0', 'DEF-1'].includes(state.round.player.id)) auction.bid(0, state.round.player.id, 1);
+      now = auction.snapshot().round.deadline;
+      state = auction.tick();
+    }
+    assert.throws(() => auction.bid(0, 'DEF-2', 1));
+    auction.changeFormation(0, '3-2-1');
+    assert.equal(auction.snapshot().teams[0].formation, '3-2-1');
+    auction.bid(0, 'DEF-2', 1);
+    while (!state.complete) {
+      now = auction.snapshot().round.deadline;
+      state = auction.tick();
+    }
+    assert.equal(state.teams[0].players.filter(player => player.position === 'DEF').length, 3);
+    assert.ok(state.teams.every(team => team.players.length === 7 && team.players.some(player => player.position === 'GK')));
+    assert.equal(new Set(state.purchases.map(purchase => purchase.playerId)).size, 56);
+  } finally {
+    auction.close();
+  }
 });

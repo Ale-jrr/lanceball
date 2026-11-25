@@ -73,6 +73,9 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     assert.equal(joined.status, 200);
     const guest = joined.data.token;
     assert.equal((await request(0, '/room' + query, { action: 'start' }, host)).status, 200);
+    assert.equal((await request(1, '/formation' + query, { teamId: 0, formation: '3-2-1' }, guest)).status, 400);
+    assert.equal((await request(1, '/formation' + query, { teamId: 1, formation: '3-2-1' }, guest)).status, 200);
+    assert.equal((await request(0, '/state' + query, undefined, host)).data.state.teams[1].formation, '3-2-1');
     const initial = (await request(1, '/state' + query, undefined, guest)).data;
     assert.equal(initial.state.teams.length, 4);
     assert.equal(initial.yourTeamId, 1);

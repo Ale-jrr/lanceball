@@ -66,7 +66,9 @@ test('o relógio aplica somente comandos do próprio participante', () => {
 });
 
 test('vinhetas revelam classificados só após a fase correspondente', () => {
-  const soloTeams = teams.map(team => ({ ...team, bot: team.id !== 0 }));
+  const soloTeams = Array.from({ length: 8 }, (_, id) => ({
+    ...teams[id % teams.length], id, name: 'Equipe ' + id, bot: id !== 0,
+  }));
   const room = {
     mode: 'ucl', auction: { snapshot: () => ({ complete: true, teams: soloTeams }) },
   };
@@ -100,7 +102,7 @@ test('chutes decisivos destacam chances de empate ou vantagem no fim', () => {
   assert.equal(decisiveShot(91, 0), null);
   assert.equal(decisiveShot(110, 0), 'lead');
   const inputs = teams.map(team => ({ ...team, lineup: team.players }));
-  const season = playSeason('ucl', inputs, () => .01);
+  const season = playSeason('ucl', inputs, undefined, { seed: 128 });
   assert.ok(season.rounds.flatMap(round => round.games).some(game =>
     game.events.some(event => event.highlight?.outcome === 'goal')));
 });
@@ -114,9 +116,11 @@ test('all supported sizes complete the league and seeded knockout bracket', () =
     const season = playSeason('ucl', participants, undefined, { seed: 42 });
     const league = season.rounds.filter(round => round.name === 'Liga');
     assert.equal(league.length, Math.min(8, size - 1));
-    let entries = size;
+    let entries = size / 2;
     const knockout = season.rounds.slice(league.length);
-    assert.equal(knockout.length, 2 * Math.log2(size) - 1);
+    assert.equal(knockout.length, 2 * Math.log2(entries) - 1);
+    const starters = knockout[0].games.flatMap(game => [game.home.id, game.away.id]);
+    assert.deepEqual(new Set(starters), new Set(season.tables[0].table.slice(0, entries).map(team => team.id)));
     for (let index = 0; index < knockout.length - 1; index += 2) {
       const [first, second] = knockout.slice(index, index + 2);
       assert.equal(first.games.length, entries / 2);

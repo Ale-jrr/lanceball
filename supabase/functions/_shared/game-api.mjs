@@ -1,3 +1,4 @@
+import { fut7Formations } from './formations.mjs';
 import { botBidLimit } from './bot-bidding.mjs';
 import { Buffer } from 'node:buffer';
 import { randomInt } from 'node:crypto';
@@ -18,8 +19,10 @@ function createSoloRoom(params, source, openAuction) {
       !name || name.length > 30 || !choices.has(identity)) {
     throw Error('Configure a equipe na tela inicial antes de iniciar.');
   }
+  const formation = params.get('formation');
   const identities = [
-    { name, identity, crestUrl: choices.get(identity) },
+    { name, identity, crestUrl: choices.get(identity),
+      ...(Object.hasOwn(fut7Formations, formation) ? { formation } : {}) },
     ...botIdentities(new Set([identity]), size - 1),
   ];
   return startAuction(mode, identities, source, openAuction);
@@ -213,18 +216,24 @@ export async function handleGameRequest(req, res, runtime) {
       if (!auction.snapshot()) seedAuction(auction, 8, undefined, source);
       return send(200, { state: publicAuction(auction.tick()), catalogInfo, time: Date.now(), mode: room?.mode });
     }
-    if (req.method === 'POST' && ['/bid', '/pass'].includes(url.pathname)) {
-      const { teamId, playerId, amount } = await readBody(req, 1024);
+    if (req.method === 'POST' && ['/bid', '/pass', '/formation'].includes(url.pathname)) {
+      const { teamId, playerId, amount, formation } = await readBody(req, 1024);
       if (member && !member.token) return send(401, { error: 'Você não está nesta sala.' });
       const auctionState = auction?.snapshot();
-      if (!Number.isInteger(teamId) || teamId < 0 || teamId >= (auctionState?.teams.length ?? 0) || typeof playerId !== 'string') {
+      if (!Number.isInteger(teamId) || teamId < 0 || teamId >= (auctionState?.teams.length ?? 0)) {
         return send(400, { error: 'Equipe ou atleta inválido.' });
       }
       if (!auction || (room && teamId !== (member?.id ?? 0))) throw Error('Equipe indisponível nesta sessão.');
-      const player = resolveAuctionPlayer(auctionState?.round, playerId);
-      if (!player) throw Error('Rodada indisponível');
-      if (url.pathname === '/pass') auction.pass(teamId, player);
-      else auction.bid(teamId, player, amount);
+      if (url.pathname === '/formation') {
+        if (typeof formation !== 'string') throw Error('Formação inválida');
+        auction.changeFormation(teamId, formation);
+      } else {
+        if (typeof playerId !== 'string') return send(400, { error: 'Atleta inválido.' });
+        const player = resolveAuctionPlayer(auctionState?.round, playerId);
+        if (!player) throw Error('Rodada indisponível');
+        if (url.pathname === '/pass') auction.pass(teamId, player);
+        else auction.bid(teamId, player, amount);
+      }
       return send(200, { state: publicAuction(auction.snapshot()), catalogInfo, time: Date.now(), yourTeamId: member?.id, mode: room?.mode, roomName: online?.name });
     }
     return send(404, { error: 'Rota indisponível.' });

@@ -7,7 +7,7 @@ import { handleGameRequest, requestUrl } from './game-api.mjs';
 import { previewTournament } from './tournament.mjs';
 
 const sessionDuration = 30 * 60_000;
-const gameRoutes = new Set(['/rooms', '/room', '/state', '/start', '/bid', '/pass', '/post-auction']);
+const gameRoutes = new Set(['/rooms', '/room', '/state', '/start', '/bid', '/pass', '/formation', '/post-auction']);
 
 function scope(url) {
   if (url.pathname === '/rooms') return { type: 'create' };

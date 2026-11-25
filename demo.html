@@ -87,7 +87,7 @@
 <script type="module">
 import { arenaFetch, liveUpdates } from '/client-api.mjs';
 import { playerPositionName, positionName } from '/positions.mjs';
-import { autoLineup, fut7Formations } from '/formations.mjs';
+import { auctionPositionOpen, autoLineup, fut7Formations } from '/formations.mjs';
 const byId = id => document.getElementById(id);
 const setup = new URLSearchParams(location.search);
 const roomCode = setup.get('room')?.toUpperCase();
@@ -115,13 +115,25 @@ const formationKey = 'auction-formation:' + (roomCode ?? setup.get('solo') ?? 'l
 for (const name of Object.keys(fut7Formations)) squadFormation.add(new Option(name, name));
 const preferredFormation = sessionStorage.getItem(formationKey);
 if (Object.hasOwn(fut7Formations, preferredFormation)) squadFormation.value = preferredFormation;
-squadFormation.onchange = () => {
-  sessionStorage.setItem(formationKey, squadFormation.value);
-  renderSquad(state?.teams[Number(team.value)]?.players ?? []);
+squadFormation.onchange = async () => {
+  const formation = squadFormation.value;
+  if (!state || state.complete) {
+    sessionStorage.setItem(formationKey, formation);
+    renderSquad(state?.teams[Number(team.value)]?.players ?? []);
+    return;
+  }
+  const teamId = Number(team.value);
+  await act(async () => {
+    await request('/formation', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teamId, formation }) });
+    sessionStorage.setItem(formationKey, formation);
+  });
+  render();
 };
 let state;
 let clockOffset = 0;
 let busy = false;
+let actionVersion = 0;
 let pollError = false;
 let displayedRound;
 
@@ -145,8 +157,9 @@ function updateTimer() {
   byId('timer').closest('.clock').classList.toggle('clock-urgent', seconds <= 3);
   const round = state.round;
   const selected = state.teams[Number(team.value)];
-  const positionQuota = state.quotas[round.player.position];
-  const roleFull = positionQuota !== undefined && selected.players.filter(player => player.position === round.player.position).length >= positionQuota;
+  const role = round.player.position;
+  const roleFull = selected.players.length >= state.rosterSize ||
+    (role !== undefined && !auctionPositionOpen(selected, role, state.rosterSize));
   const minimum = (round.highest?.amount ?? 0) + 1;
   const maximum = roleFull ? 0 : selected.balance - Math.max(0, state.rosterSize - 1 - selected.players.length);
   const passed = round.passed?.includes(selected.id);
@@ -171,7 +184,7 @@ function updateTimer() {
   const availability = byId('bid-availability');
   const reason = passed || seconds === 0 ? ''
     : leading ? 'Você está com o maior lance.'
-    : roleFull ? 'Seu elenco já preencheu essa posição.'
+    : roleFull ? 'Sem vaga para esta posição na formação atual.'
     : maximum < minimum ? 'Seu lance máximo não cobre a oferta atual.' : '';
   availability.hidden = !reason;
   if (availability.textContent !== reason) availability.textContent = reason;
@@ -254,6 +267,7 @@ function squadAverage(players) {
 function render() {
   const round = state?.round;
   const selected = state?.teams[Number(team.value)];
+  if (selected && !state.complete) squadFormation.value = selected.formation ?? '2-2-2';
   const currentRound = round?.player.id;
   if (displayedRound !== currentRound && ['Lance registrado.', 'Você passou esta rodada.'].includes(status.textContent)) {
     status.textContent = '';
@@ -402,10 +416,12 @@ function renderSquad(players) {
 }
 
 async function request(url, options) {
+  const version = actionVersion;
   const headers = new Headers(options?.headers);
   if (memberToken) headers.set('Authorization', 'Bearer ' + memberToken);
   const response = await arenaFetch(solo || roomCode ? url + '?' + setup : url, { ...options, headers });
   const result = await response.json().catch(() => null);
+  if (!options?.method && version !== actionVersion) return;
   if (!response.ok || !result) {
     const error = Error(result?.error ?? ('Servidor do leilão retornou HTTP ' + response.status + '.'));
     error.status = response.status;
@@ -448,6 +464,8 @@ async function request(url, options) {
 async function act(action, success) {
   if (busy) return;
   busy = true;
+  actionVersion++;
+  squadFormation.disabled = true;
   byId('start').disabled = true;
   updateTimer();
   try {
@@ -457,12 +475,14 @@ async function act(action, success) {
     status.textContent = error.message;
   } finally {
     busy = false;
+    squadFormation.disabled = false;
     byId('start').disabled = false;
     updateTimer();
   }
 }
 
 byId('start').onclick = async () => {
+  if (solo) setup.set('formation', squadFormation.value);
   byId('start').textContent = 'Iniciando…';
   try { await act(() => request('/start', { method: 'POST' })); }
   finally { byId('start').textContent = 'Iniciar leilão'; }
