@@ -43,6 +43,7 @@ const clubInputs = join.querySelectorAll('input[name=identity]');
 initClubBadges(join);
 const status = byId('status');
 let busy = false;
+let membershipLost = false;
 
 async function api(input) {
   const headers = {};
@@ -56,6 +57,12 @@ async function api(input) {
 }
 
 function render(data) {
+  if (token && data.you === null) {
+    localStorage.removeItem(key);
+    token = null;
+    membershipLost = true;
+    window.dispatchEvent(new Event('arena-room-membership-changed'));
+  }
   if (data.started && data.you !== null) {
     location.replace('/leilao?' + new URLSearchParams({ room: code }));
     return;
@@ -63,6 +70,7 @@ function render(data) {
   byId('title').textContent = data.name;
   status.textContent = (data.mode === 'league' ? 'Liga' : 'Champions League') +
     ' · Código ' + data.code + ' · ' + (data.private ? 'Sala privada' : 'Sala pública');
+  if (membershipLost) status.textContent += ' · Você foi removido da sala.';
   join.hidden = data.you !== null || data.started;
   byId('lobby').hidden = data.you === null;
   byId('password').hidden = !data.private;
@@ -83,8 +91,21 @@ function render(data) {
   byId('count').textContent = 'Participantes ' + data.members.length + '/' + data.size;
   byId('members').replaceChildren(...data.members.map(member => {
     const row = document.createElement('li');
-    row.textContent = member.name + ' · ' + member.identity + (member.id === data.host ? ' · anfitrião' : '') +
+    const name = document.createElement('span');
+    name.textContent = member.name + ' · ' + member.identity + (member.id === data.host ? ' · anfitrião' : '') +
       (member.id === data.you ? ' · você' : '');
+    row.append(name);
+    if (!data.started && data.you === data.host && member.kickRef) {
+      const kick = document.createElement('button');
+      kick.type = 'button';
+      kick.className = 'member-kick';
+      kick.textContent = 'Expulsar';
+      kick.setAttribute('aria-label', 'Expulsar ' + member.name);
+      kick.onclick = () => {
+        if (confirm('Expulsar ' + member.name + ' da sala?')) act('kick', { target: member.kickRef }, kick);
+      };
+      row.append(kick);
+    }
     return row;
   }));
   byId('invite').value = location.origin + '/sala?' + new URLSearchParams({ room: code });
@@ -95,19 +116,19 @@ function render(data) {
   if (data.started && data.you === null) status.textContent += ' · Leilão já iniciado.';
 }
 
-async function act(action, data = {}) {
+async function act(action, data = {}, control = byId(action === 'join' ? 'join-room-button' : 'start')) {
   if (busy) return;
   busy = true;
-  const control = byId(action === 'join' ? 'join-room-button' : 'start');
   const label = control.textContent;
   control.disabled = true;
-  control.textContent = action === 'join' ? 'Entrando…' : 'Iniciando…';
+  control.textContent = action === 'kick' ? 'Expulsando…' : action === 'join' ? 'Entrando…' : 'Iniciando…';
   try {
     const result = await api({ action, ...data });
     if (result.token) {
       token = result.token;
+      membershipLost = false;
       localStorage.setItem(key, token);
-      window.dispatchEvent(new Event('arena-room-joined'));
+      window.dispatchEvent(new Event('arena-room-membership-changed'));
     }
     render(result);
   } catch (error) {

@@ -7,7 +7,7 @@ import { draftCatalog, validCompetitionSize } from './fut7.mjs';
 import { previewTournament, restoreSeason } from './tournament.mjs';
 import { postAuction } from './post-auction.mjs';
 import { uclClubs, clubCrests } from './ucl-clubs.mjs';
-import { publicRooms, lobby, authorize, createRoom, joinRoom, roomIdentities, hostId, leaveRoom, touchRoom, botIdentities } from './rooms.mjs';
+import { publicRooms, lobby, authorize, createRoom, joinRoom, roomIdentities, hostId, kickMember, leaveRoom, touchRoom, botIdentities } from './rooms.mjs';
 
 function createSoloRoom(params, source, openAuction) {
   const mode = params.get('mode');
@@ -145,6 +145,12 @@ export async function handleGameRequest(req, res, runtime) {
           leaveRoom(online, member, onlineRooms);
           return send(200, { left: true });
         }
+        if (input.action === 'kick') {
+          if (!member || member.id !== hostId(online)) return send(403, { error: 'Só o anfitrião pode expulsar participantes.' });
+          if (online.auction) return send(409, { error: 'O leilão já começou.' });
+          kickMember(online, input.target, onlineRooms);
+          return send(200, lobby(online, member));
+        }
         if (input.action === 'start') {
           if (!member || member.id !== hostId(online)) return send(403, { error: 'Só o anfitrião pode iniciar.' });
           if (!online.auction) {
@@ -202,6 +208,12 @@ export async function handleGameRequest(req, res, runtime) {
       if (req.method === 'GET') return send(200, postAuction(room, 'read', {}, member?.id ?? 0));
       const { action, ...input } = await readBody(req);
       if (member && !member.token) return send(401, { error: 'Você não está nesta sala.' });
+      if (action === 'kick') {
+        if (!online || !member || member.id !== hostId(online)) return send(403, { error: 'Só o anfitrião pode expulsar participantes.' });
+        if (online.post?.stage !== 'lineup') return send(409, { error: 'A expulsão nesta tela só está disponível na escalação.' });
+        kickMember(online, input.target, onlineRooms);
+        return send(200, postAuction(room, 'read', {}, member.id));
+      }
       if (!['simulate', 'clock', 'tactic'].includes(action)) throw Error('Ação inválida.');
       return send(200, postAuction(room, action, input, member?.id ?? 0));
     }

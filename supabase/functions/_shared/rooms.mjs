@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { validCompetitionSize } from './fut7.mjs';
 import { clubCrests } from './ucl-clubs.mjs';
 
@@ -57,11 +57,26 @@ export function leaveRoom(room, member, rooms = onlineRooms) {
   }
 }
 
+export function memberRef(member) {
+  return createHash('sha256').update(member.token).digest('hex');
+}
+
+export function kickMember(room, targetRef, rooms) {
+  const target = room.members.find(member => member.token && memberRef(member) === targetRef);
+  if (!target || target.id === hostId(room)) throw Error('Participante indisponível para expulsão.');
+  leaveRoom(room, target, rooms);
+}
+
 export function lobby(room, member) {
+  const host = hostId(room);
+  const canKick = !room.auction && member?.id === host && Boolean(member);
   return {
     code: room.code, name: room.name, mode: room.mode, size: room.size,
-    private: Boolean(room.secret), started: Boolean(room.auction), you: member?.id ?? null, host: hostId(room),
-    members: room.members.map(({ id, name, identity }) => ({ id, name, identity })),
+    private: Boolean(room.secret), started: Boolean(room.auction), you: member?.id ?? null, host,
+    members: room.members.map(entry => ({
+      id: entry.id, name: entry.name, identity: entry.identity,
+      ...(canKick && entry.id !== host && entry.token ? { kickRef: memberRef(entry) } : {}),
+    })),
     choices: [...clubCrests.keys()],
   };
 }

@@ -892,3 +892,13 @@ body {
   .post-page .controls { gap: .35rem; }
   .post-page .controls button { font-size: .8rem; }
 }
+
+.room-page #members li { display: flex; align-items: center; gap: .5rem; }
+.room-page #members li::before { flex: none; margin: 0; }
+.room-page #members li > span { flex: 1; min-width: 0; }
+.member-kick { --button-bg: #231c2e; --button-hover: #3a2435; --button-text: #ffe0d9; font-size: .8rem; }
+
+#lineup-moderation:not(:empty) { margin: .8rem 0; }
+.lineup-moderation-list { margin: 0; padding: 0; list-style: none; }
+.lineup-moderation-list li { display: flex; gap: .6rem; align-items: center; justify-content: space-between; padding: .4rem 0; border-top: 1px solid var(--line); }
+.lineup-moderation-list small { display: block; color: var(--muted); }

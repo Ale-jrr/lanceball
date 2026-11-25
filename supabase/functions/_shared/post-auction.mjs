@@ -1,6 +1,6 @@
 import { randomInt } from 'node:crypto';
 import { playSeason } from './tournament.mjs';
-import { hostId } from './rooms.mjs';
+import { hostId, memberRef } from './rooms.mjs';
 import { rosterSize } from './fut7.mjs';
 
 import { autoLineup, fut7Formations } from './formations.mjs';
@@ -202,6 +202,10 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     lineup: ownLineup?.ids,
     lineupsReady: humans.filter(team => lineups[team.id]).length,
     pendingLineupTeamIds: humans.filter(team => !lineups[team.id]).map(team => team.id),
+    kickableMembers: online && actor === host && post.stage === 'lineup'
+      ? room.members.filter(member => member.token && member.id !== host)
+        .map(member => ({ id: member.id, name: member.name, ref: memberRef(member) }))
+      : [],
     auto: Object.fromEntries(Object.entries(formations).map(([name, slots]) =>
       [name, autoLineup(own.players, slots)])),
   };

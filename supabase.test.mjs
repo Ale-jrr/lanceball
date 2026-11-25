@@ -72,7 +72,18 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     const joined = await request(1, '/room' + query, { action: 'join', team: 'Amigo', identity: 'PSG' });
     assert.equal(joined.status, 200);
     const guest = joined.data.token;
+    const extra = await request(1, '/room' + query, { action: 'join', team: 'Extra', identity: 'Arsenal' });
+    const lobby = (await request(0, '/room' + query, undefined, host)).data;
+    const target = lobby.members.find(member => member.id === extra.data.you).kickRef;
+    assert.ok(target);
+    assert.equal((await request(1, '/room' + query, { action: 'kick', target }, guest)).status, 403);
+    const kicked = await request(0, '/room' + query, { action: 'kick', target }, host);
+    assert.equal(kicked.status, 200);
+    assert.equal(kicked.data.members.length, 2);
+    assert.equal((await request(1, '/room' + query, undefined, extra.data.token)).data.you, null);
+    const guestRef = kicked.data.members.find(member => member.id === joined.data.you).kickRef;
     assert.equal((await request(0, '/room' + query, { action: 'start' }, host)).status, 200);
+    assert.equal((await request(0, '/room' + query, { action: 'kick', target: guestRef }, host)).status, 409);
     assert.equal((await request(1, '/formation' + query, { teamId: 0, formation: '3-2-1' }, guest)).status, 400);
     assert.equal((await request(1, '/formation' + query, { teamId: 1, formation: '3-2-1' }, guest)).status, 200);
     assert.equal((await request(0, '/state' + query, undefined, host)).data.state.teams[1].formation, '3-2-1');
@@ -135,6 +146,25 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     savedRoom.post = { ...savedRoom.post, stage: 'trades', ready: [0], offers: [] };
     assert.equal((await request(1, route, undefined, guest)).data.stage, 'lineup');
     assert.equal((await request(1, route, { action: 'trade' }, guest)).status, 400);
+    const moderationRoom = structuredClone(rows.get('room:' + code));
+    moderationRoom.payload.room.code = 'FEEDABCD';
+    moderationRoom.id = 'room:FEEDABCD';
+    rows.set(moderationRoom.id, moderationRoom);
+    const moderationRoute = '/post-auction?room=FEEDABCD';
+    const moderator = (await request(0, moderationRoute, undefined, host)).data;
+    const { ref } = moderator.kickableMembers[0];
+    assert.equal((await request(1, moderationRoute, { action: 'kick', target: ref }, guest)).status, 403);
+    const waiting = await request(0, moderationRoute, {
+      action: 'simulate', formation: '2-2-2', tactic: 'Equilibrada', ids: moderator.auto['2-2-2'],
+    }, host);
+    assert.equal(waiting.data.stage, 'lineup');
+    const removed = await request(0, moderationRoute, { action: 'kick', target: ref }, host);
+    assert.equal(removed.status, 200);
+    assert.equal(removed.data.stage, 'tournament');
+    assert.ok(removed.data.teams.find(team => team.id === joined.data.you).bot);
+    assert.equal((await request(1, moderationRoute, undefined, guest)).status, 401);
+    assert.equal((await request(0, moderationRoute, { action: 'kick', target: ref }, host)).status, 409);
+
     for (const [instance, token] of [[0, host], [1, guest]]) {
       const view = (await request(instance, route, undefined, token)).data;
       const submitted = await request(instance, route, {

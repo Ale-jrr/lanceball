@@ -15,7 +15,7 @@ function refresh() {
 }
 
 refresh();
-window.addEventListener('arena-room-joined', refresh);
+window.addEventListener('arena-room-membership-changed', refresh);
 
 button.addEventListener('click', async () => {
   if (!window.confirm('Quer sair desta partida?')) return;
