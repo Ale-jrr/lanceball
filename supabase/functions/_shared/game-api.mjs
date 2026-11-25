@@ -2,7 +2,7 @@ import { botBidLimit } from './bot-bidding.mjs';
 import { Buffer } from 'node:buffer';
 import { randomInt } from 'node:crypto';
 import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
-import { draftCatalog, roomSizes } from './fut7.mjs';
+import { draftCatalog, validCompetitionSize } from './fut7.mjs';
 import { previewTournament, restoreSeason } from './tournament.mjs';
 import { postAuction } from './post-auction.mjs';
 import { uclClubs, clubCrests } from './ucl-clubs.mjs';
@@ -14,7 +14,7 @@ function createSoloRoom(params, source, openAuction) {
   const size = Number(params.get('size'));
   const identity = params.get('club');
   const choices = clubCrests;
-  if (mode !== 'ucl' || !roomSizes.includes(size) ||
+  if (!validCompetitionSize(mode, size) ||
       !name || name.length > 30 || !choices.has(identity)) {
     throw Error('Configure a equipe na tela inicial antes de iniciar.');
   }

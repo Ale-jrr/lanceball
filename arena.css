@@ -126,15 +126,31 @@ button:disabled { opacity: .5; cursor: default; box-shadow: none; }
 .choices input:checked + .choice { border-color: var(--gold); color: var(--gold); background: #29291f; }
 .choices input:focus-visible + .choice { outline: 2px solid var(--green); outline-offset: 2px; }
 .home-page .primary { width: 100%; }
-.side > input { margin-bottom: .8rem; }
-.side form > button { margin-top: .6rem; }
-.side form { margin-top: 1.15rem; }
-.rooms-heading { display: flex; justify-content: space-between; align-items: center; gap: .5rem; border-top: 1px solid var(--line); padding-top: .8rem; margin-top: 1rem; }
-.rooms-heading h3 { margin: 0; }
-.rooms-heading button { font-size: .88rem; margin: 0 !important; }
+.room-panel { background: #10192bf2; }
+.room-join { display: grid; gap: .45rem; }
+.room-code-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem; }
+.room-code-row input { font-family: ui-monospace, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+.room-code-row input::placeholder { letter-spacing: .03em; text-transform: none; }
+.room-create { margin-top: .9rem; }
+.room-create > .primary { width: 100%; margin-top: .7rem; }
+.room-options { margin: .45rem 0 0; font-size: .85rem; }
+.room-options summary { padding: .4rem 0; }
+.room-options-fields { display: grid; gap: .55rem; padding: .45rem 0 0; }
+.room-options-fields p { margin: 0; font-size: .8rem; }
+.rooms-heading { display: flex; justify-content: space-between; align-items: center; gap: .5rem; border-top: 1px solid var(--line); padding-top: .75rem; margin-top: .75rem; }
+.rooms-heading h3 { margin: 0; font-size: .9rem; }
+.rooms-heading button { font-size: .8rem; }
 #rooms, #members { list-style: none; padding: 0; }
-#rooms li, #members li { padding: .65rem .75rem; border-radius: .6rem; background: var(--surface-inset); margin: .4rem 0; overflow-wrap: anywhere; }
-#rooms a { display: block; }
+#members li { padding: .65rem .75rem; border-radius: .6rem; background: var(--surface-inset); margin: .4rem 0; overflow-wrap: anywhere; }
+#rooms { margin: .35rem 0 0; }
+#rooms li + li { border-top: 1px solid var(--line); }
+#rooms a { display: flex; justify-content: space-between; align-items: center; gap: .65rem; padding: .65rem .15rem; text-decoration: none; color: var(--text); overflow-wrap: anywhere; }
+#rooms a:hover { color: #c6d7ff; }
+#rooms strong, #rooms small { display: block; }
+#rooms strong { font-size: .875rem; }
+#rooms small { margin-top: .1rem; color: var(--muted); font-size: .75rem; }
+.rooms-empty { color: var(--muted); font-size: .875rem; padding: .5rem 0; }
+.room-list-action { color: #bfd0fb; font-size: .8rem; white-space: nowrap; }
 .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-top: 1.25rem; margin-top: 1.4rem; border-top: 1px solid var(--line); }
 .rules p { margin: .35rem 0 0; }
 
@@ -575,7 +591,7 @@ body {
   grid-template-rows: repeat(4, minmax(4rem, 1fr));
   border: 1px solid #80b59b80;
   border-radius: .6rem;
-  background: repeating-linear-gradient(0deg, #1b4034 0 12.5%, #214b3d 12.5% 25%);
+  background: repeating-linear-gradient(0deg, #23513d 0 12.5%, #285941 12.5% 25%);
 }
 #squad::before, #squad::after {
   content: "";
@@ -612,21 +628,48 @@ body {
   padding: .28rem .16rem;
   border: 1px solid #90c9ae85;
   border-radius: .35rem;
-  background: #0e2923;
+  background: #102c24;
   text-align: center;
   overflow-wrap: anywhere;
 }
 .squad-line strong, .squad-line small { display: block; font-size: .72rem; }
 .squad-line small { color: #c1d9cd; font-size: .65rem; }
-.squad-line .empty-slot { border-style: dashed; background: #15332bde; }
+.squad-line .empty-slot { border-style: dashed; border-color: #b0d8be7a; background: #173c2ed9; }
 .squad-line .empty-slot strong { font-weight: 500; }
 .squad-line .out-of-position { border-color: var(--gold); }
+.squad-line .signed-slot { border-color: #a5d9b9; box-shadow: 0 2px 6px #031d1880; }
+.squad-line .signed-slot small { color: #d6efd9; }
+#squad-lines { display: contents; }
+.squad-markings {
+  position: absolute;
+  inset: .4rem;
+  z-index: -1;
+  pointer-events: none;
+}
+.squad-area {
+  position: absolute;
+  inset-inline: 22%;
+  height: 17%;
+  border: 1px solid #c1e1cc80;
+}
+.squad-area:first-child { top: 0; border-top: 0; }
+.squad-area:last-child { bottom: 0; border-bottom: 0; }
+.squad-area::before, .squad-area::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); border: 1px solid #c1e1cc80; }
+.squad-area::before { width: 54%; height: 49%; }
+.squad-area::after { width: 36%; height: .25rem; }
+.squad-area:first-child::before { top: 0; border-top: 0; }
+.squad-area:last-child::before { bottom: 0; border-bottom: 0; }
+.squad-area:first-child::after { bottom: 100%; border-bottom: 0; }
+.squad-area:last-child::after { top: 100%; border-top: 0; }
+.squad-heading { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: space-between; gap: .3rem; margin-bottom: .65rem; }
+.squad-heading h2 { margin: 0; font-size: 1rem; }
+#squad-count { color: var(--muted); font-size: .75rem; font-variant-numeric: tabular-nums; }
 .auction-page .panel > details { font-size: .82rem; }
 @media (min-width: 1001px) and (hover: hover) and (pointer: fine) {
   .quick { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
-.home-page .side > p, .home-page .rules { font-size: .875rem; }
+.home-page .rules { font-size: .875rem; }
 .room-page #members li {
   border-radius: 0;
   border-bottom: 1px solid var(--line);
@@ -666,3 +709,186 @@ body {
 
 .lineup-pending { list-style: none; padding: 0; margin: 0; }
 .lineup-pending li { padding: .45rem 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+
+.auction-page .grid.auction-before-start {
+  grid-template-columns: minmax(0, 1.6fr) minmax(15rem, .85fr);
+  grid-template-areas: "auction squad";
+  grid-template-rows: auto;
+  align-items: stretch;
+}
+.auction-before-start .auction {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: clamp(1.1rem, 4vw, 3rem);
+  background: linear-gradient(135deg, #152641f5, #0d1527ea 72%);
+}
+.auction-start h2 { font-size: clamp(1.45rem, 4vw, 2.45rem); margin-bottom: .4rem; }
+.auction-start p { font-size: .9rem; margin-bottom: 1rem; }
+.auction-start-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem 1.5rem;
+  border-block: 1px solid var(--line);
+  padding: .65rem 0;
+  margin: 0 0 1rem;
+}
+.auction-start-rules dt { color: var(--muted); font-size: .75rem; }
+.auction-start-rules dd { color: var(--text); margin: .2rem 0 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.auction-before-start .empty-slot strong { display: none; }
+.auction-before-start .empty-slot small { padding: .22rem 0; }
+.auction-heading { border: 1px solid var(--line); border-radius: var(--radius); }
+@media (max-width: 720px) {
+  .auction-page .grid.auction-before-start {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "auction" "squad";
+  }
+}
+
+.auction-in-progress .auction-heading { margin-block: .85rem; }
+.auction-in-progress .auction-heading h1 { font-size: clamp(1.15rem, 2.5vw, 1.7rem); }
+.auction-in-progress .auction-context { margin-top: .15rem; font-size: .78rem; }
+.auction-in-progress .auction-kicker { font-size: .65rem; }
+.auction-in-progress .auction-strip { gap: .55rem 1rem; }
+.auction-in-progress .auction-timing { font-size: .72rem; }
+.auction-in-progress .clock-urgent { color: #ffd1a8; background: #432335; }
+.auction-in-progress #player-card { border-radius: .75rem; }
+.auction-in-progress .stats { align-items: end; gap: .65rem 1rem; }
+.current-bid { min-width: 0; overflow-wrap: anywhere; }
+.current-bid strong { display: block; line-height: 1.15; margin-block: .15rem; }
+#leader:empty { display: none; }
+.auction-wallet { display: flex; flex-wrap: wrap; gap: .45rem .95rem; justify-content: flex-end; text-align: right; margin: 0; }
+.auction-wallet dt { color: var(--muted); font-size: .72rem; }
+.auction-wallet dd { color: var(--text); margin: .12rem 0 0; font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+#bid-availability, .auction #status { font-size: .82rem; }
+#bid-availability { margin: .45rem 0 0; }
+.auction-teams #teams { max-height: 14rem; overflow: auto; scrollbar-width: thin; }
+.auction-teams #teams li { padding-block: .4rem; }
+@media (min-width: 1001px) {
+  .auction-in-progress .auction-heading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
+  .auction-in-progress .auction-heading-content { display: contents; }
+  .auction-in-progress .auction-heading-content > div { grid-column: 1; padding: .7rem 1rem; }
+  .auction-in-progress .auction-strip { grid-row: 1; grid-column: 2; border: 0; border-left: 1px solid var(--line); }
+  .auction-in-progress .auction-exit { grid-row: 1; grid-column: 3; margin-right: 1rem; }
+}
+@media (max-width: 500px) {
+  .auction-in-progress .auction-heading-content { padding-block: .6rem; }
+  .auction-wallet { gap: .4rem .65rem; }
+  .auction-in-progress .auction-strip { padding-block: .45rem; }
+  .auction-in-progress .auction-exit { font-size: .75rem; }
+}
+
+@media (max-width: 720px) {
+  body {
+    background: linear-gradient(180deg, #090e1ba8, var(--bg) 430px),
+      var(--bg) url("/arena-background.png") center top / auto 26rem no-repeat;
+  }
+  main, .arena-nav { width: calc(100% - 1.4rem); }
+  main { padding-bottom: 2rem; }
+  .arena-nav { min-height: 3.2rem; padding-block: .22rem; }
+  .arena-brand { gap: .45rem; font-size: .8rem; }
+  .brand-mark { width: 1.8rem; height: 1.8rem; border-radius: .38rem; }
+  .arena-nav nav a { padding: .35rem .6rem; border-radius: .42rem; font-size: .8rem; }
+  .panel { padding: .75rem; border-radius: .7rem; box-shadow: none; background: #111b2df5; }
+  .layout, .grid, .round-side { gap: .65rem; }
+  .page-intro { margin: 1rem 0 .9rem; }
+  .page-intro h1 { font-size: clamp(1.5rem, 7vw, 2.15rem); }
+  .hero { margin: .75rem 0; padding: 1.05rem .9rem; }
+  .hero h1 { font-size: clamp(1.9rem, 8vw, 2.6rem); }
+  .hero p { font-size: .85rem; }
+  .home-page .panel h2 { margin-bottom: .6rem; }
+  .home-page fieldset { margin: .75rem 0; }
+  .club-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 65px), 1fr)); gap: .28rem; padding: .35rem; }
+  .club-card { grid-template-rows: 26px 1fr; min-height: 60px; padding: .28rem .13rem; gap: .2rem; }
+  .club-badge, .club-badge img { width: 25px; height: 25px; }
+  .club-name { font-size: .68rem; }
+  .room-panel {
+    padding: .95rem;
+    border-color: #90a6dc38;
+    border-radius: .8rem;
+    background: #10192b;
+  }
+  .home-page .room-panel h2 { margin: 0 0 .85rem; font-size: 1.15rem; }
+  .room-panel label { color: #d7e1f3; font-size: .8rem; font-weight: 580; }
+  .room-panel input:not([type=radio]) {
+    padding: .55rem .65rem;
+    border-color: #91aad53b;
+    background: #0b1426;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .room-panel input::placeholder { color: #8b9ab4; }
+  .room-code-row { gap: .5rem; }
+  .room-code-row button { min-width: 4.55rem; font-size: .85rem; }
+  .room-code-row input { letter-spacing: .045em; }
+  .room-create { border-top: 1px solid var(--line); margin-top: .9rem; padding-top: .42rem; }
+  .room-options { margin: 0; }
+  .room-options summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    min-height: 44px;
+    padding: .5rem 0;
+    list-style: none;
+    color: #e0e7f5;
+    font-size: .82rem;
+    font-weight: 630;
+  }
+  .room-options summary::-webkit-details-marker { display: none; }
+  .room-options summary::after {
+    content: "";
+    width: .42rem;
+    height: .42rem;
+    margin: 0 .22rem 0 0;
+    border: solid #a5b7d7;
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg);
+  }
+  .room-options[open] summary::after { transform: rotate(225deg); }
+  .room-options-fields { padding: .05rem 0 .25rem; gap: .6rem; }
+  .room-options-fields p { font-size: .74rem; }
+  .room-create > .primary { font-size: .88rem; }
+  .rooms-heading { margin-top: .85rem; padding-top: .28rem; }
+  .rooms-heading button { padding-inline: .35rem; border-color: transparent; box-shadow: none; color: #bdcdf0; }
+  .rooms-empty { font-size: .78rem; padding: .15rem 0 .35rem; }
+
+  .auction-heading, .auction-in-progress .auction-heading { margin: .65rem 0; }
+  .auction-heading-content, .auction-in-progress .auction-heading-content { padding: .55rem .65rem; flex-wrap: nowrap; align-items: center; }
+  .auction-heading h1, .auction-in-progress .auction-heading h1 { font-size: clamp(1.1rem, 5vw, 1.5rem); }
+  .auction-kicker, .auction-in-progress .auction-kicker { font-size: .59rem; letter-spacing: .07em; }
+  .auction-context, .auction-in-progress .auction-context { margin-top: .12rem; font-size: .75rem; }
+  .auction-exit, .auction-in-progress .auction-exit { padding: .3rem .48rem; font-size: .72rem; }
+  .auction-strip, .auction-in-progress .auction-strip { padding: .45rem .65rem; gap: .35rem .65rem; }
+  .auction-identity { gap: .35rem; }
+  .auction-identity img { width: 23px; height: 23px; }
+  .auction-identity strong, .auction-strip .progress strong { font-size: .83rem; }
+  .auction-identity span, .auction-strip .progress span { font-size: .65rem; }
+  .auction-strip .progress { flex: 1 1 8rem; order: 0; gap: .45rem; }
+  .auction-strip progress { height: .35rem; }
+  .auction-in-progress .auction-timing { font-size: .66rem; flex-basis: 100%; }
+  .auction-page .auction { padding: .7rem; }
+  .auction-page .auction-before-start .auction { padding: .85rem; }
+  #player-card { min-height: 6rem; padding: .65rem 3.8rem .65rem .55rem; }
+  #player-card:has(.player-portrait:not([hidden])) { grid-template-columns: clamp(2.8rem, 13vw, 3.8rem) minmax(0, 1fr); gap: .42rem; }
+  #player-card h2 { font-size: clamp(1.02rem, 4.8vw, 1.55rem); }
+  #position { font-size: .73rem; }
+  .ovr { font-size: .66rem; }
+  .clock { right: .48rem; top: .6rem; min-width: 2.72rem; padding: .28rem .3rem; font-size: .8rem; }
+  .clock small { font-size: .55rem; }
+  #highest { font-size: 1.55rem; }
+  #highest.bid-empty { font-size: .95rem; }
+  .stats span, .auction-wallet dt { font-size: .69rem; }
+  .auction-wallet dd { font-size: .9rem; }
+  .quick { gap: .32rem; margin-block: .5rem .35rem; }
+  .quick button { padding: .3rem .2rem; font-size: .86rem; }
+  .quick small { font-size: .69rem; }
+  #squad { grid-template-rows: repeat(4, minmax(3rem, 1fr)); }
+  .squad-line { padding-block: .24rem; }
+  .auction-teams #teams { max-height: 11rem; }
+  #purchases { max-height: 7.5rem; }
+  .post-page .score { font-size: 1rem; padding: .65rem .4rem; }
+  .score-team { max-width: 39%; overflow-wrap: anywhere; vertical-align: middle; }
+  .post-page .controls { gap: .35rem; }
+  .post-page .controls button { font-size: .8rem; }
+}

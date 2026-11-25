@@ -8,47 +8,70 @@
 <!-- ARENA_HEADER -->
 <main>
 <section class="hero">
-<h1>Monte seu time e conquiste a <span>Champions</span></h1>
-<p>Monte um elenco de sete atletas com $100 virtuais e dispute a Champions com amigos ou contra bots.</p>
+<h1>Monte seu time e dispute o <span>título</span></h1>
+<p>Monte um elenco de sete atletas com $100 virtuais e dispute a Liga ou a Champions com amigos ou contra bots.</p>
 </section>
 <div class="layout">
 <form class="panel" action="/leilao">
 <h2>Configurar partida</h2>
 <label for="name">Nome da equipe</label>
 <input id="name" name="team" type="text" maxlength="30" placeholder="Ex.: Galácticos FC" required>
-<input type="hidden" name="mode" value="ucl">
-<p class="competition-note">Champions League</p>
+<fieldset>
+<legend>Competição</legend>
+<div class="choices">
+<label><input type="radio" name="mode" value="ucl" checked><span class="choice">Champions League</span></label>
+<label><input type="radio" name="mode" value="league"><span class="choice">Liga</span></label>
+</div>
+</fieldset>
 <fieldset class="club-picker">
 <legend>Clube que você vai representar</legend>
 <div class="club-grid"><!-- UCL_CLUBS --></div>
 </fieldset>
-<fieldset><legend>Equipes no campeonato</legend><div class="choices">
+<fieldset id="champions-size"><legend>Equipes no campeonato</legend><div class="choices">
 <label><input type="radio" name="size" value="4" checked><span class="choice">4</span></label>
 <label><input type="radio" name="size" value="8"><span class="choice">8</span></label>
 <label><input type="radio" name="size" value="16"><span class="choice">16</span></label>
 <label><input type="radio" name="size" value="32"><span class="choice">32</span></label>
 <label><input type="radio" name="size" value="64"><span class="choice">64</span></label>
 </div></fieldset>
+<fieldset id="league-size" hidden disabled>
+<label>Equipes na liga <input type="number" name="size" min="2" max="20" step="1" value="8" required></label>
+</fieldset>
 <button type="submit" class="primary">Jogar leilão contra bots</button>
 </form>
-<section class="panel side">
-<h2>Jogar com amigos</h2>
-<p>Crie uma sala com as opções ao lado e compartilhe o código ou link. Use uma senha para manter a sala fora da lista pública.</p>
-<label for="room-name">Nome da sala</label><input type="text" id="room-name" maxlength="40" placeholder="Opcional">
-<label for="room-password">Senha da sala</label><input type="password" id="room-password" maxlength="64" placeholder="Opcional">
-<button id="create-room" class="secondary" type="button">Criar sala</button>
-<form id="join-room" action="/sala">
-<label for="room-code">Código de convite</label><input type="text" id="room-code" name="room" pattern="[0-9a-fA-F]{8}" maxlength="8" required>
-<button type="submit" class="secondary">Entrar com código</button>
-</form>
-<p id="room-status" role="status"></p>
-<div class="rooms-heading"><h3>Salas públicas</h3><button id="refresh-rooms" class="quiet" type="button">Atualizar</button></div><ul id="rooms"></ul>
+<section class="panel room-panel" aria-labelledby="play-together">
+  <h2 id="play-together">Jogar com amigos</h2>
+  <form id="join-room" action="/sala" class="room-join">
+    <label for="room-code">Código de convite</label>
+    <div class="room-code-row">
+      <input type="text" id="room-code" name="room" pattern="[0-9a-fA-F]{8}" maxlength="8"
+        placeholder="Ex.: A3F29B4E" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
+      <button type="submit" class="secondary">Entrar</button>
+    </div>
+  </form>
+  <div class="room-create">
+    <details class="room-options" open>
+      <summary>Nome e senha da sala</summary>
+      <div class="room-options-fields">
+        <label for="room-name">Nome da sala <input type="text" id="room-name" maxlength="40" placeholder="Opcional"></label>
+        <label for="room-password">Senha da sala <input type="password" id="room-password" maxlength="64" placeholder="Opcional"></label>
+        <p>Salas com senha só podem ser acessadas por código ou convite.</p>
+      </div>
+    </details>
+    <button id="create-room" class="primary" type="button">Criar sala</button>
+    <p id="room-status" role="status"></p>
+  </div>
+  <div class="rooms-heading">
+    <h3>Salas públicas</h3>
+    <button id="refresh-rooms" class="quiet" type="button">Atualizar</button>
+  </div>
+  <ul id="rooms"></ul>
 </section>
 </div>
 <div class="rules">
 <section><strong>Leilão</strong><p>O maior lance leva o atleta. Cada rodada começa com 10 segundos e cada lance pode adicionar até 3, com limite de 6 segundos restantes.</p></section>
 <section><strong>Elenco</strong><p>Cada equipe monta um time de sete atletas (fut7), com saldo reservado para as vagas abertas.</p></section>
-<section><strong>Campeonato</strong><p>A liga define os cruzamentos do mata-mata. As eliminatórias têm ida e volta, e a final é em jogo único.</p></section>
+<section><strong>Campeonato</strong><p>Na Liga, todos se enfrentam uma vez e o líder é campeão. Na Champions, a classificação define os cruzamentos do mata-mata.</p></section>
 </div>
 </main>
 <script type="module">
@@ -56,6 +79,17 @@ import { arenaFetch } from '/client-api.mjs';
 import { initClubBadges } from '/club-badges.mjs';
 const form = document.querySelector('form');
 initClubBadges(form);
+const championsSize = document.querySelector('#champions-size');
+const leagueSize = document.querySelector('#league-size');
+function updateSizeOptions() {
+  const league = form.elements.mode.value === 'league';
+  championsSize.hidden = championsSize.disabled = league;
+  leagueSize.hidden = leagueSize.disabled = !league;
+}
+form.addEventListener('change', event => {
+  if (event.target.name === 'mode') updateSizeOptions();
+});
+updateSizeOptions();
 
 const roomStatus = document.querySelector('#room-status');
 const create = document.querySelector('#create-room');
@@ -95,17 +129,33 @@ async function listRooms() {
     const rooms = await response.json();
     list.replaceChildren(...(rooms.length ? rooms : [null]).map(room => {
       const row = document.createElement('li');
-      if (!room) row.textContent = 'Nenhuma sala pública aberta.';
+      if (!room) {
+        row.className = 'rooms-empty';
+        row.textContent = 'Nenhuma sala aberta agora.';
+      }
       else {
         const link = document.createElement('a');
         link.href = '/sala?' + new URLSearchParams({ room: room.code });
-        link.textContent = room.name + ' · ' + room.count + '/' + room.size;
+        const name = document.createElement('strong');
+        name.textContent = room.name;
+        const details = document.createElement('small');
+        details.textContent = (room.mode === 'league' ? 'Liga' : 'Champions League') +
+          ' · ' + room.count + '/' + room.size + ' equipes';
+        const info = document.createElement('span');
+        info.append(name, details);
+        const action = document.createElement('span');
+        action.className = 'room-list-action';
+        action.textContent = 'Entrar';
+        link.append(info, action);
         row.append(link);
       }
       return row;
     }));
   } catch {
-    list.textContent = 'Lista de salas indisponível.';
+    const unavailable = document.createElement('li');
+    unavailable.className = 'rooms-empty';
+    unavailable.textContent = 'Não foi possível carregar as salas.';
+    list.replaceChildren(unavailable);
   } finally {
     refreshRooms.disabled = false;
     refreshRooms.textContent = 'Atualizar';

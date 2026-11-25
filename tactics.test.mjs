@@ -134,3 +134,38 @@ test('all supported sizes complete the league and seeded knockout bracket', () =
     assert.equal(season.champion, final.winner.name);
   }
 });
+
+
+test('a liga de 2 a 20 equipes termina com o lider da tabela, sem mata-mata', () => {
+  for (const size of [2, 3, 8, 20]) {
+    const participants = Array.from({ length: size }, (_, id) => ({
+      ...teams[0], id, name: 'Time ' + id, lineup: teams[0].players,
+    }));
+    const { rounds, tables, champion, championId } = playSeason('league', participants, undefined, { seed: 42 });
+    assert.equal(rounds.length, size % 2 ? size : size - 1);
+    assert.ok(rounds.every(round => round.name === 'Liga'));
+    const matches = rounds.flatMap(round => round.games);
+    assert.equal(matches.length, size * (size - 1) / 2);
+    assert.equal(new Set(matches.map(({ home, away }) => [home.id, away.id].sort().join(':'))).size, matches.length);
+    assert.equal(champion, tables[0].table[0].name);
+    assert.equal(championId, tables[0].table[0].id);
+  }
+});
+
+test('o campeonato de liga revela o campeao apenas ao fim da ultima rodada', () => {
+  const soloTeams = teams.map(team => ({ ...team, bot: team.id !== 0 }));
+  const room = { mode: 'league', auction: { snapshot: () => ({ complete: true, teams: soloTeams }) } };
+  const lineup = postAuction(room, 'read');
+  let view = postAuction(room, 'simulate', { formation: '2-2-2', tactic: 'Equilibrada', ids: lineup.auto['2-2-2'] });
+  assert.equal(view.season.champion, undefined);
+  assert.deepEqual(view.highlights, []);
+  for (let i = 0; i < 2; i++) {
+    view = postAuction(room, 'clock', { command: 'skip' });
+    assert.equal(view.season.champion, undefined);
+    view = postAuction(room, 'clock', { command: 'next' });
+  }
+  view = postAuction(room, 'clock', { command: 'skip' });
+  assert.ok(view.season.champion);
+  assert.deepEqual(view.highlights.map(entry => entry.id), ['champion']);
+  assert.equal(view.highlights[0].teams[0].name, view.season.champion);
+});

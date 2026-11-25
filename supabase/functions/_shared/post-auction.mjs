@@ -24,7 +24,7 @@ function endMinute(game) {
   return game.extraTime ? 120 : 90;
 }
 
-function phaseHighlights(season, live) {
+function phaseHighlights(season, live, teams) {
   const completed = index => index >= 0 && (index < live.round ||
     (index === live.round && live.minute >= Math.max(...season.rounds[index].games.map(endMinute))));
   const leagueEnd = season.rounds.findLastIndex(round => round.name === 'Liga');
@@ -50,9 +50,12 @@ function phaseHighlights(season, live) {
     });
   }
   if (completed(finalIndex)) {
+    const leagueOnly = season.championId !== undefined;
+    const champion = leagueOnly ? teams.find(team => team.id === season.championId)
+      : season.rounds[finalIndex].games[0].winner;
     highlights.push({
-      id: 'champion', title: 'Campeão da Champions', subtitle: 'Fim do campeonato',
-      teams: [club(season.rounds[finalIndex].games[0].winner)],
+      id: 'champion', title: leagueOnly ? 'Campeão da Liga' : 'Campeão da Champions',
+      subtitle: 'Fim do campeonato', teams: [club(champion)],
     });
   }
   return highlights;
@@ -187,8 +190,8 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
   const ownLineup = lineups[actor];
   return {
     ...view, season: season ? visibleSeason(season, live) : undefined,
-    highlights: season ? phaseHighlights(season, live) : [],
-    formations, tactics, clock, online, you: actor, isHost: actor === host, humans: humans.length,
+    highlights: season ? phaseHighlights(season, live, post.teams) : [],
+    formations, tactics, clock, mode: room.mode, online, you: actor, isHost: actor === host, humans: humans.length,
     formation: ownLineup?.formation ?? post.formation,
     tactic: ownLineup?.tactic ?? post.tactic,
     lineup: ownLineup?.ids,

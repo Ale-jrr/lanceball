@@ -1,6 +1,11 @@
 import { randomInt } from 'node:crypto';
 
 export const roomSizes = Object.freeze([4, 8, 16, 32, 64]);
+export function validCompetitionSize(mode, size) {
+  if (mode === 'league') return Number.isInteger(size) && size >= 2 && size <= 20;
+  return mode === 'ucl' && roomSizes.includes(size);
+}
+
 export const rosterQuotas = Object.freeze({ GK: 1, DEF: 2, MID: 2, FWD: 2 });
 export const rosterSize = Object.values(rosterQuotas).reduce((total, count) => total + count, 0);
 

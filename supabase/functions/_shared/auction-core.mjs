@@ -1,6 +1,6 @@
 import { randomInt, randomUUID } from 'node:crypto';
 
-import { rosterQuotas as quotas, rosterSize, roomSizes } from './fut7.mjs';
+import { rosterQuotas as quotas, rosterSize, validCompetitionSize } from './fut7.mjs';
 
 const reserve = 1;
 const bidExtensionMs = 3000;
@@ -18,7 +18,7 @@ export function auctionEngine({ mutate, snapshot, close }, now = Date.now) {
       name: `Equipe ${id + 1}`,
     })), { surpriseAt = null } = {}) {
       const teams = identities.length;
-      if (teams !== 6 && !roomSizes.includes(teams)) throw Error('Quantidade de equipes inválida');
+      if (!validCompetitionSize('ucl', teams) && !validCompetitionSize('league', teams)) throw Error('Quantidade de equipes inválida');
       if (!Number.isSafeInteger(budget) || budget < rosterSize) throw Error('Orçamento insuficiente');
       const ids = new Set();
       for (const player of catalog.players) {

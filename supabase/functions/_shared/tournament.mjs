@@ -228,6 +228,10 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
   });
   const byId = id => teams.find(team => team.id === id);
   const [a, b] = tables.map(group => group.table.map(team => byId(team.id)));
+  if (mode === 'league') {
+    const leader = tables[0].table[0];
+    return { tables, rounds, champion: leader.name, championId: leader.id, thirdPlace: null };
+  }
   let finalists;
   let thirdPlace = null;
   if (mode === 'ucl') {

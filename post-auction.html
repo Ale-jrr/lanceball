@@ -15,7 +15,7 @@
 </main>
 <dialog id="phase-transition" class="phase-transition" aria-labelledby="phase-title" aria-describedby="phase-subtitle">
   <div class="phase-content">
-    <p class="phase-brand">Champions League</p>
+    <p class="phase-brand" id="phase-competition">Champions League</p>
     <h2 id="phase-title"></h2>
     <p id="phase-subtitle"></p>
     <ul id="phase-teams"></ul>
@@ -392,6 +392,7 @@ function showPhaseHighlight() {
   if (!highlight) return;
   for (const entry of highlights) phaseSeen.add(entry.id);
   sessionStorage.setItem(phaseSession, [...phaseSeen].join(','));
+  byId('phase-competition').textContent = state.mode === 'league' ? 'Liga' : 'Champions League';
   byId('phase-title').textContent = highlight.title;
   byId('phase-subtitle').textContent = highlight.subtitle;
   byId('phase-teams').replaceChildren(...highlight.teams.map(team => {
@@ -409,7 +410,7 @@ function showPhaseHighlight() {
 function render() {
   const focus = document.activeElement?.dataset.focus;
   content.replaceChildren();
-  const titles = { lineup: 'Escalação e tática', tournament: 'Campeonato' };
+  const titles = { lineup: 'Escalação e tática', tournament: state.mode === 'league' ? 'Liga' : 'Campeonato' };
   byId('title').textContent = titles[state.stage];
   for (const item of document.querySelectorAll('[data-stage]')) {
     if (item.dataset.stage === state.stage) item.setAttribute('aria-current', 'step');

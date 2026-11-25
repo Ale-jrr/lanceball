@@ -61,7 +61,7 @@ function render(data) {
     return;
   }
   byId('title').textContent = data.name;
-  status.textContent = 'Champions League' +
+  status.textContent = (data.mode === 'league' ? 'Liga' : 'Champions League') +
     ' · Código ' + data.code + ' · ' + (data.private ? 'Sala privada' : 'Sala pública');
   join.hidden = data.you !== null || data.started;
   byId('lobby').hidden = data.you === null;

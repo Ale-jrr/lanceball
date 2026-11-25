@@ -25,37 +25,61 @@
       <div><span id="roundName">Atleta em disputa</span><strong id="roundLabel"></strong></div>
       <progress id="progress" aria-label="Progresso do leilão"></progress>
     </div>
-    <p class="auction-timing">10 s iniciais <span aria-hidden="true">·</span> até +3 s por lance, com teto de 6 s</p>
+    <p id="auction-timing" class="auction-timing" hidden>10 s iniciais <span aria-hidden="true">·</span> até +3 s por lance, com teto de 6 s</p>
   </div>
 </section>
-<div class="grid">
+<div class="grid auction-before-start" id="auction-grid">
 <section class="panel auction">
-<h2>Leilão</h2><button id="start">Iniciar leilão</button>
+<div class="auction-start" id="auction-start">
+  <h2>Pronto para o leilão?</h2>
+  <p>Escolha a formação e inicie a disputa pelo seu elenco.</p>
+  <dl class="auction-start-rules">
+    <div><dt>Orçamento</dt><dd>$100</dd></div>
+    <div><dt>Elenco</dt><dd>7 atletas</dd></div>
+    <div><dt>Cronômetro inicial</dt><dd>10 s</dd></div>
+  </dl>
+  <button id="start" type="button">Iniciar leilão</button>
+</div>
 <div id="active" hidden>
 <div class="card" id="player-card">
   <figure class="player-portrait" id="player-portrait" hidden></figure>
   <div class="player-card-details"><div class="ovr" id="overall"></div><h2 id="player"></h2><div id="position"></div></div>
   <div class="clock"><span id="timer"></span><small>restantes</small></div></div>
-<div class="stats"><div><span>Maior lance</span><strong id="highest"></strong><span id="leader"></span></div></div>
+<div class="stats">
+  <div class="current-bid"><span>Maior lance</span><strong id="highest"></strong><span id="leader"></span></div>
+  <dl class="auction-wallet">
+    <div><dt>Seu saldo</dt><dd id="wallet-balance"></dd></div>
+    <div><dt>Lance máximo</dt><dd id="wallet-maximum"></dd></div>
+  </dl>
+</div>
 </div>
 <label id="teamLabel" for="team">Sua equipe nesta aba</label><select id="team"></select>
-<p id="balance"></p>
+<p id="balance" hidden></p>
 <div class="last-purchase"><figure class="player-portrait player-portrait-small" id="revealed-portrait" hidden></figure><p id="lastPurchase"></p></div>
 <div class="quick" id="quick" hidden><button type="button" data-step="1">+1</button><button type="button" data-step="2">+2</button><button type="button" data-step="5">+5</button><button type="button" data-step="10">+10</button><button type="button" class="max" id="maxBid">Máximo</button><button type="button" class="pass quiet" id="pass">Passar</button></div>
+<p id="bid-availability" hidden></p>
 <p id="status" role="status"></p><a id="return-lobby" class="action secondary" hidden>Voltar ao lobby</a><a id="continue" href="/pos-leilao" class="action primary" hidden>Ir para a escalação</a>
 </section>
-<section class="panel purchase-history" aria-labelledby="purchases-title">
+<section class="panel purchase-history" aria-labelledby="purchases-title" id="purchases-panel" hidden>
   <h2 id="purchases-title">Quem levou</h2>
   <ol id="purchases" tabindex="0" aria-labelledby="purchases-title"></ol>
 </section>
 <section class="panel auction-squad" aria-labelledby="squad-title">
-  <h2 id="squad-title">Seu elenco</h2>
+  <div class="squad-heading">
+    <h2 id="squad-title">Seu elenco</h2>
+    <span id="squad-count"></span>
+  </div>
   <p id="squad-average" class="team-average" hidden></p>
   <label for="squad-formation">Formação</label>
   <select id="squad-formation"></select>
-  <div id="squad" aria-label="Campo de fut7"></div>
+  <div id="squad" role="group" aria-label="Campo de fut7">
+    <div class="squad-markings" aria-hidden="true">
+      <span class="squad-area"></span><span class="squad-area"></span>
+    </div>
+    <div id="squad-lines"></div>
+  </div>
 </section>
-<section class="panel auction-teams"><h2>Equipes da sala</h2><ul id="teams"></ul>
+<section class="panel auction-teams" id="teams-panel" hidden><h2>Equipes da sala</h2><ul id="teams" tabindex="0" aria-label="Equipes da sala"></ul>
 <details><summary>Últimos lances</summary><ol id="history"></ol></details></section>
 </div>
 <footer class="auction-credit"><p id="catalogInfo"></p></footer>
@@ -99,6 +123,7 @@ let state;
 let clockOffset = 0;
 let busy = false;
 let pollError = false;
+let displayedRound;
 
 for (let id = 0; id < 8; id++) team.add(new Option(`Equipe ${id + 1}`, id));
 team.value = solo || roomCode ? '0' : sessionStorage.getItem('auction-team') || '0';
@@ -117,6 +142,7 @@ function updateTimer() {
   if (!deadline) return;
   const seconds = Math.max(0, Math.ceil((deadline - Date.now() - clockOffset) / 1000));
   byId('timer').textContent = String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');
+  byId('timer').closest('.clock').classList.toggle('clock-urgent', seconds <= 3);
   const round = state.round;
   const selected = state.teams[Number(team.value)];
   const positionQuota = state.quotas[round.player.position];
@@ -140,12 +166,20 @@ function updateTimer() {
     button.disabled = disabled || total > maximum;
   }
   byId('maxBid').dataset.total = maximum;
-  byId('balance').textContent = 'Saldo ' + money(selected.balance) + ' · Lance máximo ' + money(maximum);
+  byId('wallet-balance').textContent = money(selected.balance);
+  byId('wallet-maximum').textContent = money(maximum);
+  const availability = byId('bid-availability');
+  const reason = passed || seconds === 0 ? ''
+    : leading ? 'Você está com o maior lance.'
+    : roleFull ? 'Seu elenco já preencheu essa posição.'
+    : maximum < minimum ? 'Seu lance máximo não cobre a oferta atual.' : '';
+  availability.hidden = !reason;
+  if (availability.textContent !== reason) availability.textContent = reason;
 }
 
 function updateHeading(team) {
   const heading = byId('auctionTitle');
-  heading.textContent = mode === 'ucl' ? 'Champions League' : (roomCode ? 'Leilão da sala' : 'Leilão local');
+  heading.textContent = mode === 'league' ? 'Liga' : mode === 'ucl' ? 'Champions League' : roomCode ? 'Leilão da sala' : 'Leilão local';
   byId('auctionContext').textContent = roomCode
     ? [roomName, 'Sala ' + roomCode].filter(Boolean).join(' · ')
     : solo ? (state?.teams.length ?? setup.get('size')) + ' equipes · Contra bots'
@@ -220,8 +254,20 @@ function squadAverage(players) {
 function render() {
   const round = state?.round;
   const selected = state?.teams[Number(team.value)];
+  const currentRound = round?.player.id;
+  if (displayedRound !== currentRound && ['Lance registrado.', 'Você passou esta rodada.'].includes(status.textContent)) {
+    status.textContent = '';
+  }
+  displayedRound = currentRound;
+  document.body.classList.toggle('auction-in-progress', Boolean(round));
+  byId('bid-availability').hidden = !round;
+  byId('balance').hidden = Boolean(round) || !selected;
   updateHeading(selected);
-  byId('start').hidden = Boolean(state) || Boolean(roomCode);
+  byId('auction-grid').classList.toggle('auction-before-start', !state);
+  byId('auction-start').hidden = Boolean(state) || Boolean(roomCode);
+  byId('purchases-panel').hidden = !state;
+  byId('teams-panel').hidden = !state;
+  byId('auction-timing').hidden = !round;
   byId('active').hidden = !round;
   byId('quick').hidden = !round;
   byId('progressRow').hidden = !state;
@@ -281,16 +327,12 @@ function render() {
     byId('highest').classList.toggle('bid-empty', !round.highest);
     byId('leader').textContent = round.highest ? state.teams[round.highest.teamId].name : '';
   }
-  const purchase = state?.purchases.at(-1);
   const reveal = state?.lastClosed;
   showPortrait('revealed-portrait', reveal?.player, reveal?.portrait);
   byId('lastPurchase').textContent = reveal ? 'Carta revelada: ' + reveal.player.name + ' · ' +
     reveal.player.overall + ' OVR' + (reveal.highest
       ? ' · ' + state.teams[reveal.highest.teamId].name + ' levou por ' + money(reveal.highest.amount)
-      : ' · Sem lances') : purchase?.method === 'bid'
-    ? state.teams[purchase.teamId].name + ' levou ' +
-      state.catalog.players.find(player => player.id === purchase.playerId).name +
-      ' por ' + money(purchase.amount) + '.' : '';
+      : ' · Sem lances') : '';
   byId('continue').hidden = (!solo && !roomCode) || !state?.complete;
   if (roomCode) byId('continue').href = '/pos-leilao?room=' + encodeURIComponent(roomCode);
   else if (solo) byId('continue').href = '/pos-leilao?solo=' + setup.get('solo');
@@ -328,6 +370,7 @@ function renderSquad(players) {
   average.hidden = !state?.complete || !players.length;
   average.textContent = average.hidden ? '' : 'Média do elenco ' + squadAverage(players) + ' OVR';
   const layout = fut7Formations[squadFormation.value];
+  byId('squad-count').textContent = players.length + '/' + layout.length + ' atletas';
   const lineup = autoLineup(players, layout);
   const byPlayer = new Map(players.map(player => [player.id, player]));
   const rows = ['FWD', 'MID', 'DEF', 'GK'].map(role => {
@@ -347,13 +390,15 @@ function renderSquad(players) {
         detail.textContent += ' · Fora de posição';
       } else if (!player) {
         item.classList.add('empty-slot');
+      } else {
+        item.classList.add('signed-slot');
       }
       item.append(name, detail);
       row.append(item);
     });
     return row;
   });
-  byId('squad').replaceChildren(...rows);
+  byId('squad-lines').replaceChildren(...rows);
 }
 
 async function request(url, options) {
@@ -417,7 +462,11 @@ async function act(action, success) {
   }
 }
 
-byId('start').onclick = () => act(() => request('/start', { method: 'POST' }));
+byId('start').onclick = async () => {
+  byId('start').textContent = 'Iniciando…';
+  try { await act(() => request('/start', { method: 'POST' })); }
+  finally { byId('start').textContent = 'Iniciar leilão'; }
+};
 team.onchange = () => {
   sessionStorage.setItem('auction-team', team.value);
   render();
@@ -467,8 +516,7 @@ async function poll() {
     }
   }
 }
-updateHeading();
-renderSquad([]);
+render();
 setInterval(updateTimer, 150);
 liveUpdates(roomCode ?? null, poll, connected => {
   if (!roomCode) return 850;

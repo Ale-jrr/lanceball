@@ -1,5 +1,5 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
-import { roomSizes } from './fut7.mjs';
+import { validCompetitionSize } from './fut7.mjs';
 import { clubCrests } from './ucl-clubs.mjs';
 
 export const onlineRooms = new Map();
@@ -81,7 +81,7 @@ export function createRoom(input, rooms = onlineRooms) {
   if (rooms.size >= 64) throw Error('Limite de salas atingido.');
   const name = text(input.name, 40);
   const { mode, size } = input;
-  if (mode !== 'ucl' || !roomSizes.includes(size)) throw Error('Competição ou número de equipes inválido.');
+  if (!validCompetitionSize(mode, size)) throw Error('Competição ou número de equipes inválido.');
   const password = input.password ?? '';
   if (typeof password !== 'string' || password.length > 64) throw Error('Senha inválida.');
   let code;
