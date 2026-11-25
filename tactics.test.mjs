@@ -35,10 +35,12 @@ test('o relógio aplica somente comandos do próprio participante', () => {
   };
   const call = (action, input = {}, actor = 0, now = 0) => postAuction(room, action, input, actor, now);
   call('lineup', {}, 0);
-  call('lineup', {}, 1);
+  const opened = call('lineup', {}, 1);
+  assert.deepEqual(opened.pendingLineupTeamIds, [0, 1]);
   for (const actor of [0, 1]) {
     const view = call('read', {}, actor);
-    call('simulate', { formation: '2-2-2', tactic: 'Equilibrada', ids: view.auto['2-2-2'] }, actor);
+    const submitted = call('simulate', { formation: '2-2-2', tactic: 'Equilibrada', ids: view.auto['2-2-2'] }, actor);
+    assert.deepEqual(submitted.pendingLineupTeamIds, actor === 0 ? [1] : []);
   }
   const initial = call('read');
   const game = initial.season.rounds[0].games.find(entry => entry.home.id === 0 || entry.away.id === 0);

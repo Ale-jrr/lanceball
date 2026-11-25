@@ -174,8 +174,20 @@ function lineup() {
   const opponents = state.teams.filter(team => team.id !== state.you);
   const columns = el('div', '', 'grid');
   if (state.online && state.lineup) {
-    content.append(panel('Escalação enviada'), el('p', state.lineupsReady + '/' + state.humans +
-      ' escalações prontas. Aguardando os demais jogadores.'));
+    const waiting = panel('Escalação enviada');
+    waiting.append(el('p', state.lineupsReady + '/' + state.humans + ' escalações prontas.'));
+    const pending = new Set(state.pendingLineupTeamIds);
+    if (pending.size) {
+      waiting.append(el('h3', 'Falta confirmar'));
+      const list = el('ul', '', 'lineup-pending');
+      for (const team of state.teams.filter(team => pending.has(team.id))) {
+        const row = el('li');
+        row.append(crest(team), team.name);
+        list.append(row);
+      }
+      waiting.append(list);
+    }
+    content.append(waiting);
     return;
   }
   const selection = panel('Titulares');
@@ -454,7 +466,8 @@ async function syncRoom() {
       const version = actionVersion;
       const current = await api();
       if (!busy && version === actionVersion && (current.stage !== state.stage || current.isHost !== state.isHost ||
-          current.lineupsReady !== state.lineupsReady ||
+          current.lineupsReady !== state.lineupsReady || current.humans !== state.humans ||
+          JSON.stringify(current.pendingLineupTeamIds) !== JSON.stringify(state.pendingLineupTeamIds) ||
           JSON.stringify(current.clock) !== JSON.stringify(state.clock))) {
         state = current;
         render();

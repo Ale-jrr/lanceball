@@ -207,6 +207,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     tactic: ownLineup?.tactic ?? post.tactic,
     lineup: ownLineup?.ids, tradeReady: ready.includes(actor),
     lineupsReady: humans.filter(team => lineups[team.id]).length,
+    pendingLineupTeamIds: humans.filter(team => !lineups[team.id]).map(team => team.id),
     auto: Object.fromEntries(Object.entries(formations).map(([name, slots]) =>
       [name, autoLineup(own.players, slots)])),
   };
