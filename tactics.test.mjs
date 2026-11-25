@@ -103,3 +103,33 @@ test('chutes decisivos destacam chances de empate ou vantagem no fim', () => {
   assert.ok(season.rounds.flatMap(round => round.games).some(game =>
     game.events.some(event => event.highlight?.outcome === 'goal')));
 });
+
+
+test('all supported sizes complete the league and seeded knockout bracket', () => {
+  for (const size of [4, 8, 16, 32, 64]) {
+    const participants = Array.from({ length: size }, (_, id) => ({
+      ...teams[0], id, name: 'Team ' + id, lineup: teams[0].players,
+    }));
+    const season = playSeason('ucl', participants, undefined, { seed: 42 });
+    const league = season.rounds.filter(round => round.name === 'Liga');
+    assert.equal(league.length, Math.min(8, size - 1));
+    let entries = size;
+    const knockout = season.rounds.slice(league.length);
+    assert.equal(knockout.length, 2 * Math.log2(size) - 1);
+    for (let index = 0; index < knockout.length - 1; index += 2) {
+      const [first, second] = knockout.slice(index, index + 2);
+      assert.equal(first.games.length, entries / 2);
+      assert.equal(new Set(first.games.flatMap(game => [game.home.id, game.away.id])).size, entries);
+      second.games.forEach((game, tie) => {
+        assert.equal(game.home.id, first.games[tie].away.id);
+        assert.equal(game.away.id, first.games[tie].home.id);
+        assert.deepEqual(game.carry, [...first.games[tie].score].reverse());
+        assert.ok(game.winner);
+      });
+      entries /= 2;
+    }
+    const [final] = knockout.at(-1).games;
+    assert.equal(final.stage, 'Final');
+    assert.equal(season.champion, final.winner.name);
+  }
+});

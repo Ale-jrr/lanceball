@@ -369,6 +369,11 @@ async function request(url, options) {
   state = result.state;
   mode = result.mode ?? mode;
   roomName = result.roomName ?? roomName;
+  if (state && team.options.length !== state.teams.length) {
+    const previous = team.value;
+    team.replaceChildren(...state.teams.map(entry => new Option(entry.name, entry.id)));
+    if (state.teams[Number(previous)]) team.value = previous;
+  }
   if (roomCode && Number.isInteger(result.yourTeamId)) team.value = String(result.yourTeamId);
   if (result.catalogInfo) {
     const credit = byId('catalogInfo');

@@ -1,4 +1,5 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { roomSizes } from './fut7.mjs';
 import { clubCrests } from './ucl-clubs.mjs';
 
 export const onlineRooms = new Map();
@@ -19,7 +20,7 @@ function addMember(room, input) {
   const identity = text(input.identity, 40);
   const choices = clubCrests;
   if (!choices.has(identity)) throw Error('Escolha um clube ou seleção disponível.');
-  if (room.members.some(member => member.identity === identity)) throw Error('Esta equipe já foi escolhida.');
+  if (room.size <= choices.size && room.members.some(member => member.identity === identity)) throw Error('Esta equipe já foi escolhida.');
   if (room.members.length >= room.size) throw Error('A sala está cheia.');
   const member = {
     id: room.members.length, name, identity, crestUrl: choices.get(identity),
@@ -80,7 +81,7 @@ export function createRoom(input, rooms = onlineRooms) {
   if (rooms.size >= 64) throw Error('Limite de salas atingido.');
   const name = text(input.name, 40);
   const { mode, size } = input;
-  if (mode !== 'ucl' || ![4, 6, 8].includes(size)) throw Error('Competição ou número de equipes inválido.');
+  if (mode !== 'ucl' || !roomSizes.includes(size)) throw Error('Competição ou número de equipes inválido.');
   const password = input.password ?? '';
   if (typeof password !== 'string' || password.length > 64) throw Error('Senha inválida.');
   let code;
@@ -104,9 +105,15 @@ export function joinRoom(room, input) {
 export function roomIdentities(room) {
   const members = room.members.map(({ name, identity, crestUrl }) => ({ name, identity, crestUrl }));
   const used = new Set(members.map(member => member.identity));
-  const bots = [...clubCrests].filter(([name]) => !used.has(name))
-    .slice(0, room.size - members.length).map(([name, crestUrl]) => ({
-      name, identity: name, crestUrl, bot: true,
-    }));
-  return [...members, ...bots];
+  return [...members, ...botIdentities(used, room.size - members.length)];
+}
+
+export function botIdentities(used, count) {
+  const clubs = [...clubCrests];
+  const unused = clubs.filter(([name]) => !used.has(name));
+  return Array.from({ length: count }, (_, index) => {
+    const [identity, crestUrl] = unused[index] ?? clubs[(index - unused.length) % clubs.length];
+    const name = index < unused.length ? identity : identity + ' (Bot ' + (index + 1) + ')';
+    return { name, identity, crestUrl, bot: true };
+  });
 }

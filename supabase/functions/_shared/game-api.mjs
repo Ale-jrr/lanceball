@@ -2,11 +2,11 @@ import { botBidLimit } from './bot-bidding.mjs';
 import { Buffer } from 'node:buffer';
 import { randomInt } from 'node:crypto';
 import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
-import { draftCatalog } from './fut7.mjs';
+import { draftCatalog, roomSizes } from './fut7.mjs';
 import { previewTournament, restoreSeason } from './tournament.mjs';
 import { postAuction } from './post-auction.mjs';
 import { uclClubs, clubCrests } from './ucl-clubs.mjs';
-import { publicRooms, lobby, authorize, createRoom, joinRoom, roomIdentities, hostId, leaveRoom, touchRoom } from './rooms.mjs';
+import { publicRooms, lobby, authorize, createRoom, joinRoom, roomIdentities, hostId, leaveRoom, touchRoom, botIdentities } from './rooms.mjs';
 
 function createSoloRoom(params, source, openAuction) {
   const mode = params.get('mode');
@@ -14,16 +14,13 @@ function createSoloRoom(params, source, openAuction) {
   const size = Number(params.get('size'));
   const identity = params.get('club');
   const choices = clubCrests;
-  if (mode !== 'ucl' || ![4, 6, 8].includes(size) ||
+  if (mode !== 'ucl' || !roomSizes.includes(size) ||
       !name || name.length > 30 || !choices.has(identity)) {
     throw Error('Configure a equipe na tela inicial antes de iniciar.');
   }
-  const opponents = [...choices.keys()].filter(entry => entry !== identity);
   const identities = [
     { name, identity, crestUrl: choices.get(identity) },
-    ...opponents.slice(0, size - 1).map(entry => ({
-      name: entry, identity: entry, crestUrl: choices.get(entry), bot: true,
-    })),
+    ...botIdentities(new Set([identity]), size - 1),
   ];
   return startAuction(mode, identities, source, openAuction);
 }
@@ -219,11 +216,12 @@ export async function handleGameRequest(req, res, runtime) {
     if (req.method === 'POST' && ['/bid', '/pass'].includes(url.pathname)) {
       const { teamId, playerId, amount } = await readBody(req, 1024);
       if (member && !member.token) return send(401, { error: 'Você não está nesta sala.' });
-      if (!Number.isInteger(teamId) || teamId < 0 || teamId > 7 || typeof playerId !== 'string') {
+      const auctionState = auction?.snapshot();
+      if (!Number.isInteger(teamId) || teamId < 0 || teamId >= (auctionState?.teams.length ?? 0) || typeof playerId !== 'string') {
         return send(400, { error: 'Equipe ou atleta inválido.' });
       }
       if (!auction || (room && teamId !== (member?.id ?? 0))) throw Error('Equipe indisponível nesta sessão.');
-      const player = resolveAuctionPlayer(auction.snapshot()?.round, playerId);
+      const player = resolveAuctionPlayer(auctionState?.round, playerId);
       if (!player) throw Error('Rodada indisponível');
       if (url.pathname === '/pass') auction.pass(teamId, player);
       else auction.bid(teamId, player, amount);

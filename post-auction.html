@@ -366,7 +366,7 @@ function tournament() {
       match.append(el('p', 'Posse de bola ' + ownMatch.possession + '% × ' + (100 - ownMatch.possession) + '%'));
     }
   } else {
-    match.append(el('h3', own.name), el('p', round.name.startsWith('Semifinais') || round.name === 'Disputa de terceiro lugar' || finalRound
+    match.append(el('h3', own.name), el('p', round.name !== 'Liga' && round.name !== 'Fase de grupos'
       ? 'Seu time está fora desta fase.' : 'Seu time está de folga nesta rodada.'), controls);
   }
   if (finished && finalRound) {

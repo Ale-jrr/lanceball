@@ -1,13 +1,14 @@
 import { randomInt } from 'node:crypto';
 import { uclClubs, clubCrests } from './ucl-clubs.mjs';
+import { roomSizes } from './fut7.mjs';
 import { worldFlags } from './world-teams.mjs';
 
 export function previewTournament(mode, humans, random = randomInt, { size = 4, team, club, country } = {}) {
-  if (!['ucl', 'world'].includes(mode) || !Number.isInteger(humans) || humans < 1 || humans > 8) {
-    throw Error('Escolha um modo e informe de 1 a 8 participantes.');
+  if (!['ucl', 'world'].includes(mode) || !Number.isInteger(humans) || humans < 1 || humans > size) {
+    throw Error('Informe um número de participantes compatível com a sala.');
   }
 
-  if (![4, 6, 8].includes(size)) throw Error('Escolha 4, 6 ou 8 equipes.');
+  if (!roomSizes.includes(size)) throw Error('Escolha 4, 8, 16, 32 ou 64 equipes.');
 
   const customName = team?.trim().slice(0, 30);
   const selectedClub = mode === 'ucl' && uclClubs.includes(club) ? club : null;
@@ -55,6 +56,23 @@ export function previewTournament(mode, humans, random = randomInt, { size = 4, 
 
 
 
+const knockoutPhases = {
+  64: ['Fase de 64', 'Fase de 64'],
+  32: ['Fase de 32', 'Fase de 32'],
+  16: ['Oitavas de final', 'Oitavas de final'],
+  8: ['Quartas de final', 'Quartas de final'],
+  4: ['Semifinais', 'Semifinal'],
+};
+
+function bracketOrder(teams) {
+  let seeds = [1, 2];
+  while (seeds.length < teams.length) {
+    const nextSize = seeds.length * 2;
+    seeds = seeds.flatMap(seed => [seed, nextSize + 1 - seed]);
+  }
+  return seeds.map(seed => teams[seed - 1]);
+}
+
 function schedule(group) {
   const rotation = [...group];
   if (rotation.length % 2) rotation.push(null);
@@ -77,7 +95,7 @@ export function decisiveShot(minute, margin) {
   return null;
 }
 
-export function playSeason(mode, teams, draw = Math.random, { seed, changes = {} } = {}) {
+export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}, fullBracket = true } = {}) {
   function matchRandom(id) {
     if (seed === undefined) return draw;
     let value = seed;
@@ -187,7 +205,9 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
   const tables = groups.map((group, index) => {
     const name = mode === 'world' ? 'Grupo ' + ['A', 'B'][index] : 'Liga';
     const table = group.map(team => ({ id: team.id, name: team.name, pts: 0, gf: 0, ga: 0 }));
-    for (const [roundIndex, pairs] of schedule(group).entries()) {
+    const calendar = schedule(group);
+    if (mode === 'ucl' && fullBracket) calendar.splice(8);
+    for (const [roundIndex, pairs] of calendar.entries()) {
       const round = rounds[roundIndex] ??= { name: name === 'Liga' ? 'Liga' : 'Fase de grupos', games: [] };
       for (const [home, away] of pairs) {
         const game = match(home, away, name);
@@ -208,26 +228,37 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
   });
   const byId = id => teams.find(team => team.id === id);
   const [a, b] = tables.map(group => group.table.map(team => byId(team.id)));
-  let semifinal1;
-  let semifinal2;
+  let finalists;
   let thirdPlace = null;
   if (mode === 'ucl') {
-    const first = [match(a[3], a[0], 'Semifinal · Ida'), match(a[2], a[1], 'Semifinal · Ida')];
-    [semifinal1, semifinal2] = first.map(game => match(game.away, game.home, 'Semifinal · Volta', {
-      knockout: true, carry: [...game.score].reverse(),
-    }));
-    rounds.push({ name: 'Semifinais · Ida', games: first },
-      { name: 'Semifinais · Volta', games: [semifinal1, semifinal2] });
+    const qualified = fullBracket && roomSizes.includes(a.length) ? a : a.slice(0, 4);
+    let remaining = bracketOrder(qualified);
+    const rank = new Map(qualified.map((team, index) => [team.id, index]));
+    while (remaining.length > 2) {
+      const [phase, stage] = knockoutPhases[remaining.length];
+      const first = [];
+      for (let index = 0; index < remaining.length; index += 2) {
+        const pair = remaining.slice(index, index + 2).sort((a, b) => rank.get(b.id) - rank.get(a.id));
+        first.push(match(pair[0], pair[1], stage + ' · Ida'));
+      }
+      const second = first.map(game => match(game.away, game.home, stage + ' · Volta', {
+        knockout: true, carry: [...game.score].reverse(),
+      }));
+      rounds.push({ name: phase + ' · Ida', games: first }, { name: phase + ' · Volta', games: second });
+      remaining = second.map(game => game.winner);
+    }
+    finalists = remaining;
   } else {
-    semifinal1 = match(a[0], b[1], 'Semifinal', { knockout: true });
-    semifinal2 = match(b[0], a[1], 'Semifinal', { knockout: true });
+    const semifinal1 = match(a[0], b[1], 'Semifinal', { knockout: true });
+    const semifinal2 = match(b[0], a[1], 'Semifinal', { knockout: true });
     const loser = game => game.winner.id === game.home.id ? game.away : game.home;
     const third = match(loser(semifinal1), loser(semifinal2), 'Disputa de terceiro lugar', { knockout: true });
     thirdPlace = third.winner.name;
+    finalists = [semifinal1.winner, semifinal2.winner];
     rounds.push({ name: 'Semifinais', games: [semifinal1, semifinal2] },
       { name: 'Disputa de terceiro lugar', games: [third] });
   }
-  const final = match(semifinal1.winner, semifinal2.winner, 'Final', { knockout: true });
+  const final = match(finalists[0], finalists[1], 'Final', { knockout: true });
   rounds.push({ name: 'Final', games: [final] });
   return { tables, rounds, champion: final.winner.name, thirdPlace };
 }

@@ -67,13 +67,18 @@ function render(data) {
   byId('lobby').hidden = data.you === null;
   byId('password').hidden = !data.private;
   const choices = new Set(data.choices);
-  const taken = new Set(data.members.map(member => member.identity));
+  const exclusiveClubs = data.size <= choices.size;
+  const taken = new Set(exclusiveClubs ? data.members.map(member => member.identity) : []);
   for (const input of clubInputs) {
     input.closest('.club-option').hidden = !choices.has(input.value);
     input.disabled = !choices.has(input.value) || taken.has(input.value);
     if (input.disabled) input.checked = false;
   }
-  byId('club-availability').hidden = !data.members.length;
+  const availability = byId('club-availability');
+  availability.hidden = exclusiveClubs && !taken.size;
+  availability.textContent = exclusiveClubs
+    ? 'Os clubes já escolhidos aparecem desabilitados.'
+    : 'Nesta sala, mais de uma equipe pode representar o mesmo clube.';
   byId('count').textContent = 'Participantes ' + data.members.length + '/' + data.size;
   byId('members').replaceChildren(...data.members.map(member => {
     const row = document.createElement('li');

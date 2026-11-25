@@ -1,6 +1,6 @@
 # LANCEBALL
 
-Jogo web de leilão de jogadores e campeonato fut7. Monte uma equipe de sete atletas, escolha a tática e acompanhe partidas simuladas em uma Champions League adaptada para 4, 6 ou 8 equipes.
+Jogo web de leilão de jogadores e campeonato fut7. Monte uma equipe de sete atletas, escolha a tática e acompanhe partidas simuladas em uma Champions League adaptada para 4, 8, 16, 32 ou 64 equipes.
 
 ## Rodar localmente
 
