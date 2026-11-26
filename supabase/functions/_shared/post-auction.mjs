@@ -201,7 +201,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
         live.startsAt = null;
       }
       if (input.command === 'event' && !online) {
-        const game = ownGame();
+        const game = games().find(entry => entry.id === input.matchId) ?? ownGame();
         const source = game && live.minute < endMinute(game) ? [game] : games();
         live.minute = Math.min(end(), ...source.flatMap(entry =>
           entry.events.filter(event => event.minute > live.minute).map(event => event.minute)));

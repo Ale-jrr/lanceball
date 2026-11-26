@@ -47,6 +47,7 @@ restore.onsubmit = event => {
 let state;
 let lineupIds;
 let roundIndex = 0;
+let selectedMatchId;
 let minute = 0;
 let actionVersion = 0;
 let busy = false;
@@ -294,12 +295,16 @@ function tournament() {
   }
   const round = season.rounds[roundIndex];
   const ownMatch = round.games.find(game => game.home.id === own.id || game.away.id === own.id);
-  const otherGames = round.games.filter(game => game !== ownMatch);
+  const selectedMatch = round.games.find(game => game.id === selectedMatchId);
+  if (!selectedMatch) selectedMatchId = undefined;
+  const featuredMatch = selectedMatch ?? ownMatch ?? round.games[0];
+  const watchingOwnMatch = featuredMatch === ownMatch;
   const finalRound = roundIndex === season.rounds.length - 1;
   const endMinute = Math.max(...round.games.map(game => game.extraTime ? 120 : 90));
   const finished = minute >= endMinute;
   const columns = el('div', '', 'grid');
   const match = panel(round.name + ' · Rodada ' + (roundIndex + 1) + ' de ' + season.rounds.length);
+  match.id = 'featured-match';
 
   function gameState(game) {
     const end = game.extraTime ? 120 : 90;
@@ -314,7 +319,9 @@ function tournament() {
 
   const controls = el('div', '', 'controls');
   function control(title, command, primary = false) {
-    const item = button(title, () => send('clock', { command, round: roundIndex }), primary);
+    const item = button(title, () => send('clock', { command, round: roundIndex,
+      ...(command === 'event' && featuredMatch ? { matchId: featuredMatch.id } : {}),
+    }), primary);
     item.dataset.focus = 'clock-' + command;
     return item;
   }
@@ -333,14 +340,14 @@ function tournament() {
     controls.append(el('p', label + state.clock.startsIn + ' s', 'slot-position'));
   }
 
-  if (ownMatch) {
-    const current = gameState(ownMatch);
-    match.append(el('h3', 'Seu jogo'));
+  if (featuredMatch) {
+    const current = gameState(featuredMatch);
+    match.append(el('h3', watchingOwnMatch ? 'Seu jogo' : 'Jogo em destaque'));
     const score = el('div', '', 'score');
     const home = el('span', '', 'score-team');
     const away = el('span', '', 'score-team');
-    home.append(crest(ownMatch.home), ownMatch.home.name);
-    away.append(crest(ownMatch.away), ownMatch.away.name);
+    home.append(crest(featuredMatch.home), featuredMatch.home.name);
+    away.append(crest(featuredMatch.away), featuredMatch.away.name);
     score.append(home, ' ', el('span', current.score.join(' × ')), ' ', away);
     const feed = el('ol', '', 'events');
     let previousGoals = 0;
@@ -358,8 +365,8 @@ function tournament() {
       if (event.highlight) item.append(el('small', highlightTitle(event.highlight)));
       feed.prepend(item);
     }
-    if (ownMatch.carry) {
-      const aggregate = ownMatch.carry.map((goals, side) => goals + current.score[side]);
+    if (featuredMatch.carry) {
+      const aggregate = featuredMatch.carry.map((goals, side) => goals + current.score[side]);
       score.append(el('div', 'Agregado ' + aggregate.join(' × '), 'slot-position'));
     }
     match.append(score, el('p', current.status), controls,
@@ -367,7 +374,7 @@ function tournament() {
         ' · No alvo ' + (current.latest?.onTarget ?? [0, 0]).join(' × ')), feed);
     const decisive = current.events.findLast(event => event.highlight && minute - event.minute <= 6);
     if (decisive) {
-      const key = ownMatch.id + ':' + decisive.minute;
+      const key = featuredMatch.id + ':' + decisive.minute;
       const featured = el('aside', '', key === lastAnimatedHighlight ? 'decisive-shot' : 'decisive-shot fresh');
       lastAnimatedHighlight = key;
       featured.append(el('p', decisive.minute + "' · Lance decisivo", 'decisive-label'),
@@ -375,7 +382,7 @@ function tournament() {
       if (decisive.assistant) featured.append(el('p', 'Assistência de ' + decisive.assistant.name, 'event-assist'));
       match.insertBefore(featured, feed);
     }
-    if (state.clock.canChangeTactic) {
+    if (watchingOwnMatch && state.clock.canChangeTactic) {
       const tactics = el('section', '', 'live-tactics');
       const heading = el('h3', 'Tática em jogo');
       heading.id = 'live-tactics-title';
@@ -409,10 +416,10 @@ function tournament() {
       match.insertBefore(tactics, feed);
     }
     if (current.status === 'Encerrado') {
-      if (ownMatch.carry || ownMatch.extraTime || ownMatch.stage === 'Disputa de terceiro lugar') {
-        match.append(el('p', 'Vencedor do confronto: ' + ownMatch.winner.name));
+      if (featuredMatch.winner && (featuredMatch.carry || featuredMatch.extraTime || featuredMatch.stage === 'Disputa de terceiro lugar')) {
+        match.append(el('p', 'Vencedor do confronto: ' + featuredMatch.winner.name));
       }
-      match.append(el('p', 'Posse de bola ' + ownMatch.possession + '% × ' + (100 - ownMatch.possession) + '%'));
+      match.append(el('p', 'Posse de bola ' + featuredMatch.possession + '% × ' + (100 - featuredMatch.possession) + '%'));
     }
   } else {
     match.append(el('h3', own.name), el('p', round.name !== 'Liga' && round.name !== 'Fase de grupos'
@@ -442,21 +449,29 @@ function tournament() {
   }
 
   const side = el('aside', '', 'round-side');
-  const fixtures = panel('Outros jogos da rodada');
-  for (const game of otherGames) {
+  const fixtures = panel('Jogos da rodada');
+  for (const game of round.games) {
     const current = gameState(game);
-    const card = el('div', '', 'fixture');
+    const card = button('', () => {
+      selectedMatchId = game.id;
+      render();
+      if (matchMedia('(max-width: 720px)').matches) byId('featured-match').scrollIntoView({ block: 'start' });
+    });
+    card.className = 'fixture fixture-picker';
+    card.dataset.focus = 'fixture-' + game.id;
+    card.setAttribute('aria-pressed', String(game === featuredMatch));
+    card.setAttribute('aria-controls', 'featured-match');
     const home = el('span');
     const away = el('span');
     home.append(crest(game.home), game.home.name);
     away.append(crest(game.away), game.away.name);
     card.append(home, el('strong', String(current.score[0])), away,
-      el('strong', String(current.score[1])), el('small', current.status));
+      el('strong', String(current.score[1])), el('small', game === ownMatch ? 'Seu jogo · ' + current.status : current.status));
     if (game.carry) card.append(el('small', 'Agregado ' +
       game.carry.map((goals, side) => goals + current.score[side]).join(' × ')));
     fixtures.append(card);
   }
-  if (!otherGames.length) fixtures.append(el('p', 'Nenhum outro jogo nesta rodada.', 'fixtures-empty'));
+  if (!round.games.length) fixtures.append(el('p', 'Nenhum jogo nesta rodada.', 'fixtures-empty'));
   const settled = season.rounds.slice(0, roundIndex).flatMap(entry => entry.games);
   settled.push(...round.games.filter(game => minute >= (game.extraTime ? 120 : 90)));
   side.append(fixtures, standings(season, settled));

@@ -226,6 +226,15 @@ summary { color: var(--muted); cursor: pointer; }
 .fixture { display: grid; grid-template-columns: 1fr auto; gap: .3rem .6rem; padding: .6rem 0; border-top: 1px solid var(--line); }
 .fixture strong { color: var(--gold); }
 .fixture small { grid-column: 1/-1; color: var(--muted); }
+.fixture-picker {
+  width: 100%;
+  margin-top: .35rem;
+  padding: .55rem .65rem;
+  justify-content: stretch;
+  text-align: left;
+  border: 1px solid var(--line);
+}
+.fixture-picker[aria-pressed="true"] { border-color: #829ed9; background: #1e2c48; }
 table { width: 100%; border-collapse: collapse; font-size: .94rem; }
 th, td { padding: .5rem .35rem; text-align: left; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 th { color: var(--muted); }
