@@ -38,6 +38,8 @@ function setupChat(room) {
   const clock = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' });
   let token;
   let stop;
+  let reading = false;
+  let readTimer;
   let messages = [];
   let version = 0;
   let sending = false;
@@ -92,7 +94,9 @@ function setupChat(room) {
 
   async function request(body) {
     const requestToken = token;
-    const response = await arenaFetch('/chat?' + new URLSearchParams({ room }), {
+    const query = new URLSearchParams({ room });
+    if (!body) query.set('_chat', String(Date.now()));
+    const response = await arenaFetch('/chat?' + query, {
       method: body ? 'POST' : 'GET',
       headers: { Authorization: 'Bearer ' + requestToken },
       cache: 'no-store',
@@ -109,7 +113,8 @@ function setupChat(room) {
   }
 
   async function refresh() {
-    if (!token || sending) return;
+    if (!token || sending || reading) return;
+    reading = true;
     const requestVersion = version;
     try {
       const next = await request();
@@ -119,6 +124,8 @@ function setupChat(room) {
       }
     } catch {
       if (panel.open && requestVersion === version) status.textContent = 'Não foi possível atualizar o chat.';
+    } finally {
+      reading = false;
     }
   }
 
@@ -126,6 +133,7 @@ function setupChat(room) {
     version++;
     stop?.();
     stop = undefined;
+    clearInterval(readTimer);
     token = null;
     if (panel.open) panel.close();
     messages = [];
@@ -143,7 +151,8 @@ function setupChat(room) {
     wrapper.hidden = false;
     toggle.hidden = false;
     updateBadge();
-    stop = liveUpdates(room, refresh, connected => panel.open ? 1000 : connected ? 3000 : 1800, 'chat');
+    stop = liveUpdates(room, refresh, () => 15_000, 'chat');
+    readTimer = setInterval(refresh, 1000);
   }
 
   toggle.onclick = () => {
@@ -184,5 +193,8 @@ function setupChat(room) {
   };
   window.addEventListener('arena-room-membership-changed', connect);
   window.addEventListener('storage', event => { if (event.key === tokenKey) connect(); });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) refresh();
+  });
   connect();
 }

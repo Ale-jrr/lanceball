@@ -3,8 +3,53 @@ import test from 'node:test';
 import { readFile, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { runInNewContext } from 'node:vm';
 import { buildSite } from './build-site.mjs';
 import { edgeHandler } from './supabase/functions/_shared/edge-handler.mjs';
+
+test('o chat recebe mensagens com o painel fechado e limpa o contador ao abrir', async () => {
+  function element() {
+    return {
+      children: [], hidden: true, scrollTop: 0, scrollHeight: 0, clientHeight: 0,
+      append(...children) { this.children.push(...children); },
+      replaceChildren(...children) { this.children = children; },
+      get childElementCount() { return this.children.length; },
+      setAttribute() {}, addEventListener() {},
+      show() { this.open = true; },
+    };
+  }
+  const elements = new Map();
+  const wrapper = element();
+  wrapper.querySelector = selector => {
+    if (!elements.has(selector)) elements.set(selector, element());
+    return elements.get(selector);
+  };
+  let poll;
+  let messages = [];
+  const script = await readFile(new URL('./room-chat.mjs', import.meta.url), 'utf8');
+  runInNewContext(script.replace(/^import .+\r?\n/, ''), {
+    URLSearchParams, Intl, AbortSignal, location: { search: '?room=ABCD1234' },
+    localStorage: { getItem: () => 'guest' },
+    sessionStorage: { getItem: () => null, setItem() {} },
+    document: { body: element(), createElement: tag => tag === 'div' && !elements.size ? wrapper : element(), querySelector: () => null, addEventListener() {} },
+    window: { addEventListener() {} },
+    matchMedia: () => ({ matches: false }),
+    clearInterval() {}, setInterval: callback => { poll = callback; },
+    liveUpdates: () => () => {},
+    arenaFetch: async (_path, options) => {
+      assert.equal(options.method, 'GET');
+      return Response.json({ messages });
+    },
+  });
+  await poll();
+  messages = [{ id: 'new', name: 'Anfitrião', time: Date.now(), text: 'Boa partida!' }];
+  await poll();
+  assert.equal(elements.get('.chat-count').hidden, false);
+  assert.equal(elements.get('.chat-count').textContent, '1');
+  assert.equal(elements.get('ol').children[0].children[1].textContent, 'Boa partida!');
+  elements.get('.chat-toggle').onclick();
+  assert.equal(elements.get('.chat-count').hidden, true);
+});
 
 test('a hospedagem estática leva apenas a conexão pública ao navegador', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'lanceball-build-'));
