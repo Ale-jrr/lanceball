@@ -519,6 +519,8 @@ body {
   font-weight: 700;
 }
 .event-goal-label { margin-right: .22rem; color: var(--gold); text-transform: uppercase; }
+.event-crest.crest { width: 1.15rem; height: 1.15rem; margin-right: .4rem; vertical-align: -.24rem; }
+.event-team-name { color: var(--muted); font-weight: 650; }
 .events .event-assist, .decisive-shot .event-assist { display: block; margin-top: .15rem; color: #e4d1ad; font-weight: 500; }
 .season-awards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: .6rem; margin-top: .75rem; }
 .season-awards section { padding: .7rem; border: 1px solid var(--line); border-radius: .5rem; background: var(--surface-inset); }

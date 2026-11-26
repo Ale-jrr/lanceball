@@ -350,11 +350,33 @@ function tournament() {
     away.append(crest(featuredMatch.away), featuredMatch.away.name);
     score.append(home, ' ', el('span', current.score.join(' × ')), ' ', away);
     const feed = el('ol', '', 'events');
+    const decisive = current.events.findLast(event => event.highlight && minute - event.minute <= 6);
+    function actionCrest(team) {
+      if (!team) return '';
+      if (!team.crestUrl) return el('span', team.name + ' · ', 'event-team-name');
+      const image = crest(team);
+      image.classList.add('event-crest');
+      image.alt = team.name;
+      image.title = team.name;
+      return image;
+    }
     let previousGoals = 0;
+    let previousOnTarget = [0, 0];
+    let decisiveTeam;
     for (const event of current.events) {
       const goals = event.score ? event.score[0] + event.score[1] : previousGoals;
       const goal = goals > previousGoals;
       previousGoals = goals;
+      let team;
+      if (event.side === 0 || event.side === 1) {
+        const save = !goal && event.onTarget?.[event.side] > previousOnTarget[event.side];
+        const actionSide = save ? 1 - event.side : event.side;
+        team = actionSide === 0 ? featuredMatch.home : featuredMatch.away;
+      } else if (featuredMatch.penalties && event.minute === 120 && !event.score) {
+        team = featuredMatch.winner;
+      }
+      previousOnTarget = event.onTarget ?? previousOnTarget;
+      if (event === decisive) decisiveTeam = team;
       const item = el('li', event.minute + "' · " + event.text, event.highlight ? 'event-decisive' : '');
       if (goal) {
         item.classList.add('event-goal');
@@ -362,6 +384,7 @@ function tournament() {
         item.append(el('span', event.score.join(' × '), 'event-goal-score'));
         if (event.assistant) item.append(el('small', 'Assistência de ' + event.assistant.name, 'event-assist'));
       }
+      item.prepend(actionCrest(team));
       if (event.highlight) item.append(el('small', highlightTitle(event.highlight)));
       feed.prepend(item);
     }
@@ -372,12 +395,13 @@ function tournament() {
     match.append(score, el('p', current.status), controls,
       el('p', 'Finalizações ' + (current.latest?.shots ?? [0, 0]).join(' × ') +
         ' · No alvo ' + (current.latest?.onTarget ?? [0, 0]).join(' × ')), feed);
-    const decisive = current.events.findLast(event => event.highlight && minute - event.minute <= 6);
     if (decisive) {
       const key = featuredMatch.id + ':' + decisive.minute;
       const featured = el('aside', '', key === lastAnimatedHighlight ? 'decisive-shot' : 'decisive-shot fresh');
       lastAnimatedHighlight = key;
-      featured.append(el('p', decisive.minute + "' · Lance decisivo", 'decisive-label'),
+      const label = el('p', decisive.minute + "' · Lance decisivo", 'decisive-label');
+      label.prepend(actionCrest(decisiveTeam));
+      featured.append(label,
         el('h3', highlightTitle(decisive.highlight)), el('p', decisive.text));
       if (decisive.assistant) featured.append(el('p', 'Assistência de ' + decisive.assistant.name, 'event-assist'));
       match.insertBefore(featured, feed);
