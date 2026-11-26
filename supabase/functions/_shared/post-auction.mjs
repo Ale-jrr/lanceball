@@ -11,6 +11,8 @@ const legacyFormations = {
   '3-4-3': ['GK','DEF','DEF','DEF','MID','MID','MID','MID','FWD','FWD','FWD'],
 };
 const tactics = ['Equilibrada', 'Ofensiva', 'Defensiva', 'Contra-ataque', 'Posse de bola', 'Pressão alta'];
+const roundWait = 15_000;
+const minuteDuration = 420;
 
 function calculate(mode, model) {
   return playSeason(mode, model.teams, undefined, {
@@ -66,6 +68,34 @@ function phaseHighlights(season, live, teams) {
   return highlights;
 }
 
+function tournamentLeaders(rounds) {
+  const goals = new Map();
+  const assists = new Map();
+  function count(totals, player, team) {
+    if (!player) return;
+    const key = JSON.stringify([team.id, player.id]);
+    const entry = totals.get(key) ?? { name: player.name, team: team.name, count: 0 };
+    entry.count++;
+    totals.set(key, entry);
+  }
+  for (const round of rounds) {
+    for (const game of round.games) {
+      for (const event of game.events) {
+        if (!event.scorer) continue;
+        const team = event.side === 0 ? game.home : game.away;
+        count(goals, event.scorer, team);
+        count(assists, event.assistant, team);
+      }
+    }
+  }
+  function leaders(totals) {
+    const entries = [...totals.values()];
+    const best = Math.max(0, ...entries.map(entry => entry.count));
+    return entries.filter(entry => entry.count === best);
+  }
+  return { goals: leaders(goals), assists: leaders(assists) };
+}
+
 function visibleSeason(season, live) {
   const rounds = season.rounds.map((round, index) => {
     if (index > live.round) return { games: [] };
@@ -86,6 +116,7 @@ function visibleSeason(season, live) {
     })),
     champion: complete ? season.champion : undefined,
     thirdPlace: complete ? season.thirdPlace : undefined,
+    leaders: complete ? tournamentLeaders(season.rounds) : undefined,
   };
 }
 
@@ -138,18 +169,37 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
   if (action === 'tactic' && !post.season) throw Error('Inicie o campeonato antes de alterar a tática.');
   let clock;
   if (post.season) {
-    const live = post.live ??= { round: 0, minute: 0, since: null };
+    const live = post.live ??= { round: 0, minute: 0, since: null, startsAt: now + roundWait };
     const games = () => post.season.rounds[live.round].games;
     const end = () => Math.max(...games().map(endMinute));
     const ownGame = () => games().find(game => game.home.id === actor || game.away.id === actor);
-    if (live.since !== null) {
-      const elapsed = Math.floor((now - live.since) / 420);
-      live.minute = Math.min(end(), live.minute + elapsed);
-      live.since = live.minute === end() ? null : live.since + elapsed * 420;
+    const waitingForNext = () => live.minute >= end() && live.round < post.season.rounds.length - 1;
+    if (live.startsAt === undefined) {
+      live.startsAt = live.since === null && (live.minute === 0 || waitingForNext()) ? now + roundWait : null;
     }
-    if (action === 'clock') {
-      if (actor !== host) throw Error('Só o anfitrião controla a rodada.');
-      if (input.command === 'toggle' && live.minute < end()) live.since = live.since === null ? now : null;
+    if (live.startsAt !== null && now >= live.startsAt) {
+      if (waitingForNext()) {
+        live.round++;
+        live.minute = 0;
+      }
+      live.since = live.startsAt;
+      live.startsAt = null;
+    }
+    if (live.since !== null) {
+      const elapsed = Math.min(end() - live.minute, Math.max(0, Math.floor((now - live.since) / minuteDuration)));
+      live.minute += elapsed;
+      live.since = live.minute === end() ? null : live.since + elapsed * minuteDuration;
+    }
+    if (action === 'clock' && actor !== host) throw Error('Só o anfitrião controla a rodada.');
+    if (action === 'clock' && (input.round === undefined || input.round === live.round)) {
+      if (input.command === 'start' && live.minute < end() && live.since === null) {
+        live.since = now;
+        live.startsAt = null;
+      }
+      if (input.command === 'toggle' && live.minute < end()) {
+        live.since = live.since === null ? now : null;
+        live.startsAt = null;
+      }
       if (input.command === 'event' && !online) {
         const game = ownGame();
         const source = game && live.minute < endMinute(game) ? [game] : games();
@@ -160,12 +210,16 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
       if (input.command === 'skip') {
         live.minute = end();
         live.since = null;
+        live.startsAt = null;
       }
       if (input.command === 'next' && live.minute >= end() && live.round < post.season.rounds.length - 1) {
         live.round++;
         live.minute = 0;
+        live.startsAt ??= now + roundWait;
       }
     }
+    if (waitingForNext()) live.startsAt ??= now + roundWait;
+    else if (live.minute >= end()) live.startsAt = null;
     if (action === 'tactic') {
       const game = ownGame();
       if (!post.model || !game || game.id !== input.matchId || live.minute >= endMinute(game) ||
@@ -185,6 +239,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
     const pending = plan.find(change => change.minute === live.minute + 1);
     clock = {
       round: live.round, minute: live.minute, playing: live.since !== null,
+      startsIn: live.startsAt === null ? null : Math.max(0, Math.ceil((live.startsAt - now) / 1000)),
       canChangeTactic: Boolean(post.model && game &&
         live.minute < endMinute(game) && (live.minute > 0 || live.since !== null)),
       currentTactic: active?.tactic ?? ownLineupTactic(post, actor),

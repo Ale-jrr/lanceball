@@ -102,9 +102,9 @@ const transitionText = {
 };
 
 export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}, fullBracket = true, halfBracket = fullBracket, tacticalTransitions = true } = {}) {
-  function matchRandom(id) {
-    if (seed === undefined) return draw;
-    let value = seed;
+  function matchRandom(id, initialSeed = seed) {
+    if (initialSeed === undefined) return draw;
+    let value = initialSeed;
     for (const character of id) value = Math.imul(value ^ character.charCodeAt(0), 16777619);
     return () => {
       value = (Math.imul(value, 1664525) + 1013904223) >>> 0;
@@ -119,6 +119,7 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
   function match(home, away, stage, { knockout = false, carry = null } = {}) {
     const id = stage + ':' + home.id + ':' + away.id;
     const random = matchRandom(id);
+    const assistRandom = matchRandom(id + ':assists', seed ?? 0);
     const timeline = changes[id] ?? [];
     const events = [];
     const score = [0, 0];
@@ -192,14 +193,23 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
         const kind = decisiveShot(minute, margin);
         const highlight = kind ? { kind, outcome: goal ? 'goal' : accurate ? 'save' : 'miss',
           aggregate: Boolean(carry) } : null;
-        if (goal) score[side]++;
+        let credit;
+        if (goal) {
+          score[side]++;
+          credit = { scorer: { id: player.id, name: player.name } };
+          const candidates = attackers.filter(teammate => teammate !== player);
+          if (candidates.length && assistRandom() < .72) {
+            const assistant = candidates[Math.floor(assistRandom() * candidates.length)];
+            credit.assistant = { id: assistant.id, name: assistant.name };
+          }
+        }
         const keeper = sides[opponent].lineup.find(entry => entry.role === 'GK');
         const text = goal ? 'Gol de ' + player.name + '!' : accurate
           ? keeper.name + ' defende a finalização de ' + player.name
           : player.name + ' finaliza para fora';
         events.push({ minute, side, text: transition ? transitionText[transition] + ' ' + text : text,
           score: [...score], shots: [...shots], onTarget: [...onTarget],
-          ...(transition ? { transition } : {}), ...(highlight ? { highlight } : {}) });
+          ...(credit ?? {}), ...(transition ? { transition } : {}), ...(highlight ? { highlight } : {}) });
       }
     }
     chances(1, 90);

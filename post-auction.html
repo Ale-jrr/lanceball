@@ -314,18 +314,23 @@ function tournament() {
 
   const controls = el('div', '', 'controls');
   function control(title, command, primary = false) {
-    const item = button(title, () => send('clock', { command }), primary);
+    const item = button(title, () => send('clock', { command, round: roundIndex }), primary);
     item.dataset.focus = 'clock-' + command;
     return item;
   }
   if (state.isHost && !finished) {
-    controls.append(control(state.clock.playing ? 'Pausar rodada' : 'Simular rodada ao vivo', 'toggle', true));
+    controls.append(state.clock.playing ? control('Pausar rodada', 'toggle', true) :
+      control(minute ? 'Retomar rodada' : 'Iniciar rodada agora', 'start', true));
     if (!state.online) controls.append(control('Próximo lance', 'event'));
     controls.append(control('Ver resultados', 'skip'));
   } else if (state.isHost && !finalRound) {
     controls.append(control('Próxima rodada', 'next', true));
-  } else if (!finalRound || !finished) {
-    controls.append(el('p', state.clock.playing ? 'Rodada ao vivo' : 'Aguardando o anfitrião.'));
+  } else if (!finished && state.clock.startsIn == null) {
+    controls.append(el('p', state.clock.playing ? 'Rodada ao vivo' : 'Rodada pausada'));
+  }
+  if (state.clock.startsIn != null) {
+    const label = finished ? 'Próxima rodada em ' : 'Início automático em ';
+    controls.append(el('p', label + state.clock.startsIn + ' s', 'slot-position'));
   }
 
   if (ownMatch) {
@@ -348,6 +353,7 @@ function tournament() {
         item.classList.add('event-goal');
         item.prepend(el('strong', 'Gol', 'event-goal-label'), ' ');
         item.append(el('span', event.score.join(' × '), 'event-goal-score'));
+        if (event.assistant) item.append(el('small', 'Assistência de ' + event.assistant.name, 'event-assist'));
       }
       if (event.highlight) item.append(el('small', highlightTitle(event.highlight)));
       feed.prepend(item);
@@ -366,6 +372,7 @@ function tournament() {
       lastAnimatedHighlight = key;
       featured.append(el('p', decisive.minute + "' · Lance decisivo", 'decisive-label'),
         el('h3', highlightTitle(decisive.highlight)), el('p', decisive.text));
+      if (decisive.assistant) featured.append(el('p', 'Assistência de ' + decisive.assistant.name, 'event-assist'));
       match.insertBefore(featured, feed);
     }
     if (state.clock.canChangeTactic) {
@@ -414,6 +421,24 @@ function tournament() {
   if (finished && finalRound) {
     match.append(el('h2', 'Campeão: ' + season.champion));
     if (season.thirdPlace) match.append(el('p', 'Terceiro lugar: ' + season.thirdPlace));
+    if (season.leaders) {
+      const awards = el('div', '', 'season-awards');
+      for (const [title, entries, singular, plural] of [
+        ['Artilharia', season.leaders.goals, 'gol', 'gols'],
+        ['Liderança de assistências', season.leaders.assists, 'assistência', 'assistências'],
+      ]) {
+        const award = el('section');
+        const list = el('ul');
+        award.append(el('h3', title));
+        for (const entry of entries) {
+          list.append(el('li', entry.name + ' · ' + entry.team + ' · ' + entry.count + ' ' +
+            (entry.count === 1 ? singular : plural)));
+        }
+        award.append(entries.length ? list : el('p', 'Nenhum registro'));
+        awards.append(award);
+      }
+      match.append(awards);
+    }
   }
 
   const side = el('aside', '', 'round-side');
@@ -512,7 +537,7 @@ async function syncRoom() {
   }
 }
 if (roomCode || solo) liveUpdates(roomCode, syncRoom, connected =>
-  state?.clock?.playing ? 550 : connected ? 6500 : 1800);
+  state?.clock?.playing ? 550 : state?.clock?.startsIn != null ? 500 : connected ? 6500 : 1800);
 </script>
 <script type="module" src="/room-exit.js"></script>
 <script type="module" src="/room-chat.mjs"></script>

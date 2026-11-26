@@ -28,6 +28,64 @@ test('a troca manual preserva lances anteriores e partidas simultâneas', () => 
   assert.ok(changed.possession > game.possession);
 });
 
+test('as rodadas começam após 15 segundos sem comando do anfitrião', () => {
+  const room = {
+    mode: 'ucl', members: [{ id: 0, token: 'test-0' }, { id: 1, token: 'test-1' }],
+    auction: { snapshot: () => ({ complete: true, teams }) },
+  };
+  const guestClock = now => postAuction(room, 'read', {}, 1, now).clock;
+  for (const actor of [0, 1]) {
+    const view = postAuction(room, 'read', {}, actor, 0);
+    postAuction(room, 'simulate', { formation: '2-2-2', tactic: 'Equilibrada', ids: view.auto['2-2-2'] }, actor, 0);
+  }
+  assert.equal(guestClock(0).startsIn, 15);
+  assert.equal(guestClock(14_999).playing, false);
+  assert.equal(guestClock(15_000).playing, true);
+  assert.equal(guestClock(15_420).minute, 1);
+  const finishedAt = 15_000 + 90 * 420;
+  assert.equal(guestClock(finishedAt).startsIn, 15);
+  assert.equal(guestClock(finishedAt + 14_999).round, 0);
+  const next = guestClock(finishedAt + 15_000);
+  assert.equal(next.round, 1);
+  assert.equal(next.playing, true);
+  const stale = postAuction(room, 'clock', { command: 'toggle', round: 0 }, 0, finishedAt + 15_001);
+  assert.equal(stale.clock.playing, true);
+});
+
+test('Liga e Champions premiam os líderes de gols e assistências ao final', () => {
+  for (const mode of ['league', 'ucl']) {
+    const soloTeams = teams.map(team => ({ ...team, bot: team.id !== 0 }));
+    const room = { mode, auction: { snapshot: () => ({ complete: true, teams: soloTeams }) } };
+    const call = (action, input) => postAuction(room, action, input, 0, 0);
+    const lineup = call('read');
+    let view = call('simulate', { formation: '2-2-2', tactic: 'Equilibrada', ids: lineup.auto['2-2-2'] });
+    for (const [index] of view.season.rounds.entries()) {
+      assert.equal(view.season.leaders, undefined);
+      view = call('clock', { command: 'skip' });
+      if (index < view.season.rounds.length - 1) view = call('clock', { command: 'next' });
+    }
+    const goals = view.season.rounds.flatMap(round => round.games.flatMap(game =>
+      game.events.filter(event => event.scorer).map(event => ({ event, team: event.side === 0 ? game.home : game.away }))));
+    for (const { event, team } of goals) {
+      if (!event.assistant) continue;
+      assert.notEqual(event.scorer.id, event.assistant.id);
+      assert.ok(team.lineup.some(player => player.id === event.assistant.id));
+    }
+    for (const [award, field] of [['goals', 'scorer'], ['assists', 'assistant']]) {
+      const totals = new Map();
+      for (const { event, team } of goals) {
+        const player = event[field];
+        if (!player) continue;
+        const key = team.name + ' ' + player.name;
+        totals.set(key, (totals.get(key) ?? 0) + 1);
+      }
+      const highest = Math.max(0, ...totals.values());
+      assert.deepEqual(view.season.leaders[award].map(entry => [entry.team + ' ' + entry.name, entry.count]),
+        [...totals].filter(([, count]) => count === highest));
+    }
+  }
+});
+
 test('o relógio aplica somente comandos do próprio participante', () => {
   const room = {
     mode: 'ucl', members: [{ id: 0, token: 'test-0' }, { id: 1, token: 'test-1' }],
