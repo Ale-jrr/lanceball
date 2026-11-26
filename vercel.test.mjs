@@ -7,7 +7,7 @@ import { runInNewContext } from 'node:vm';
 import { buildSite } from './build-site.mjs';
 import { edgeHandler } from './supabase/functions/_shared/edge-handler.mjs';
 
-test('o chat recebe mensagens com o painel fechado e limpa o contador ao abrir', async () => {
+test('o chat recebe mensagens no leilão com o painel aberto ou fechado', async () => {
   function element() {
     return {
       children: [], hidden: true, scrollTop: 0, scrollHeight: 0, clientHeight: 0,
@@ -20,7 +20,14 @@ test('o chat recebe mensagens com o painel fechado e limpa o contador ao abrir',
   }
   const elements = new Map();
   const wrapper = element();
+  const launcher = element();
+  const toggle = element();
+  const badge = element();
+  toggle.querySelector = selector => selector === '.chat-count' ? badge : null;
+  elements.set('.chat-toggle', toggle);
+  elements.set('.chat-count', badge);
   wrapper.querySelector = selector => {
+    if (launcher.children.length && ['.chat-toggle', '.chat-count'].includes(selector)) return null;
     if (!elements.has(selector)) elements.set(selector, element());
     return elements.get(selector);
   };
@@ -31,7 +38,7 @@ test('o chat recebe mensagens com o painel fechado e limpa o contador ao abrir',
     URLSearchParams, Intl, AbortSignal, location: { search: '?room=ABCD1234' },
     localStorage: { getItem: () => 'guest' },
     sessionStorage: { getItem: () => null, setItem() {} },
-    document: { body: element(), createElement: tag => tag === 'div' && !elements.size ? wrapper : element(), querySelector: () => null, addEventListener() {} },
+    document: { body: element(), createElement: tag => tag === 'div' && !elements.has('dialog') ? wrapper : element(), querySelector: () => launcher, addEventListener() {} },
     window: { addEventListener() {} },
     matchMedia: () => ({ matches: false }),
     clearInterval() {}, setInterval: callback => { poll = callback; },
@@ -48,6 +55,11 @@ test('o chat recebe mensagens com o painel fechado e limpa o contador ao abrir',
   assert.equal(elements.get('.chat-count').textContent, '1');
   assert.equal(elements.get('ol').children[0].children[1].textContent, 'Boa partida!');
   elements.get('.chat-toggle').onclick();
+  assert.equal(elements.get('.chat-count').hidden, true);
+  await new Promise(resolve => setImmediate(resolve));
+  messages.push({ id: 'another', name: 'Anfitrião', time: Date.now(), text: 'Mais uma mensagem' });
+  await poll();
+  assert.equal(elements.get('ol').children.at(-1).children[1].textContent, 'Mais uma mensagem');
   assert.equal(elements.get('.chat-count').hidden, true);
 });
 

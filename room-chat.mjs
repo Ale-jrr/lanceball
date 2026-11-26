@@ -27,10 +27,10 @@ function setupChat(room) {
   const find = selector => wrapper.querySelector(selector);
   const panel = find('dialog');
   const toggle = find('.chat-toggle');
+  const badge = toggle.querySelector('.chat-count');
   const launcher = document.querySelector('[data-room-chat-launcher]');
   if (launcher) launcher.append(toggle);
   toggle.hidden = true;
-  const badge = find('.chat-count');
   const list = find('ol');
   const status = find('.chat-status');
   const input = find('input');
