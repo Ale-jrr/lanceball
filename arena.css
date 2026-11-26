@@ -767,9 +767,9 @@ body {
 @media (min-width: 1001px) {
   .auction-in-progress .auction-heading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
   .auction-in-progress .auction-heading-content { display: contents; }
-  .auction-in-progress .auction-heading-content > div { grid-column: 1; padding: .7rem 1rem; }
+  .auction-in-progress .auction-heading-content > :first-child { grid-row: 1; grid-column: 1; padding: .7rem 1rem; }
   .auction-in-progress .auction-strip { grid-row: 1; grid-column: 2; border: 0; border-left: 1px solid var(--line); }
-  .auction-in-progress .auction-exit { grid-row: 1; grid-column: 3; margin-right: 1rem; }
+  .auction-in-progress .auction-heading-actions { grid-row: 1; grid-column: 3; margin-right: 1rem; flex-wrap: nowrap; }
 }
 @media (max-width: 500px) {
   .auction-in-progress .auction-heading-content { padding-block: .6rem; }
@@ -970,7 +970,36 @@ body {
 .chat-messages p { color: var(--text); white-space: pre-wrap; }
 .chat-status { font-size: .78rem; }
 .chat-compose { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem; }
+.auction-heading-actions { justify-content: flex-end; }
+.auction-chat-dock:not(:has(dialog[open])) { display: none; }
+.chat-status:empty { display: none; }
+.chat-panel[open]:has(.chat-status:empty) { grid-template-rows: auto minmax(3rem, 1fr) auto; }
+@media (min-width: 1200px) {
+  .auction-page main:has(.auction-chat-dock dialog[open]:not(:modal)) { width: min(100% - 3rem, 87rem); }
+  .auction-workspace:has(.auction-chat-dock dialog[open]:not(:modal)) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(15.5rem, 21vw, 19rem);
+    align-items: start;
+    gap: .85rem;
+  }
+  .auction-chat-dock:has(dialog[open]:not(:modal)) { position: sticky; top: .75rem; }
+  .auction-chat-dock .chat-panel:not(:modal) {
+    position: static;
+    width: 100%;
+    height: min(30rem, 72dvh);
+    max-height: none;
+  }
+}
+@media (width < 1200px) {
+  .auction-chat-dock .chat-panel {
+    inset: auto .65rem max(.65rem, env(safe-area-inset-bottom)) .65rem;
+    width: min(32rem, calc(100% - 1.3rem));
+    margin-inline: auto;
+  }
+}
 @media (max-width: 720px) {
+  .auction-heading-actions { gap: .3rem; }
+  .auction-heading-actions .chat-toggle { padding: .3rem .48rem; font-size: .72rem; }
   .chat-panel { inset: auto .65rem max(.65rem, env(safe-area-inset-bottom)) .65rem; width: auto; max-height: 68dvh; }
   .chat-compose input { font-size: 16px; }
 }

@@ -21,6 +21,7 @@ test('o chat recebe mensagens no leilão com o painel aberto ou fechado', async 
   const elements = new Map();
   const wrapper = element();
   const launcher = element();
+  const dock = element();
   const toggle = element();
   const badge = element();
   toggle.querySelector = selector => selector === '.chat-count' ? badge : null;
@@ -38,7 +39,12 @@ test('o chat recebe mensagens no leilão com o painel aberto ou fechado', async 
     URLSearchParams, Intl, AbortSignal, location: { search: '?room=ABCD1234' },
     localStorage: { getItem: () => 'guest' },
     sessionStorage: { getItem: () => null, setItem() {} },
-    document: { body: element(), createElement: tag => tag === 'div' && !elements.has('dialog') ? wrapper : element(), querySelector: () => launcher, addEventListener() {} },
+    document: {
+      body: element(),
+      createElement: tag => tag === 'div' && !elements.has('dialog') ? wrapper : element(),
+      querySelector: selector => selector === '[data-room-chat-dock]' ? dock : launcher,
+      addEventListener() {},
+    },
     window: { addEventListener() {} },
     matchMedia: () => ({ matches: false }),
     clearInterval() {}, setInterval: callback => { poll = callback; },
@@ -49,6 +55,7 @@ test('o chat recebe mensagens no leilão com o painel aberto ou fechado', async 
     },
   });
   await poll();
+  assert.deepEqual(dock.children, [wrapper]);
   messages = [{ id: 'new', name: 'Anfitrião', time: Date.now(), text: 'Boa partida!' }];
   await poll();
   assert.equal(elements.get('.chat-count').hidden, false);

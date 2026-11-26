@@ -29,7 +29,9 @@ function setupChat(room) {
   const toggle = find('.chat-toggle');
   const badge = toggle.querySelector('.chat-count');
   const launcher = document.querySelector('[data-room-chat-launcher]');
+  const dock = document.querySelector('[data-room-chat-dock]');
   if (launcher) launcher.append(toggle);
+  if (dock) dock.append(wrapper);
   toggle.hidden = true;
   const list = find('ol');
   const status = find('.chat-status');
@@ -157,7 +159,8 @@ function setupChat(room) {
 
   toggle.onclick = () => {
     if (panel.open) { panel.close(); return; }
-    if (matchMedia('(max-width: 720px)').matches) panel.showModal();
+    const compact = dock ? '(width < 1200px)' : '(max-width: 720px)';
+    if (matchMedia(compact).matches) panel.showModal();
     else panel.show();
     toggle.setAttribute('aria-expanded', 'true');
     markSeen();
