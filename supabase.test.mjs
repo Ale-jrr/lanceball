@@ -10,6 +10,7 @@ import { supabaseStore } from './supabase/functions/_shared/supabase-store.mjs';
 test('clientes em instâncias separadas compartilham lances no Supabase', async () => {
   const catalog = JSON.parse(readFileSync(new URL('./catalog.json', import.meta.url), 'utf8'));
   const rows = new Map();
+  const broadcasts = [];
   async function fakeRest(url, options) {
     assert.equal(options.headers.apikey, 'sb_secret_test');
     assert.equal(options.headers.Authorization, undefined);
@@ -18,6 +19,7 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
       const [message] = JSON.parse(options.body).messages;
       assert.match(message.topic, /^(?:lanceball|chat)-[A-F0-9]{8}$/);
       assert.deepEqual(message, { topic: message.topic, event: 'changed', payload: {} });
+      broadcasts.push(message.topic);
       return Response.json({});
     }
     if (url.pathname.endsWith('/lanceball_players')) {
@@ -76,6 +78,7 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     assert.equal((await request(0, '/chat' + query, { text: ' ' }, host)).status, 400);
     const chat = await request(0, '/chat' + query, { text: '  Boa partida!  ' }, host);
     assert.equal(chat.status, 201);
+    assert.ok(broadcasts.includes('chat-' + code));
     assert.equal(chat.data.messages[0].text, 'Boa partida!');
     assert.deepEqual((await request(1, '/chat' + query, undefined, guest)).data, chat.data);
     assert.equal((await request(0, '/chat' + query, { text: 'Duplicada' }, host)).status, 429);

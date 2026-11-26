@@ -91,14 +91,17 @@ function setupChat(room) {
   }
 
   async function request(body) {
+    const requestToken = token;
     const response = await arenaFetch('/chat?' + new URLSearchParams({ room }), {
       method: body ? 'POST' : 'GET',
-      headers: { Authorization: 'Bearer ' + token },
+      headers: { Authorization: 'Bearer ' + requestToken },
+      cache: 'no-store',
+      signal: AbortSignal.timeout(5000),
       body: body ? JSON.stringify(body) : undefined,
     });
     const result = await response.json();
     if (response.status === 401 || response.status === 404) {
-      deactivate();
+      if (token === requestToken) deactivate();
       return null;
     }
     if (!response.ok) throw Error(result.error);
@@ -140,7 +143,7 @@ function setupChat(room) {
     wrapper.hidden = false;
     toggle.hidden = false;
     updateBadge();
-    stop = liveUpdates(room, refresh, connected => connected ? 6000 : 1800, 'chat');
+    stop = liveUpdates(room, refresh, connected => panel.open ? 1000 : connected ? 3000 : 1800, 'chat');
   }
 
   toggle.onclick = () => {
