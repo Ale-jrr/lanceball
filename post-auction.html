@@ -338,10 +338,19 @@ function tournament() {
     away.append(crest(ownMatch.away), ownMatch.away.name);
     score.append(home, ' ', el('span', current.score.join(' × ')), ' ', away);
     const feed = el('ol', '', 'events');
-    for (const event of [...current.events].reverse()) {
+    let previousGoals = 0;
+    for (const event of current.events) {
+      const goals = event.score ? event.score[0] + event.score[1] : previousGoals;
+      const goal = goals > previousGoals;
+      previousGoals = goals;
       const item = el('li', event.minute + "' · " + event.text, event.highlight ? 'event-decisive' : '');
+      if (goal) {
+        item.classList.add('event-goal');
+        item.prepend(el('strong', 'Gol', 'event-goal-label'), ' ');
+        item.append(el('span', event.score.join(' × '), 'event-goal-score'));
+      }
       if (event.highlight) item.append(el('small', highlightTitle(event.highlight)));
-      feed.append(item);
+      feed.prepend(item);
     }
     if (ownMatch.carry) {
       const aggregate = ownMatch.carry.map((goals, side) => goals + current.score[side]);

@@ -500,6 +500,17 @@ body {
 .decisive-shot .decisive-label { margin-bottom: .3rem; color: #c4d5ff; font-size: .86rem; font-weight: 750; }
 .events li.event-decisive { border-left: 2px solid #8da9ff; background: #1d30684d; }
 .event-decisive small { display: block; color: #c4d5ff; }
+.events li.event-goal {
+  padding: .55rem .6rem;
+  border: 1px solid #e3b65c70;
+  border-left: 3px solid var(--gold);
+  border-radius: .35rem;
+  background: #342a1c;
+  color: #fff1d4;
+  font-weight: 700;
+}
+.event-goal-label { margin-right: .22rem; color: var(--gold); text-transform: uppercase; }
+.event-goal-score { margin-left: .5rem; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
 @keyframes decisive-in { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .decisive-shot.fresh { animation: none; } }
 
