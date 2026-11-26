@@ -360,16 +360,33 @@ function tournament() {
       match.insertBefore(featured, feed);
     }
     if (state.clock.canChangeTactic) {
-      const tactics = el('section');
-      tactics.append(el('h3', 'Alterar tática manualmente'),
-        el('p', 'Tática atual: ' + state.clock.currentTactic +
-          (state.clock.pendingTactic ? ' · Próximo minuto: ' + state.clock.pendingTactic : '')));
-      const options = el('div', '', 'controls');
+      const tactics = el('section', '', 'live-tactics');
+      const heading = el('h3', 'Tática em jogo');
+      heading.id = 'live-tactics-title';
+      tactics.setAttribute('aria-labelledby', heading.id);
+      tactics.append(heading);
+      const descriptions = {
+        'Equilibrada': 'Ataque e defesa balanceados',
+        'Ofensiva': 'Mais força no ataque',
+        'Defensiva': 'Mais proteção na defesa',
+        'Contra-ataque': 'Recuperação e saída rápida',
+        'Posse de bola': 'Mais controle no meio',
+        'Pressão alta': 'Roubo de bola com risco',
+      };
+      const options = el('div', '', 'live-tactics-grid');
+      const { currentTactic, pendingTactic } = state.clock;
       for (const tactic of state.tactics) {
-        const choice = button(tactic, () => send('tactic', { matchId: ownMatch.id, tactic }),
-          tactic === (state.clock.pendingTactic ?? state.clock.currentTactic));
+        const choice = button('', () => send('tactic', { matchId: ownMatch.id, tactic }));
+        choice.className = 'live-tactic';
         choice.dataset.focus = 'tactic-' + tactic;
-        choice.setAttribute('aria-pressed', String(tactic === (state.clock.pendingTactic ?? state.clock.currentTactic)));
+        choice.setAttribute('aria-pressed', String(tactic === currentTactic));
+        choice.append(el('strong', tactic), el('small', descriptions[tactic]));
+        if (tactic === pendingTactic && pendingTactic !== currentTactic) {
+          choice.classList.add('is-pending');
+          choice.append(el('span', 'Próximo minuto', 'tactic-state'));
+        } else if (tactic === currentTactic) {
+          choice.append(el('span', 'Ativa', 'tactic-state'));
+        }
         options.append(choice);
       }
       tactics.append(options);

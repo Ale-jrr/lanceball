@@ -95,7 +95,13 @@ export function decisiveShot(minute, margin) {
   return null;
 }
 
-export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}, fullBracket = true, halfBracket = fullBracket } = {}) {
+const transitionText = {
+  pressing: 'Pressão alta recupera a bola perto do gol.',
+  'escaped-press': 'O ataque escapa da pressão e encontra espaço.',
+  counter: 'Recuperação de bola e contra-ataque rápido.',
+};
+
+export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}, fullBracket = true, halfBracket = fullBracket, tacticalTransitions = true } = {}) {
   function matchRandom(id) {
     if (seed === undefined) return draw;
     let value = seed;
@@ -151,7 +157,29 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
         possessionSum += possession;
         minutesPlayed++;
         if (random() >= .23) continue;
-        const side = random() * 100 < possession ? 0 : 1;
+        let side = random() * 100 < possession ? 0 : 1;
+        let chanceBonus = 0;
+        let transition;
+        const defending = 1 - side;
+        if (tacticalTransitions && active[defending] === 'Pressão alta') {
+          const duel = random();
+          if (duel < .22) {
+            side = defending;
+            chanceBonus = .05;
+            transition = 'pressing';
+          } else if (duel < .47) {
+            chanceBonus = .08;
+            transition = 'escaped-press';
+          }
+        } else if (tacticalTransitions && active[defending] === 'Contra-ataque') {
+          const opponentPossession = side === 0 ? possession : 100 - possession;
+          const exposure = ['Ofensiva', 'Pressão alta'].includes(active[side]) ? .07 : 0;
+          if (random() < .14 + Math.max(0, opponentPossession - 50) * .004 + exposure) {
+            side = defending;
+            chanceBonus = .09;
+            transition = 'counter';
+          }
+        }
         const opponent = 1 - side;
         const attackers = sides[side].lineup.filter(player => player.role === 'FWD' || player.role === 'MID');
         const player = attackers[Math.floor(random() * attackers.length)];
@@ -159,7 +187,7 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
         const accurate = random() < .42;
         if (accurate) onTarget[side]++;
         const goal = accurate && random() < Math.max(.12, Math.min(.55, .28 +
-          (attack[side] - defense[opponent]) * .012 + (player.rating - 80) * .003));
+          (attack[side] - defense[opponent]) * .012 + (player.rating - 80) * .003 + chanceBonus));
         const margin = score[side] - score[opponent] + (carry?.[side] ?? 0) - (carry?.[opponent] ?? 0);
         const kind = decisiveShot(minute, margin);
         const highlight = kind ? { kind, outcome: goal ? 'goal' : accurate ? 'save' : 'miss',
@@ -169,8 +197,9 @@ export function playSeason(mode, teams, draw = Math.random, { seed, changes = {}
         const text = goal ? 'Gol de ' + player.name + '!' : accurate
           ? keeper.name + ' defende a finalização de ' + player.name
           : player.name + ' finaliza para fora';
-        events.push({ minute, side, text, score: [...score], shots: [...shots], onTarget: [...onTarget],
-          ...(highlight ? { highlight } : {}) });
+        events.push({ minute, side, text: transition ? transitionText[transition] + ' ' + text : text,
+          score: [...score], shots: [...shots], onTarget: [...onTarget],
+          ...(transition ? { transition } : {}), ...(highlight ? { highlight } : {}) });
       }
     }
     chances(1, 90);

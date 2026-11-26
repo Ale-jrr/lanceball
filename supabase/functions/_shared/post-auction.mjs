@@ -15,7 +15,7 @@ const tactics = ['Equilibrada', 'Ofensiva', 'Defensiva', 'Contra-ataque', 'Posse
 function calculate(mode, model) {
   return playSeason(mode, model.teams, undefined, {
     seed: model.seed, changes: model.changes, fullBracket: model.fullBracket ?? false,
-    halfBracket: model.halfBracket ?? false,
+    halfBracket: model.halfBracket ?? false, tacticalTransitions: model.tacticalTransitions ?? false,
   });
 }
 
@@ -130,7 +130,7 @@ export function postAuction(room, action, input = {}, actor = 0, now = Date.now(
       });
       return { ...team, lineup, tactic: selection?.tactic ?? tactics[team.id % tactics.length] };
     });
-    post.model = { teams, seed: randomInt(0x1_0000_0000), changes: {}, fullBracket: true, halfBracket: true };
+    post.model = { teams, seed: randomInt(0x1_0000_0000), changes: {}, fullBracket: true, halfBracket: true, tacticalTransitions: true };
     post.season = calculate(room.mode, post.model);
     post.stage = 'tournament';
   }

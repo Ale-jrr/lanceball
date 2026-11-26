@@ -173,3 +173,27 @@ test('o campeonato de liga revela o campeao apenas ao fim da ultima rodada', () 
   assert.deepEqual(view.highlights.map(entry => entry.id), ['champion']);
   assert.equal(view.highlights[0].teams[0].name, view.season.champion);
 });
+
+
+test('contra-ataque e pressao alta produzem transicoes proprias', () => {
+  const inputs = teams.map((team, index) => ({
+    ...team, lineup: team.players, tactic: index % 2 === 0 ? 'Pressão alta' : 'Contra-ataque',
+  }));
+  const settings = { seed: 128 };
+  const season = playSeason('ucl', inputs, undefined, settings);
+  assert.deepEqual(season, playSeason('ucl', inputs, undefined, settings));
+  const allGames = result => result.rounds.flatMap(round => round.games);
+  const events = allGames(season).flatMap(game => game.events);
+  for (const type of ['pressing', 'escaped-press', 'counter']) {
+    assert.ok(events.some(event => event.transition === type), type);
+  }
+  for (const game of allGames(season)) {
+    for (const event of game.events.filter(event => event.transition)) {
+      const sides = [game.home, game.away];
+      const team = sides[event.transition === 'escaped-press' ? 1 - event.side : event.side];
+      assert.equal(team.tactic, event.transition === 'counter' ? 'Contra-ataque' : 'Pressão alta');
+    }
+  }
+  const saved = playSeason('ucl', inputs, undefined, { ...settings, tacticalTransitions: false });
+  assert.ok(allGames(saved).every(game => game.events.every(event => !event.transition)));
+});

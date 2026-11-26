@@ -902,3 +902,33 @@ body {
 .lineup-moderation-list { margin: 0; padding: 0; list-style: none; }
 .lineup-moderation-list li { display: flex; gap: .6rem; align-items: center; justify-content: space-between; padding: .4rem 0; border-top: 1px solid var(--line); }
 .lineup-moderation-list small { display: block; color: var(--muted); }
+
+.live-tactics {
+  margin: .9rem 0 1rem;
+  padding: .75rem;
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  background: #0e192c;
+}
+.live-tactics h3 { margin-bottom: .55rem; font-size: .92rem; }
+.live-tactics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.4rem), 1fr)); gap: .4rem; }
+.live-tactics .live-tactic {
+  display: grid;
+  align-content: start;
+  justify-content: stretch;
+  min-width: 0;
+  min-height: 3.4rem;
+  padding: .5rem .55rem;
+  text-align: left;
+  line-height: 1.2;
+}
+.live-tactic strong { font-size: .82rem; }
+.live-tactic small { color: var(--muted); font-size: .72rem; font-weight: 450; }
+.live-tactic[aria-pressed="true"] { --button-bg: #18372f; --button-line: #72b89a; --button-hover: #22473a; }
+.live-tactic.is-pending { --button-bg: #352c30; --button-line: #bd9a63; --button-hover: #49392d; }
+.tactic-state { color: #bcebd4; margin-top: .08rem; font-size: .68rem; }
+.is-pending .tactic-state { color: #f6d898; }
+@media (max-width: 720px) {
+  .live-tactics { padding: .55rem; }
+  .live-tactics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

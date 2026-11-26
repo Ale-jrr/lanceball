@@ -20,6 +20,7 @@ export function liveUpdates(room, refresh, delay) {
   let pending = false;
   let confirmed = false;
   let timer;
+  let scheduledAt = Infinity;
   let heartbeat;
   let socket;
   let retries = 0;
@@ -27,8 +28,11 @@ export function liveUpdates(room, refresh, delay) {
   let reconnect;
 
   function schedule(ms) {
+    const deadline = performance.now() + ms;
+    if (!open || deadline >= scheduledAt) return;
     clearTimeout(timer);
-    if (open) timer = setTimeout(update, ms);
+    scheduledAt = deadline;
+    timer = setTimeout(update, ms);
   }
 
   function invalidate(ms) {
@@ -37,6 +41,7 @@ export function liveUpdates(room, refresh, delay) {
   }
 
   async function update() {
+    scheduledAt = Infinity;
     if (running) {
       pending = true;
       return;
@@ -80,6 +85,9 @@ export function liveUpdates(room, refresh, delay) {
         if (message.event === 'phx_reply' && message.ref === '1') {
           confirmed = message.payload?.status === 'ok';
           if (confirmed) { retries = 0; invalidate(30); }
+          else socket.close();
+        } else if (message.event === 'phx_error' || message.event === 'phx_close') {
+          socket.close();
         } else if (confirmed && message.event === 'broadcast' && message.payload?.event === 'changed') {
           invalidate(50);
         }

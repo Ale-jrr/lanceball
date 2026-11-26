@@ -11,7 +11,7 @@ const cors = {
 export function edgeHandler(store, defer, bundled = null) {
   const game = persistentHandler(store, defer, bundled);
   return async request => {
-    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors, 'Access-Control-Max-Age': '600' } });
     const incoming = new URL(request.url);
     const path = incoming.searchParams.get('route') ?? '/health';
     incoming.searchParams.delete('route');

@@ -539,6 +539,7 @@ async function poll() {
 render();
 setInterval(updateTimer, 150);
 liveUpdates(roomCode ?? null, poll, connected => {
+  if (busy) return 120;
   if (!roomCode) return 850;
   const round = state?.round;
   if (!round) return connected ? 6500 : 2500;
@@ -546,7 +547,7 @@ liveUpdates(roomCode ?? null, poll, connected => {
   const stagger = Number(team.value) * 110;
   const checkpoints = [6000, 2000, 0].map(boundary => remaining - boundary + 100 + stagger);
   const next = checkpoints.find(delay => delay > 0);
-  return Math.max(180, Math.min(next ?? 450, connected ? 4500 : 1500));
+  return Math.max(180, Math.min(next ?? 450, connected ? 2200 : 1050));
 });
 </script>
 <script type="module" src="/room-exit.js"></script>
