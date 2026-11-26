@@ -16,7 +16,7 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     const query = url.searchParams;
     if (url.pathname === '/realtime/v1/api/broadcast') {
       const [message] = JSON.parse(options.body).messages;
-      assert.match(message.topic, /^lanceball-[A-F0-9]{8}$/);
+      assert.match(message.topic, /^(?:lanceball|chat)-[A-F0-9]{8}$/);
       assert.deepEqual(message, { topic: message.topic, event: 'changed', payload: {} });
       return Response.json({});
     }
@@ -72,6 +72,15 @@ test('clientes em instâncias separadas compartilham lances no Supabase', async 
     const joined = await request(1, '/room' + query, { action: 'join', team: 'Amigo', identity: 'PSG' });
     assert.equal(joined.status, 200);
     const guest = joined.data.token;
+    assert.equal((await request(0, '/chat' + query)).status, 401);
+    assert.equal((await request(0, '/chat' + query, { text: ' ' }, host)).status, 400);
+    const chat = await request(0, '/chat' + query, { text: '  Boa partida!  ' }, host);
+    assert.equal(chat.status, 201);
+    assert.equal(chat.data.messages[0].text, 'Boa partida!');
+    assert.deepEqual((await request(1, '/chat' + query, undefined, guest)).data, chat.data);
+    assert.equal((await request(0, '/chat' + query, { text: 'Duplicada' }, host)).status, 429);
+    assert.equal((await request(1, '/room' + query)).data.chat, undefined);
+
     const extra = await request(1, '/room' + query, { action: 'join', team: 'Extra', identity: 'Arsenal' });
     const lobby = (await request(0, '/room' + query, undefined, host)).data;
     const target = lobby.members.find(member => member.id === extra.data.you).kickRef;

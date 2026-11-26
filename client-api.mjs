@@ -15,7 +15,7 @@ export function arenaFetch(path, options) {
   return fetch(target, { ...options, headers });
 }
 
-export function liveUpdates(room, refresh, delay) {
+export function liveUpdates(room, refresh, delay, channel = 'lanceball') {
   let running = false;
   let pending = false;
   let confirmed = false;
@@ -59,7 +59,7 @@ export function liveUpdates(room, refresh, delay) {
     const endpoint = new URL('/realtime/v1/websocket', connection.url);
     endpoint.protocol = 'wss:';
     endpoint.search = new URLSearchParams({ apikey: connection.publicKey, vsn: '1.0.0' });
-    const topic = 'realtime:lanceball-' + room.toUpperCase();
+    const topic = 'realtime:' + channel + '-' + room.toUpperCase();
     let ref = 1;
 
     function connect() {

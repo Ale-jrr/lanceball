@@ -7,7 +7,7 @@ import { handleGameRequest, requestUrl } from './game-api.mjs';
 import { previewTournament } from './tournament.mjs';
 
 const sessionDuration = 30 * 60_000;
-const gameRoutes = new Set(['/rooms', '/room', '/state', '/start', '/bid', '/pass', '/formation', '/post-auction']);
+const gameRoutes = new Set(['/rooms', '/room', '/state', '/start', '/bid', '/pass', '/formation', '/post-auction', '/chat']);
 
 function scope(url) {
   if (url.pathname === '/rooms') return { type: 'create' };
@@ -202,7 +202,8 @@ export function persistentHandler(store, defer = promise => { void promise; }, b
               (req.method === 'POST' && output.status < 400 ||
                 !isDeepStrictEqual(previous?.payload.room?.auction, next?.payload.room?.auction));
             if (meaningful && store.signal) {
-              defer(store.signal(id.slice(5)).catch(() => {}));
+              const code = id.slice(5);
+              defer((url.pathname === '/chat' ? store.signal(code, 'chat') : store.signal(code)).catch(() => {}));
             }
             res.writeHead(output.status, output.headers).end(output.body);
             return;

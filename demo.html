@@ -14,7 +14,10 @@
       <h1 id="auctionTitle">Leilão local</h1>
       <p id="auctionContext" class="auction-context">Teste em duas abas com equipes diferentes</p>
     </div>
-    <button type="button" class="auction-exit" data-leave-room hidden>Sair da sala</button>
+    <div class="auction-heading-actions">
+      <span data-room-chat-launcher></span>
+      <button type="button" class="auction-exit" data-leave-room hidden>Sair da sala</button>
+    </div>
   </div>
   <div class="auction-strip">
     <div class="auction-identity" id="auctionIdentity" hidden>
@@ -551,5 +554,6 @@ liveUpdates(roomCode ?? null, poll, connected => {
 });
 </script>
 <script type="module" src="/room-exit.js"></script>
+<script type="module" src="/room-chat.mjs"></script>
 </body>
 </html>

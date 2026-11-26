@@ -1,7 +1,7 @@
 import { fut7Formations } from './formations.mjs';
 import { botBidLimit } from './bot-bidding.mjs';
 import { Buffer } from 'node:buffer';
-import { randomInt } from 'node:crypto';
+import { randomInt, randomUUID } from 'node:crypto';
 import { publicAuction, resolveAuctionPlayer } from './auction-view.mjs';
 import { draftCatalog, validCompetitionSize } from './fut7.mjs';
 import { previewTournament, restoreSeason } from './tournament.mjs';
@@ -104,7 +104,7 @@ export async function handleGameRequest(req, res, runtime) {
     openAuction, catalogInfo, restoreLocal = false, maintain = true } = runtime;
   const url = requestUrl(req);
   const placingBid = req.method === 'POST' && url.pathname === '/bid';
-  if (maintain && !placingBid) maintainRooms(runtime);
+  if (maintain && !placingBid && url.pathname !== '/chat') maintainRooms(runtime);
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
   const send = (status, data) => res.writeHead(status).end(JSON.stringify(data));
@@ -116,6 +116,25 @@ export async function handleGameRequest(req, res, runtime) {
     const code = url.searchParams.get('room')?.toUpperCase();
     const online = onlineRooms.get(code);
     const member = authorize(online, req.headers.authorization);
+    if (url.pathname === '/chat') {
+      if (!member) return send(401, { error: 'Entre na sala para acessar o chat.' });
+      if (req.method === 'GET') return send(200, { messages: online.chat ?? [] });
+      if (req.method === 'POST') {
+        const { text } = await readBody(req, 4096);
+        if (typeof text !== 'string' || !text.trim() || text.trim().length > 280) {
+          return send(400, { error: 'Escreva uma mensagem de até 280 caracteres.' });
+        }
+        const time = Date.now();
+        if (member.chatSentAt && time - member.chatSentAt < 850) return send(429, { error: 'Aguarde um instante para enviar outra mensagem.' });
+        member.chatSentAt = time;
+        const message = {
+          id: randomUUID(), name: member.name, club: member.identity,
+          crestUrl: clubCrests.get(member.identity), text: text.trim(), time,
+        };
+        online.chat = [...(online.chat ?? []), message].slice(-50);
+        return send(201, { messages: online.chat });
+      }
+    }
     if (url.pathname === '/rooms') {
       if (req.method === 'GET') return send(200, publicRooms());
       if (req.method === 'POST') return send(201, createRoom(await readBody(req), onlineRooms));

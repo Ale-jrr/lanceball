@@ -48,6 +48,7 @@ export const siteAssets = new Map([
   ['/club-badges.mjs', { content: await readFile(new URL('./club-badges.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'club-badges.mjs' }],
   ['/formations.mjs', { content: await readFile(new URL('./supabase/functions/_shared/formations.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'formations.mjs' }],
   ['/positions.mjs', { content: positionScript, type: 'text/javascript; charset=utf-8', file: 'positions.mjs' }],
+  ['/room-chat.mjs', { content: await readFile(new URL('./room-chat.mjs', import.meta.url)), type: 'text/javascript; charset=utf-8', file: 'room-chat.mjs' }],
   ['/room-exit.js', { content: roomExitScript, type: 'text/javascript; charset=utf-8', file: 'room-exit.js' }],
   ['/lanceball-logo.png', { content: await readFile(new URL('./lanceball-logo.png', import.meta.url)), type: 'image/png', file: 'lanceball-logo.png' }],
   ['/arena-background.png', { content: arenaBackground, type: 'image/png', file: 'arena-background.png' }],
